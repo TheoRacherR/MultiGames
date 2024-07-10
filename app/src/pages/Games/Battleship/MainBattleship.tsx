@@ -1,22 +1,56 @@
-import React from 'react'
-import './MainBattleship.css'
+import { useState } from 'react';
+import './MainBattleship.css';
+import Scoreboard from './Scoreboard/Scoreboard';
+// import ModalParty from './ModalParty';
 
-const MainBattleship = () => {
+const choices: { type: string; text: string }[] = [
+  { type: 'create', text: 'Create a party' },
+  { type: 'join', text: 'Join a party' },
+];
+
+const Battleships = () => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [selected, setSelected] = useState<string>('create');
+
+  const handleOpenModal = (type: string) => {
+    setOpen(true);
+    setSelected(type);
+  };
+
   return (
-    <div className='m-5'>
-      <h1>Battleship</h1>
-      <div className='w-1/2 h-500px m-auto flex justify-around'>
-        <div>
-          <div id="toclick" className='rounded-md p-3 text-xl text-center my-auto cursor-pointer relative' style={{ top: 35, left: -10, backgroundColor: '#568eb8', color: 'white', userSelect: 'none'}}>Créer une partie</div>
-          <div className='rounded-md p-3 text-xl text-center my-auto cursor-pointer' style={{ backgroundColor: '#436f91', color: '#436f91'}}>Créer une partie</div>
-        </div>
-        <div>
-          <div id="toclick" className='rounded-md p-3 text-xl text-center my-auto cursor-pointer relative' style={{ top: 35, left: -10, backgroundColor: '#568eb8', color: 'white', userSelect: 'none'}}>Rejoindre une partie</div>
-          <div className='rounded-md p-3 text-xl text-center my-auto cursor-pointer'  style={{ backgroundColor: '#436f91', color: '#436f91'}}>Rejoindre une partie</div>
-        </div>
-      </div>
-    </div>
-  )
-}
+    <div className="my-5 mx-auto" style={{ width: 700 }}>
+      <h1 className="text-6xl text-center mb-14">⛴️ Battleship ⛴️</h1>
 
-export default MainBattleship;
+      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
+        {choices.map((item, index) => (
+          <div key={index}>
+            <div
+              id="toclick"
+              className="rounded-md p-3 text-xl text-center my-auto cursor-pointer relative"
+              style={{
+                top: 35,
+                left: -10,
+                backgroundColor: '#568eb8',
+                color: 'white',
+                userSelect: 'none',
+              }}
+              onClick={() => handleOpenModal(item.type)}
+            >
+              {item.text}
+            </div>
+            <div
+              className="rounded-md p-3 text-xl text-center my-auto cursor-pointer"
+              style={{ backgroundColor: '#436f91', color: '#436f91' }}
+            >
+              {item.text}
+            </div>
+          </div>
+        ))}
+      </div>
+      <Scoreboard />
+      {/* <ModalParty open={open} setOpen={setOpen} selected={selected} /> */}
+    </div>
+  );
+};
+
+export default Battleships;
