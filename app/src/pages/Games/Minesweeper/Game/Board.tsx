@@ -298,8 +298,8 @@ case !showed : flag placed ? drapeau : ''
           onClick={(e) => handleClickOnCase(index)}
           onContextMenu={handleRightClick}
         >
-          {/* <div className='h-auto w-auto m-auto'>{item.showed ? item.type === caseTypes.NUMBER ? numberColor(parseInt(item.text)): item.text : item.flagPlaced ? '🚩' : ''}</div> */}
-          <div className='h-auto w-auto m-auto'>{item.text} {item.showed ? 'o' : 'n'}</div>
+          <div className='h-auto w-auto m-auto'>{item.showed ? item.type === caseTypes.NUMBER ? numberColor(parseInt(item.text)): item.text : item.flagPlaced ? '🚩' : ''}</div>
+          {/* <div className='h-auto w-auto m-auto'>{item.text} {item.showed ? 'o' : 'n'}</div> */}
         </div>
       ))}
     </div>
