@@ -24,7 +24,6 @@ const links = [
 const MenuDefault = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
 
   return (
     <div className='menu'>
@@ -35,7 +34,14 @@ const MenuDefault = () => {
               location.pathname === '/' ?
                 'Home'
               :
-                `${location.pathname.substring(1,2).toUpperCase()}${location.pathname.substring(2,location.pathname.length)}`
+                location.pathname.startsWith('/battleship') ?
+                  '⛴️'
+                :
+                  location.pathname.startsWith('/minesweeper') ?
+                    '💣'
+                    :
+                      ''
+              // `${location.pathname.substring(1,2).toUpperCase()}${location.pathname.substring(2,location.pathname.length)}`
             }
           </div>
         </MenuMenu>
