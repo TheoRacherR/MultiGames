@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ShipsBoard from './ShipsBoard';
+import { Button } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -48,45 +50,118 @@ const PlayerBoard = () => {
 
   const dragDrop = (arg: any) => {
     const caseId = parseInt(arg.target.id);
+    console.log(caseId);
+    console.log(shipSelected);
+    console.log(caseShipSelected);
+    const canTheShipLand: boolean = checkIfShipCanBePlacedHere(caseId, shipSelected, caseShipSelected);
+    if(canTheShipLand) {
+      const caseStart = caseId - (length * (caseShipSelected - 1));
+      const arrTemp = [...cases];
+      const casesToDelete = cases.filter((c) => c.ship === shipSelected)
+      for (let step = 0; step < shipSelected.length; step++) {
+        arrTemp[caseStart + (step * length)] = {
+          id: arrTemp[caseStart + (step * length)].id,
+          hasShip: true,
+          ship: shipSelected,
+          shipCaseId: step,
+        };
+      }
+      for (let index = 0; index < casesToDelete.length; index++) {
+        const c = casesToDelete[index];
+        arrTemp[c.id] = {
+          id: c.id,
+          ship: null,
+          hasShip: false,
+          shipCaseId: -1
+        }
+      }
+      // delete ships
+      setCases(arrTemp);
+      // deleteShipFromBoard(shipSelected);
+      setListOfShips(listOfShips.filter((ship) => ship !== shipSelected))
+    }
+  };
 
-    if(cases.filter((c) => c.ship === shipSelected).length === 0){
-      if (caseId < (caseShipSelected - 1) * length) {
-        console.log('trop haut');
+  const checkIfShipCanBePlacedHere = (caseIdToDrop: number, shipSelect: ship, caseOfShipSelected: number): boolean => {
+    // check si le bateau ne vas pas dépasser du board
+    // check si le bateau ne vas pas empiéter sur un autre bateau
+    // if(cases.filter((c) => c.ship === shipSelect).length === 0){
+      if (caseIdToDrop < (caseOfShipSelected - 1) * length) {
+        // trop haut
+        return false;
       } else if (
-        (shipSelected.length - caseShipSelected) * length + caseId >
+        (shipSelect.length - caseOfShipSelected) * length + caseIdToDrop >
         length * length - 1
-      )
-        console.log('trop bas');
-      else {
-        const caseStart = caseId - (length * (caseShipSelected - 1));
-        const arrTemp = [...cases];
+      ) {
+        // trop bas
+        return false;
+      } else {
+        const caseStart = caseIdToDrop - (length * (caseOfShipSelected - 1));
         let canTheShipLand = true;
-        for (let step = 0; step < shipSelected.length; step++) {
+        for (let step = 0; step < shipSelect.length; step++) {
           if(cases[caseStart + (step * length)].hasShip)
             canTheShipLand = false
         }
-        if(canTheShipLand){
-          for (let step = 0; step < shipSelected.length; step++) {
-            arrTemp[caseStart + (step * length)] = {
-              id: arrTemp[caseStart + (step * length)].id,
-              hasShip: true,
-              ship: shipSelected,
-              shipCaseId: step,
-            };
-          }
-          setCases(arrTemp);
-          setListOfShips(listOfShips.filter((ship) => ship !== shipSelected))
+        if(canTheShipLand)
+          return true;
+        else
+          return false;
+      }
+    // }
+    // else
+    //   return false;
+  }
+
+  const checkIfShipCanRotate = (shipToRotate: ship, topCase: shipCase, indexToAddLoop: number): boolean => {
+    
+    for (let index = 0; index < shipToRotate.length-1; index++) {
+      if(cases[topCase.id + index + indexToAddLoop].hasShip)
+        return false;
+    }
+    return true;
+  }
+
+  const rotateShip = (shipToRotate: ship) => {
+    const topCase: shipCase = cases.filter((c) => c.ship === shipToRotate && c.shipCaseId === 0)[0];
+    let indexToAddLoop: number = 1;
+    let indexToRemoveLoop: number = 10;
+    if(cases[topCase.id+1].ship === shipToRotate) {
+      indexToAddLoop = 10;
+      indexToRemoveLoop = 1;
+    } // horizontal
+    else {
+      indexToAddLoop = 1;
+      indexToRemoveLoop = 10;
+    } // vertical
+
+    if(checkIfShipCanRotate(shipToRotate, topCase, indexToAddLoop)){
+      const casesTemp: shipCase[] = [...cases];
+      for (let index = 1; index < shipToRotate.length; index++) {
+        casesTemp[topCase.id + index * indexToAddLoop] = {
+          id: casesTemp[topCase.id + index * indexToAddLoop].id,
+          ship: casesTemp[topCase.id + index * indexToRemoveLoop].ship,
+          hasShip: casesTemp[topCase.id + index * indexToRemoveLoop].hasShip,
+          shipCaseId: casesTemp[topCase.id + index * indexToRemoveLoop].shipCaseId
+        }
+        casesTemp[topCase.id + index * indexToRemoveLoop] = {
+          id: casesTemp[topCase.id + index * indexToRemoveLoop].id,
+          ship: null,
+          hasShip: false,
+          shipCaseId: -1
         }
       }
+      setCases(casesTemp);
     }
-  };
+  }
 
   /*
     - Ajouter un bateau sur le board :                                    OK
     - Pas possible de superposer deux bateau :                            OK
     - Quand un bateau est ajouté sur le board, il n'est plus à gauche :   OK
     - Possible d'enlever un bateau du board pour le remettre à gauche :   OK
-    - Possibilité de faire une rotation de bateau :                       NON
+    - Possibilité de faire une rotation de bateau :                       OK
+    - Possibilité de redéplacer le bateau sur le board après l'avoir posé OK
+    - Quand on repositionne, faire attention à le remettre dans mm sens   NON
     - Validation du board :                                               NON
   */
 
@@ -118,35 +193,10 @@ const PlayerBoard = () => {
                 </div>
               ))}
             </div>
-            {/* <div className="bg-blue-500 w-full aspect-square flex flex-col flex-1 h-full" id='board'> */}
             <div
               className=" w-full aspect-square flex flex-wrap h-full"
               id="board"
             >
-              {/* {data.map((item, index) => (
-                  <div
-                    id={index.toString()}
-                    key={index}
-                    className="flex w-full"
-                    style={{ height: '10%' }}
-                  >
-                    {item.map((it, indexd) => (
-                      <div
-                        key={indexd}
-                        id={}
-                        style={{textAlign: 'center'}}
-                        className="bg-green-300 border-solid border-black flex-1 justify-center box-border border cursor-pointer select-none"
-                        onClick={() => {handleUpdateCase(index, indexd)}}
-                        // onDragOver={(e) => console.log(e)}
-                        onDragOver={e => e.preventDefault()}
-                        onDragEnter={e => e.preventDefault()}
-                        onDrop={e => dragDrop(e)}
-                      >
-                        {it}
-                      </div>
-                    ))}
-                  </div>
-                ))} */}
               {cases.map((item, index) => (
                 <div
                   id={item.id.toString()}
@@ -154,12 +204,22 @@ const PlayerBoard = () => {
                   draggable={item.hasShip}
                   className="flex border-solid border-black border"
                   style={{ width: `calc(100% /${length})`, aspectRatio: 1, backgroundColor: `${item.ship ? item.ship.color : '#3B81F6'}` }}
-                  onMouseDown={(e) => setCaseOnBoardDropped(parseInt(e.currentTarget.id))}
+                  onDragStart={(e) => {
+                    setCaseOnBoardDropped(parseInt(e.currentTarget.id))
+                    console.log(e.currentTarget.id)
+                  }}
+                  onMouseUp={() => {
+                    if(item.ship) rotateShip(item.ship)
+                  }}
+                  onMouseDown={() => {
+                    console.log(item.ship)
+                    setShipSelected(item.ship as ship)
+                  }}
                   onDragOver={(e) => e.preventDefault()}
                   onDragEnter={(e) => e.preventDefault()}
                   onDrop={(e) => dragDrop(e)}
                 >
-                  {item.id}
+                  {item.ship === null ? 'yes' : 'no'}
                 </div>
               ))}
             </div>

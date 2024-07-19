@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './MainBattleship.css';
 import Scoreboard from './Scoreboard/Scoreboard';
-// import ModalParty from './ModalParty';
+import ModalParty from './ModalParty';
 
 const choices: { type: string; text: string }[] = [
   { type: 'create', text: 'Create a party' },
@@ -48,7 +48,7 @@ const Battleships = () => {
         ))}
       </div>
       <Scoreboard />
-      {/* <ModalParty open={open} setOpen={setOpen} selected={selected} /> */}
+      <ModalParty open={open} setOpen={setOpen} selected={selected} />
     </div>
   );
 };

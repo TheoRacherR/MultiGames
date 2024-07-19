@@ -1,4 +1,3 @@
-import { createRef, useRef } from 'react';
 import { ship, shipCase } from './PlayerBoard';
 
 const ShipsBoard = ({
@@ -18,12 +17,8 @@ const ShipsBoard = ({
   setListOfShips: React.Dispatch<React.SetStateAction<ship[]>>;
   caseOnBoardDropped: number;
 }) => {
-  const shipsRef = useRef([]);
-  shipsRef.current = listOfShips.map(
-    (item, index) => shipsRef.current[index] ?? createRef(),
-  );
 
-  const dropShipBack = (e: any) => {
+  const dropShipBack = () => {
     // console.log(e.target)
     if (cases[caseOnBoardDropped].ship) {
       const listOfShipsTemp = [...listOfShips];
@@ -52,7 +47,7 @@ const ShipsBoard = ({
       className="w-1/5 h-full p-5 overflow-y-auto flex flex-wrap"
       onDragEnter={(e) => e.preventDefault()}
       onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => dropShipBack(e)}
+      onDrop={dropShipBack}
     >
       {listOfShips.map((item: ship, index: number) => (
         <div
@@ -63,8 +58,7 @@ const ShipsBoard = ({
             height: `calc(${10 * item.length}%)`,
             backgroundColor: `${item.color}`,
           }}
-          ref={shipsRef.current[index]}
-          onMouseDown={(e) => {
+          onDragStart={(e) => {
             setShipSelected(item);
             const target: any = e.target;
             const rect = target.getBoundingClientRect();
@@ -77,7 +71,6 @@ const ShipsBoard = ({
             }
           }}
         >
-          {item.name}
         </div>
       ))}
     </div>
