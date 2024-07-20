@@ -54,6 +54,39 @@ const PlayerBoard = () => {
     setCases(arr);
   }, []);
 
+  const checkIfShipCanBePlacedHere = (caseIdToDrop: number, shipSelect: ship, caseOfShipSelected: number, step: number): boolean => {
+    const idTopCase = caseIdToDrop - (caseOfShipSelected * step);
+    const idCaseEnd = caseIdToDrop + (step * (shipSelect.length-caseOfShipSelected-1));
+    if (idTopCase < 0) {
+      console.log('trop haut')
+      return false;
+    }
+    else if(idCaseEnd >= lengthOfTheBoard**2){
+      console.log('trop bas')
+      return false
+    }
+    else {
+      // on va regarder pour chaque case qui vont être changé, s'il possède un bateau, si non OK
+      const caseStart = caseIdToDrop - (step * caseOfShipSelected);
+      for (let index = 0; index < shipSelect.length; index++) {
+        const caseToCheck = caseStart + (step * index);
+        console.log(cases[caseToCheck].orientation)
+        if(cases[caseToCheck].hasShip && cases[caseToCheck].ship !== shipSelect) {
+          console.log(`case ${caseToCheck} is not clean`)
+          return false
+        }
+        else if (step === 1 && caseToCheck % lengthOfTheBoard === 0){
+          console.log('dépasse à droite')
+          return false;
+        }
+        else
+          console.log(`case ${caseToCheck} is clean`)
+      }
+      console.log('OK')
+      return true;
+    }
+  }
+
   const dragDrop = (caseId: number) => {
     const stepToTheNestCase = cases[caseOnBoardDropped].orientation === orientationCase.HORIZONTAL ? 1 : 10;
     const casesToDelete = cases.filter((c) => c.ship === shipSelected)
@@ -87,39 +120,6 @@ const PlayerBoard = () => {
     }
     console.log('-------------------')
   };
-
-  const checkIfShipCanBePlacedHere = (caseIdToDrop: number, shipSelect: ship, caseOfShipSelected: number, step: number): boolean => {
-    const idTopCase = caseIdToDrop - (caseOfShipSelected * step);
-    const idCaseEnd = caseIdToDrop + (step * (shipSelect.length-caseOfShipSelected-1));
-    if (idTopCase < 0) {
-      console.log('trop haut')
-      return false;
-    }
-    else if(idCaseEnd >= lengthOfTheBoard**2){
-      console.log('trop bas')
-      return false
-    }
-    else {
-      // on va regarder pour chaque case qui vont être changé, s'il possède un bateau, si non OK
-      const caseStart = caseIdToDrop - (step * caseOfShipSelected);
-      for (let index = 0; index < shipSelect.length; index++) {
-        const caseToCheck = caseStart + (step * index);
-        console.log(cases[caseToCheck].orientation)
-        if(cases[caseToCheck].hasShip && cases[caseToCheck].ship !== shipSelect) {
-          console.log(`case ${caseToCheck} is not clean`)
-          return false
-        }
-        else if (step === 1 && caseToCheck % lengthOfTheBoard === 0){
-          console.log('dépasse à droite')
-          return false;
-        }
-        else
-          console.log(`case ${caseToCheck} is clean`)
-      }
-      console.log('OK')
-      return true;
-    }
-  }
 
   const checkIfShipCanRotate = (shipToRotate: ship, topCase: shipCase, indexToAddLoop: number): boolean => {
     for (let index = 1; index < shipToRotate.length-1; index++) {
@@ -191,7 +191,7 @@ const PlayerBoard = () => {
     - Possible d'enlever un bateau du board pour le remettre à gauche :   OK
     - Possibilité de faire une rotation de bateau :                       OK
     - Possibilité de redéplacer le bateau sur le board après l'avoir posé OK
-    - Quand on repositionne, faire attention à le remettre dans mm sens   NON
+    - Quand on repositionne, faire attention à le remettre dans mm sens   OK
     - Validation du board :                                               NON
   */
 
