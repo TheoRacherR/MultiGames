@@ -247,8 +247,6 @@ const PlayerBoard = () => {
                   onDragEnter={(e) => e.preventDefault()}
                   onDrop={() => dragDrop(index)}
                 >
-                  {/* {item.ship === null ? 'yes' : 'no'} */}
-                  {item.id}
                 </div>
               ))}
             </div>
