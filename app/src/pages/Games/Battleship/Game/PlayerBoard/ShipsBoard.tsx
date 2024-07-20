@@ -1,4 +1,4 @@
-import { ship, shipCase } from './PlayerBoard';
+import { orientationCase, ship, shipCase } from './PlayerBoard';
 
 const ShipsBoard = ({
   listOfShips,
@@ -33,9 +33,9 @@ const ShipsBoard = ({
           id: casesTemp[element.id].id,
           hasShip: false,
           ship: null,
-          shipCaseId: -1
+          shipCaseId: -1,
+          orientation: orientationCase.UNSET
         }
-        
       }
       setCases(casesTemp);
       
@@ -66,7 +66,8 @@ const ShipsBoard = ({
             for (let i = 0; i < item.length; i++) {
               const caseLength = rect.height / item.length;
               if (y >= caseLength * i && y < caseLength * (i + 1)) {
-                setCaseShipSelected(i + 1);
+                console.log(i)
+                setCaseShipSelected(i);
               }
             }
           }}
