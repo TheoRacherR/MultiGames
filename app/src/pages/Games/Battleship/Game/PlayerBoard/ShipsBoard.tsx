@@ -1,4 +1,4 @@
-import { orientationCase, ship, shipCase } from './PlayerBoard';
+import { orientationCase, ship, shipCase } from '../Battleship';
 
 const ShipsBoard = ({
   listOfShips,
@@ -44,7 +44,7 @@ const ShipsBoard = ({
 
   return (
     <div
-      className="w-1/5 h-full p-5 overflow-y-auto flex flex-wrap"
+      className="w-full h-full p-5 overflow-y-auto flex flex-wrap"
       onDragEnter={(e) => e.preventDefault()}
       onDragOver={(e) => e.preventDefault()}
       onDrop={dropShipBack}
@@ -65,10 +65,8 @@ const ShipsBoard = ({
             const y = e.clientY - rect.top;
             for (let i = 0; i < item.length; i++) {
               const caseLength = rect.height / item.length;
-              if (y >= caseLength * i && y < caseLength * (i + 1)) {
-                console.log(i)
+              if (y >= caseLength * i && y < caseLength * (i + 1)) 
                 setCaseShipSelected(i);
-              }
             }
           }}
         >

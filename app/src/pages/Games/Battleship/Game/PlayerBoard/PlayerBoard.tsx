@@ -1,30 +1,10 @@
 import { useEffect, useState } from 'react';
 import ShipsBoard from './ShipsBoard';
+import { Button, Icon } from 'semantic-ui-react';
+import { alphabet, lengthOfTheBoard, numbers, orientationCase, ship, shipCase } from '../Battleship';
 
-const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-export interface ship {
-  name: string;
-  id: number;
-  length: number;
-  color: string;
-}
 
-export enum orientationCase {
-  HORIZONTAL= 'horizontal',
-  VERTICAL= 'vertical',
-  UNSET= 'unset'
-}
-export interface shipCase {
-  id: number;
-  hasShip: boolean;
-  ship: ship | null;
-  shipCaseId: number;
-  orientation: orientationCase;
-}
-
-const PlayerBoard = () => {
-  const lengthOfTheBoard = 10;
+const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, gameStarted: boolean }) => {
   const [cases, setCases] = useState<shipCase[]>(Array(lengthOfTheBoard**2));
   const [listOfShips, setListOfShips] = useState<ship[]>([
     { name: 'Tanker', id: 0, length: 4, color: 'red' },
@@ -40,7 +20,11 @@ const PlayerBoard = () => {
   const [caseShipSelected, setCaseShipSelected] = useState<number>(0);
   const [caseOnBoardDropped, setCaseOnBoardDropped] = useState<number>(0);
 
-  useEffect(() => {
+  const [boardValidated, setBoardValidated] = useState<boolean>(false);
+
+  const [opponentReady, setOpponentReady] = useState<boolean>(false);
+
+  const initCases = () => {
     const arr: shipCase[] = [];
     for (let c = 0; c < lengthOfTheBoard**2; c++) {
       arr.push({
@@ -52,6 +36,10 @@ const PlayerBoard = () => {
       });
     }
     setCases(arr);
+  }
+
+  useEffect(() => {
+    initCases();
   }, []);
 
   const checkIfShipCanBePlacedHere = (caseIdToDrop: number, shipSelect: ship, caseOfShipSelected: number, step: number): boolean => {
@@ -70,70 +58,72 @@ const PlayerBoard = () => {
       const caseStart = caseIdToDrop - (step * caseOfShipSelected);
       for (let index = 0; index < shipSelect.length; index++) {
         const caseToCheck = caseStart + (step * index);
-        console.log(cases[caseToCheck].orientation)
         if(cases[caseToCheck].hasShip && cases[caseToCheck].ship !== shipSelect) {
           console.log(`case ${caseToCheck} is not clean`)
           return false
         }
-        else if (step === 1 && caseToCheck % lengthOfTheBoard === 0){
-          console.log('dépasse à droite')
-          return false;
-        }
-        else
-          console.log(`case ${caseToCheck} is clean`)
+        // else if (step === 1 && caseToCheck % lengthOfTheBoard === 0){
+        //   console.log('dépasse à droite')
+        //   console.log(step)
+        //   console.log(caseToCheck % lengthOfTheBoard)
+        //   return false;
+        // }
       }
-      console.log('OK')
+      // console.log('OK')
       return true;
     }
   }
 
   const dragDrop = (caseId: number) => {
-    const stepToTheNestCase = cases[caseOnBoardDropped].orientation === orientationCase.HORIZONTAL ? 1 : 10;
-    const casesToDelete = cases.filter((c) => c.ship === shipSelected)
-    // if(casesToDelete[1]?.id - casesToDelete[0]?.id === 1) stepToTheNestCase = 1;
-    if(checkIfShipCanBePlacedHere(caseId, shipSelected, caseShipSelected, stepToTheNestCase)) {
-      const arrTemp = [...cases];
-      if(casesToDelete.length > 0){
-        for (let index = 0; index < casesToDelete.length; index++) {
-          const c = casesToDelete[index];
-          arrTemp[c.id] = {
-            id: c.id,
-            hasShip: false,
-            ship: null,
-            shipCaseId: -1,
-            orientation: orientationCase.UNSET
+    if(!gameStarted && !boardValidated) {
+      const stepToTheNestCase = cases[caseOnBoardDropped].orientation === orientationCase.HORIZONTAL ? 1 : 10;
+      const casesToDelete = cases.filter((c) => c.ship === shipSelected)
+      // if(casesToDelete[1]?.id - casesToDelete[0]?.id === 1) stepToTheNestCase = 1;
+      if(checkIfShipCanBePlacedHere(caseId, shipSelected, caseShipSelected, stepToTheNestCase)) {
+        const arrTemp = [...cases];
+        if(casesToDelete.length > 0){
+          for (let index = 0; index < casesToDelete.length; index++) {
+            const c = casesToDelete[index];
+            arrTemp[c.id] = {
+              id: c.id,
+              hasShip: false,
+              ship: null,
+              shipCaseId: -1,
+              orientation: orientationCase.UNSET
+            }
           }
         }
+        const caseStart = caseId - (stepToTheNestCase * caseShipSelected);
+        for (let step = 0; step < shipSelected.length; step++) {
+          arrTemp[caseStart + (step * stepToTheNestCase)] = {
+            id: arrTemp[caseStart + (step * stepToTheNestCase)].id,
+            hasShip: true,
+            ship: shipSelected,
+            shipCaseId: step,
+            orientation: cases[caseOnBoardDropped].orientation === orientationCase.UNSET ? orientationCase.VERTICAL : cases[caseOnBoardDropped].orientation
+          };
+        }
+        setCases(arrTemp);
+        setListOfShips(listOfShips.filter((ship) => ship !== shipSelected))
       }
-      const caseStart = caseId - (stepToTheNestCase * caseShipSelected);
-      for (let step = 0; step < shipSelected.length; step++) {
-        arrTemp[caseStart + (step * stepToTheNestCase)] = {
-          id: arrTemp[caseStart + (step * stepToTheNestCase)].id,
-          hasShip: true,
-          ship: shipSelected,
-          shipCaseId: step,
-          orientation: cases[caseOnBoardDropped].orientation === orientationCase.UNSET ? orientationCase.VERTICAL : cases[caseOnBoardDropped].orientation
-        };
-      }
-      setCases(arrTemp);
-      setListOfShips(listOfShips.filter((ship) => ship !== shipSelected))
+      // console.log('-------------------')
     }
-    console.log('-------------------')
   };
 
   const checkIfShipCanRotate = (shipToRotate: ship, topCase: shipCase, indexToAddLoop: number): boolean => {
-    for (let index = 1; index < shipToRotate.length-1; index++) {
+    for (let index = 1; index < shipToRotate.length; index++) {
       const caseToCheck = topCase.id + (index * indexToAddLoop);
+      console.log((caseToCheck) % lengthOfTheBoard);
       if(caseToCheck > (lengthOfTheBoard**2)-1) {
-        console.log('dépasse le bord du bas')
+        // console.log('dépasse le bord du bas')
         return false //dépasse le bord du bas
       }
       else if((caseToCheck) % lengthOfTheBoard === 0) {
-        console.log('dépasse le bord de droite')
+        // console.log('dépasse le bord de droite')
         return false //dépasse le bord de droite
       }
       if(cases[caseToCheck].hasShip) {
-        console.log(`la case ${caseToCheck} possède déjà un bateau`)
+        // console.log(`la case ${caseToCheck} possède déjà un bateau`)
         return false; // une case possède déjà un bateau
       }
     }
@@ -141,47 +131,80 @@ const PlayerBoard = () => {
   }
 
   const rotateShip = (shipToRotate: ship) => {
-    const topCase: shipCase = cases.filter((c) => c.ship === shipToRotate && c.shipCaseId === 0)[0];
-    let indexToAddLoop: number = 1;
-    let indexToRemoveLoop: number = 10;
-    if(cases[topCase.id].orientation === orientationCase.VERTICAL) {
-      indexToAddLoop = 1;
-      indexToRemoveLoop = 10;
-    } // vertical
-    else {
-      indexToAddLoop = 10;
-      indexToRemoveLoop = 1;
-    } // horizontal
-    if(checkIfShipCanRotate(shipToRotate, topCase, indexToAddLoop)){
-      const casesTemp: shipCase[] = [...cases];
-      casesTemp[topCase.id] = {
-        id: casesTemp[topCase.id].id,
-        ship: casesTemp[topCase.id].ship,
-        hasShip: casesTemp[topCase.id].hasShip,
-        shipCaseId: casesTemp[topCase.id].shipCaseId,
-        orientation: casesTemp[topCase.id].orientation === orientationCase.HORIZONTAL ? orientationCase.VERTICAL : orientationCase.HORIZONTAL
-      }
-      console.log(casesTemp[topCase.id])
-      for (let index = 1; index < shipToRotate.length; index++) {
-        casesTemp[topCase.id + index * indexToAddLoop] = {
-          id: casesTemp[topCase.id + index * indexToAddLoop].id,
-          ship: casesTemp[topCase.id + index * indexToRemoveLoop].ship,
-          hasShip: casesTemp[topCase.id + index * indexToRemoveLoop].hasShip,
-          shipCaseId: casesTemp[topCase.id + index * indexToRemoveLoop].shipCaseId,
-          orientation: casesTemp[topCase.id + index * indexToRemoveLoop].orientation === orientationCase.HORIZONTAL ? orientationCase.VERTICAL : orientationCase.HORIZONTAL
+    if(!gameStarted && !boardValidated){
+      const topCase: shipCase = cases.filter((c) => c.ship === shipToRotate && c.shipCaseId === 0)[0];
+      let indexToAddLoop: number = 1;
+      let indexToRemoveLoop: number = 10;
+      if(cases[topCase.id].orientation === orientationCase.VERTICAL) {
+        indexToAddLoop = 1;
+        indexToRemoveLoop = 10;
+      } // vertical
+      else {
+        indexToAddLoop = 10;
+        indexToRemoveLoop = 1;
+      } // horizontal
+      if(checkIfShipCanRotate(shipToRotate, topCase, indexToAddLoop)){
+        const casesTemp: shipCase[] = [...cases];
+        casesTemp[topCase.id] = {
+          id: casesTemp[topCase.id].id,
+          ship: casesTemp[topCase.id].ship,
+          hasShip: casesTemp[topCase.id].hasShip,
+          shipCaseId: casesTemp[topCase.id].shipCaseId,
+          orientation: casesTemp[topCase.id].orientation === orientationCase.HORIZONTAL ? orientationCase.VERTICAL : orientationCase.HORIZONTAL
         }
-        console.log(casesTemp[topCase.id + index * indexToAddLoop])
-        casesTemp[topCase.id + index * indexToRemoveLoop] = {
-          id: casesTemp[topCase.id + index * indexToRemoveLoop].id,
-          ship: null,
-          hasShip: false,
-          shipCaseId: -1,
-          orientation: orientationCase.UNSET
+        // console.log(casesTemp[topCase.id])
+        for (let index = 1; index < shipToRotate.length; index++) {
+          casesTemp[topCase.id + index * indexToAddLoop] = {
+            id: casesTemp[topCase.id + index * indexToAddLoop].id,
+            ship: casesTemp[topCase.id + index * indexToRemoveLoop].ship,
+            hasShip: casesTemp[topCase.id + index * indexToRemoveLoop].hasShip,
+            shipCaseId: casesTemp[topCase.id + index * indexToRemoveLoop].shipCaseId,
+            orientation: casesTemp[topCase.id + index * indexToRemoveLoop].orientation === orientationCase.HORIZONTAL ? orientationCase.VERTICAL : orientationCase.HORIZONTAL
+          }
+          // console.log(casesTemp[topCase.id + index * indexToAddLoop])
+          casesTemp[topCase.id + index * indexToRemoveLoop] = {
+            id: casesTemp[topCase.id + index * indexToRemoveLoop].id,
+            ship: null,
+            hasShip: false,
+            shipCaseId: -1,
+            orientation: orientationCase.UNSET
+          }
         }
+        setCases(casesTemp);
       }
-      setCases(casesTemp);
+      // console.log('-------------------')
     }
-    console.log('-------------------')
+  }
+
+  const resetBoard = () => {
+    initCases();
+    setListOfShips([
+      { name: 'Tanker', id: 0, length: 4, color: 'red' },
+      { name: 'Submarine', id: 1, length: 3, color: 'blue' },
+      { name: 'Boat', id: 2, length: 2, color: 'green' },
+    ]);
+    setShipSelected({
+      id: 0,
+      name: '',
+      length: 1,
+      color: '#3B81F6',
+    });
+    setCaseShipSelected(0);
+    setCaseOnBoardDropped(0);
+    setBoardValidated(false);
+  }
+
+  useEffect(() => {
+    if(opponentReady && boardValidated) startTheGame();
+  }, [opponentReady, boardValidated])
+
+  const validate = () => {
+    console.log('go')
+    setBoardValidated(true);
+  }
+  const cancel = () => {
+    console.log('canel')
+    setBoardValidated(false);
   }
 
   /*
@@ -190,23 +213,30 @@ const PlayerBoard = () => {
     - Quand un bateau est ajouté sur le board, il n'est plus à gauche :   OK
     - Possible d'enlever un bateau du board pour le remettre à gauche :   OK
     - Possibilité de faire une rotation de bateau :                       OK
+    - Vérification de rotation :                                          NON
     - Possibilité de redéplacer le bateau sur le board après l'avoir posé OK
     - Quand on repositionne, faire attention à le remettre dans mm sens   OK
-    - Validation du board :                                               NON
+    - Validation du board :                                               OK
   */
 
   return (
-    <div className="w-3/5 flex bg-red-200 select-none">
-      <ShipsBoard
-        listOfShips={listOfShips}
-        cases={cases}
-        setCases={setCases}
-        setShipSelected={setShipSelected}
-        setCaseShipSelected={setCaseShipSelected}
-        setListOfShips={setListOfShips}
-        caseOnBoardDropped={caseOnBoardDropped}
-      />
-      <div className="w-4/5 h-full bg-gray-400 pr-5 pb-5">
+    <div className="w-4/5 flex select-none">
+      {gameStarted ? 
+          <></>
+        : 
+          <div className='w-1/5 bg-red-200'>
+            <ShipsBoard
+              listOfShips={listOfShips}
+              cases={cases}
+              setCases={setCases}
+              setShipSelected={setShipSelected}
+              setCaseShipSelected={setCaseShipSelected}
+              setListOfShips={setListOfShips}
+              caseOnBoardDropped={caseOnBoardDropped}
+            />
+          </div>
+      }
+      <div className="w-3/5 h-full bg-gray-400 pr-5 pb-5">
         <div>
           <div className="h-5 w-full pl-5 flex">
             {numbers.map((item, index) => (
@@ -231,12 +261,11 @@ const PlayerBoard = () => {
                 <div
                   id={item.id.toString()}
                   key={index}
-                  draggable={item.hasShip}
+                  draggable={item.hasShip && !gameStarted && !boardValidated}
                   className="flex border-solid border-black border"
                   style={{ width: `calc(100% /${lengthOfTheBoard})`, aspectRatio: 1, backgroundColor: `${item.ship ? item.ship.color : '#3B81F6'}` }}
                   onDragStart={() => {
                     setCaseShipSelected(item.shipCaseId)
-                    console.log(index)
                     setCaseOnBoardDropped(index)
                   }}
                   onMouseUp={() => {
@@ -253,6 +282,21 @@ const PlayerBoard = () => {
           </div>
         </div>
       </div>
+      {gameStarted ? 
+          <></>
+        :
+          <div className='w-1/5 bg-slate-600 p-5 flex flex-col gap-3'>
+            <div className='text-white font-bold'>Opponent status: { opponentReady ? 'Ready' : 'Pending...'}</div>
+            {
+              boardValidated ?
+                <Button color='orange' onClick={cancel}><Icon name='cancel'/>Cancel</Button>
+              :
+                <Button color='green' onClick={validate} disabled={listOfShips.length > 0}><Icon name='check'/>Validation</Button>
+            }
+            <Button color='grey' onClick={resetBoard}><Icon name='redo'/>Reset the board</Button>
+            <Button onClick={() => setOpponentReady(true)}><Icon name='redo'/>Trap</Button>
+          </div>
+      }
     </div>
   );
 };
