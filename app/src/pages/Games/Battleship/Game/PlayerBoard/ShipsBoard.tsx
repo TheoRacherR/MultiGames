@@ -34,7 +34,8 @@ const ShipsBoard = ({
           hasShip: false,
           ship: null,
           shipCaseId: -1,
-          orientation: orientationCase.UNSET
+          orientation: orientationCase.UNSET,
+          bombed: false
         }
       }
       setCases(casesTemp);

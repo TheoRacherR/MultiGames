@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 import ShipsBoard from './ShipsBoard';
 import { Button, Icon } from 'semantic-ui-react';
 import { alphabet, lengthOfTheBoard, numbers, orientationCase, ship, shipCase } from '../Battleship';
 
 
-const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, gameStarted: boolean }) => {
-  const [cases, setCases] = useState<shipCase[]>(Array(lengthOfTheBoard**2));
+const PlayerBoard = ({ startTheGame, gameStarted, cases, setCases }: { startTheGame: Function, gameStarted: boolean, cases: shipCase[], setCases: Dispatch<React.SetStateAction<shipCase[]>> }) => {
   const [listOfShips, setListOfShips] = useState<ship[]>([
     { name: 'Tanker', id: 0, length: 4, color: 'red' },
     { name: 'Submarine', id: 1, length: 3, color: 'blue' },
@@ -32,7 +31,8 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
         hasShip: false,
         ship: null,
         shipCaseId: -1,
-        orientation: orientationCase.UNSET
+        orientation: orientationCase.UNSET,
+        bombed: false
       });
     }
     setCases(arr);
@@ -62,14 +62,7 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
           console.log(`case ${caseToCheck} is not clean`)
           return false
         }
-        // else if (step === 1 && caseToCheck % lengthOfTheBoard === 0){
-        //   console.log('dépasse à droite')
-        //   console.log(step)
-        //   console.log(caseToCheck % lengthOfTheBoard)
-        //   return false;
-        // }
       }
-      // console.log('OK')
       return true;
     }
   }
@@ -89,7 +82,8 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
               hasShip: false,
               ship: null,
               shipCaseId: -1,
-              orientation: orientationCase.UNSET
+              orientation: orientationCase.UNSET,
+              bombed: false
             }
           }
         }
@@ -100,7 +94,8 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
             hasShip: true,
             ship: shipSelected,
             shipCaseId: step,
-            orientation: cases[caseOnBoardDropped].orientation === orientationCase.UNSET ? orientationCase.VERTICAL : cases[caseOnBoardDropped].orientation
+            orientation: cases[caseOnBoardDropped].orientation === orientationCase.UNSET ? orientationCase.VERTICAL : cases[caseOnBoardDropped].orientation,
+            bombed: false
           };
         }
         setCases(arrTemp);
@@ -113,7 +108,7 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
   const checkIfShipCanRotate = (shipToRotate: ship, topCase: shipCase, indexToAddLoop: number): boolean => {
     for (let index = 1; index < shipToRotate.length; index++) {
       const caseToCheck = topCase.id + (index * indexToAddLoop);
-      console.log((caseToCheck) % lengthOfTheBoard);
+      // console.log((caseToCheck) % lengthOfTheBoard);
       if(caseToCheck > (lengthOfTheBoard**2)-1) {
         // console.log('dépasse le bord du bas')
         return false //dépasse le bord du bas
@@ -150,7 +145,8 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
           ship: casesTemp[topCase.id].ship,
           hasShip: casesTemp[topCase.id].hasShip,
           shipCaseId: casesTemp[topCase.id].shipCaseId,
-          orientation: casesTemp[topCase.id].orientation === orientationCase.HORIZONTAL ? orientationCase.VERTICAL : orientationCase.HORIZONTAL
+          orientation: casesTemp[topCase.id].orientation === orientationCase.HORIZONTAL ? orientationCase.VERTICAL : orientationCase.HORIZONTAL,
+          bombed: false
         }
         // console.log(casesTemp[topCase.id])
         for (let index = 1; index < shipToRotate.length; index++) {
@@ -159,7 +155,8 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
             ship: casesTemp[topCase.id + index * indexToRemoveLoop].ship,
             hasShip: casesTemp[topCase.id + index * indexToRemoveLoop].hasShip,
             shipCaseId: casesTemp[topCase.id + index * indexToRemoveLoop].shipCaseId,
-            orientation: casesTemp[topCase.id + index * indexToRemoveLoop].orientation === orientationCase.HORIZONTAL ? orientationCase.VERTICAL : orientationCase.HORIZONTAL
+            orientation: casesTemp[topCase.id + index * indexToRemoveLoop].orientation === orientationCase.HORIZONTAL ? orientationCase.VERTICAL : orientationCase.HORIZONTAL,
+            bombed: false
           }
           // console.log(casesTemp[topCase.id + index * indexToAddLoop])
           casesTemp[topCase.id + index * indexToRemoveLoop] = {
@@ -167,7 +164,8 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
             ship: null,
             hasShip: false,
             shipCaseId: -1,
-            orientation: orientationCase.UNSET
+            orientation: orientationCase.UNSET,
+            bombed: false
           }
         }
         setCases(casesTemp);
@@ -213,7 +211,7 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
     - Quand un bateau est ajouté sur le board, il n'est plus à gauche :   OK
     - Possible d'enlever un bateau du board pour le remettre à gauche :   OK
     - Possibilité de faire une rotation de bateau :                       OK
-    - Vérification de rotation :                                          NON
+    - Vérification de rotation :                                          OK
     - Possibilité de redéplacer le bateau sur le board après l'avoir posé OK
     - Quand on repositionne, faire attention à le remettre dans mm sens   OK
     - Validation du board :                                               OK
@@ -263,7 +261,12 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
                   key={index}
                   draggable={item.hasShip && !gameStarted && !boardValidated}
                   className="flex border-solid border-black border"
-                  style={{ width: `calc(100% /${lengthOfTheBoard})`, aspectRatio: 1, backgroundColor: `${item.ship ? item.ship.color : '#3B81F6'}` }}
+                  style={{ width: `calc(100% /${lengthOfTheBoard})`, aspectRatio: 1, backgroundColor: `${
+                    item.bombed && item.hasShip ? 'black'
+                    : item.bombed ? 'grey' 
+                      : item.ship ? item.ship.color
+                        : '#3B81F6'
+                  }` }}
                   onDragStart={() => {
                     setCaseShipSelected(item.shipCaseId)
                     setCaseOnBoardDropped(index)
@@ -276,6 +279,7 @@ const PlayerBoard = ({ startTheGame, gameStarted }: { startTheGame: Function, ga
                   onDragEnter={(e) => e.preventDefault()}
                   onDrop={() => dragDrop(index)}
                 >
+                  {item.id}
                 </div>
               ))}
             </div>
