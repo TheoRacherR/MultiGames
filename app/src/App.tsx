@@ -3,8 +3,9 @@ import MenuDefault from './pages/Default/MenuDefault';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import MainMinesweeper from './pages/Games/Minesweeper/MainMinesweeper';
-import Battleships from './pages/Games/Battleship/MainBattleship';
+import MainBattleships from './pages/Games/Battleship/MainBattleship';
 import Minesweeper from './pages/Games/Minesweeper/Game/Minesweeper';
+import Battleship from './pages/Games/Battleship/Game/Battleship';
 
 function App() {
   return (
@@ -12,9 +13,12 @@ function App() {
     <MenuDefault />
     <Routes>
       <Route path="/" element={<Home />} />
+
       <Route path="/minesweeper" element={<MainMinesweeper />} />
       <Route path="/minesweeper/game" element={<Minesweeper />} />
-      <Route path="/battleship" element={<Battleships />} />
+
+      <Route path="/battleship" element={<MainBattleships />} />
+      <Route path="/battleship/room/:id" element={<Battleship />} />
     </Routes>
     </>
   );

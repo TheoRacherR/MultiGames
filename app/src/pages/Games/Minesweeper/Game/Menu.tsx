@@ -1,6 +1,5 @@
-import { Button, Dropdown, Icon } from 'semantic-ui-react'
+import { Dropdown, Icon } from 'semantic-ui-react'
 import { minesweeperDifficulty } from '../../../../@types/minesweeper'
-import { useEffect, useState } from 'react';
 
 const difficultyObj = [
   {text: 'easy', value: 'easy'},

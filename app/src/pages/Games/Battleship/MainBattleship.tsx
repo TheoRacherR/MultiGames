@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import './MainBattleship.css';
 import Scoreboard from './Scoreboard/Scoreboard';
-// import ModalParty from './ModalParty';
+import ModalParty from './ModalParty';
 
 const choices: { type: string; text: string }[] = [
   { type: 'create', text: 'Create a party' },
   { type: 'join', text: 'Join a party' },
 ];
+
+export const giveStartOrder = () => {
+  const starter = Math.floor(Math.random()*2);
+  return starter === 0;
+  // if(starter === 0)
+  //   setSocketStarter to owner
+  // else
+  //  setSocketStarter to other
+}
 
 const Battleships = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -16,6 +25,7 @@ const Battleships = () => {
     setOpen(true);
     setSelected(type);
   };
+
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
@@ -48,7 +58,7 @@ const Battleships = () => {
         ))}
       </div>
       <Scoreboard />
-      {/* <ModalParty open={open} setOpen={setOpen} selected={selected} /> */}
+      <ModalParty open={open} setOpen={setOpen} selected={selected} />
     </div>
   );
 };
