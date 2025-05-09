@@ -19,6 +19,10 @@ const links = [
     name: 'Battleship',
     path: '/battleship'
   },
+  {
+    name: 'Arrowword',
+    path: '/arrowword'
+  },
 ]
 
 const MenuDefault = () => {
@@ -40,6 +44,9 @@ const MenuDefault = () => {
                   location.pathname.startsWith('/minesweeper') ?
                     '💣'
                     :
+                      location.pathname.startsWith('/arrowword') ?
+                        '➡'
+                      :
                       ''
               // `${location.pathname.substring(1,2).toUpperCase()}${location.pathname.substring(2,location.pathname.length)}`
             }
