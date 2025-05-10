@@ -16,7 +16,7 @@ const Wordle = () => {
   const [cases, setCases] = useState<casesInterface[]>();
   const [gridInit, setGridInit] = useState<boolean>(false);
   const nbTry: number = 6;
-  const word = 'presentation'; //TODO
+  const word = 'taxiphone'; //TODO
 
 
   const initGrid = () => {

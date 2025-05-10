@@ -7,6 +7,6 @@ export enum caseCurrentState {
 
 export enum resultCompare {
   PERFECT = 'perfect',
-  PARICAL = 'partical',
+  PARTIAL = 'partial',
   NONE = 'none',
 }

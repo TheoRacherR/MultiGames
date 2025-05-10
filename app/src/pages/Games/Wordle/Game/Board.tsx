@@ -75,27 +75,30 @@ const Board = ({
       return Array(wordGet.length).fill(resultCompare.PERFECT);
     }
     else {
-      let wordSearchedTemp = wordSearched;
-      let arrayReturn = Array(wordGet.length);
+      let wordSearchedTemp = "";
+      let wordGetTemp = "";
+      let arrayReturn = Array(wordGet.length).fill(undefined);
       for (let index = 0; index < wordGet.length; index++) {
         if(wordGet[index].toLowerCase() === wordSearched[index].toLowerCase()){
           arrayReturn[index] = resultCompare.PERFECT;
-          wordSearchedTemp = wordSearchedTemp.slice(0, index) + wordSearchedTemp.slice(index+1, wordSearchedTemp.length)
-          console.log(wordSearchedTemp);
+        }
+        else {
+          wordSearchedTemp += wordSearched[index]
+          wordGetTemp += wordGet[index]
         }
       }
-      for (let index = 0; index < wordGet.length; index++) {
-        if(arrayReturn[index]) continue;
-        const letterFound = wordSearchedTemp.split('').find(ws => ws === wordGet[index]);
-        console.log(letterFound)
+
+      for (let i = 0; i < wordGetTemp.length; i++) {
+        const letterFound = wordSearchedTemp.toLowerCase().split('').find(ws => ws === wordGetTemp[i].toLowerCase());
+        console.log(arrayReturn)
         if(letterFound) {
-          // lettre dans le mot que l'on doit
-          arrayReturn[index] = resultCompare.PARICAL;
+          arrayReturn[arrayReturn.indexOf(undefined)] = resultCompare.PARTIAL
           wordSearchedTemp = wordSearchedTemp.slice(0, wordSearchedTemp.indexOf(letterFound)) + wordSearchedTemp.slice(wordSearchedTemp.indexOf(letterFound)+1, wordSearchedTemp.length)
         }
         else {
-          arrayReturn[index] = resultCompare.NONE;
+          arrayReturn[arrayReturn.indexOf(undefined)] = resultCompare.NONE;
         }
+        console.log(arrayReturn)
       }
       return arrayReturn;
     }
@@ -106,7 +109,7 @@ const Board = ({
   const updateCaseColor = (grid: casesInterface[], caseSelected: casesInterface, wordSearched: string, resultComparison: resultCompare[]): casesInterface[] => {
     let gridTemp = grid;
       for (let index = 0; index < wordSearched.length; index++) {
-        gridTemp[grid.indexOf(caseSelected) - wordSearched.length + index+1].state = resultComparison[index] === resultCompare.PERFECT ? caseCurrentState.CORRECT : resultComparison[index] === resultCompare.PARICAL ? caseCurrentState.PARTIALLY_RIGHT : caseCurrentState.WRONG;
+        gridTemp[grid.indexOf(caseSelected) - wordSearched.length + index+1].state = resultComparison[index] === resultCompare.PERFECT ? caseCurrentState.CORRECT : resultComparison[index] === resultCompare.PARTIAL ? caseCurrentState.PARTIALLY_RIGHT : caseCurrentState.WRONG;
       }
     return gridTemp;
   }
