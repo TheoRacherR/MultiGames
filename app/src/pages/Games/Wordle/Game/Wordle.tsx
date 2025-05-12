@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Board, { checkIfUniqueArray, checkIfWordCorrespond, getWordFromGrid, updateCaseColor } from './Board'
 import ModalEndGame from './ModalEndGame'
 import { caseCurrentState, resultCompare } from '../../../../@types/wordle';
+import Keyboard from './Keyboard';
 
 const alphabetic = 'abcdefghijklmnopqrstuvwxyz';
 
@@ -88,6 +89,11 @@ const Wordle = () => {
     }
   }
 
+  // const convertKeyDownToKey = (event: KeyboardEvent) => {
+  //   console.log("first")
+  //   handleKeyDown(event.key)
+  // }
+
   const initGrid = () => {
     let arrGridTemp: casesInterface[] = [];
     for (let lineIndex = 0; lineIndex < (nbTry * word.length); lineIndex++) {
@@ -114,6 +120,7 @@ const Wordle = () => {
         word={word}
         cases={cases}
       />
+      {/* <Keyboard handleKeyDown={handleKeyDown}/> */}
       <ModalEndGame open={open} setOpen={setOpen} finalScore={finalScore}/>
     </div>
   )
