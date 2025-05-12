@@ -1,128 +1,76 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { casesInterface } from './Wordle';
 import { caseCurrentState, resultCompare } from '../../../../@types/wordle';
 
-const alphabetic = 'abcdefghijklmnopqrstuvwxyz';
+export const getWordFromGrid = (grid: casesInterface[], caseSelected: casesInterface, wordSearched: string): string => {
+  let stringWord = '';
+  for (let index = 0; index < wordSearched.length; index++) {
+    stringWord = grid[grid.indexOf(caseSelected) - index].letterPlaced + stringWord;
+  }
+  return stringWord;
+}
+
+export const checkIfWordCorrespond = (wordSearched: string, wordGet: string): resultCompare[] => {
+  if(wordGet.toLowerCase() === wordSearched.toLowerCase()) {
+    return Array(wordGet.length).fill(resultCompare.PERFECT);
+  }
+  else {
+    let wordSearchedTemp = "";
+    let wordGetTemp = "";
+    let arrayReturn = Array(wordGet.length).fill(undefined);
+    for (let index = 0; index < wordGet.length; index++) {
+      if(wordGet[index].toLowerCase() === wordSearched[index].toLowerCase()){
+        arrayReturn[index] = resultCompare.PERFECT;
+      }
+      else {
+        wordSearchedTemp += wordSearched[index]
+        wordGetTemp += wordGet[index]
+      }
+    }
+
+    for (let i = 0; i < wordGetTemp.length; i++) {
+      const letterFound = wordSearchedTemp.toLowerCase().split('').find(ws => ws === wordGetTemp[i].toLowerCase());
+      if(letterFound) {
+        arrayReturn[arrayReturn.indexOf(undefined)] = resultCompare.PARTIAL
+        wordSearchedTemp = wordSearchedTemp.slice(0, wordSearchedTemp.indexOf(letterFound)) + wordSearchedTemp.slice(wordSearchedTemp.indexOf(letterFound)+1, wordSearchedTemp.length)
+      }
+      else {
+        arrayReturn[arrayReturn.indexOf(undefined)] = resultCompare.NONE;
+      }
+    }
+    return arrayReturn;
+  }
+}
+
+// TODO check if the word exist
+
+export const updateCaseColor = (grid: casesInterface[], caseSelected: casesInterface, wordSearched: string, resultComparison: resultCompare[]): casesInterface[] => {
+  let gridTemp = grid;
+    for (let index = 0; index < wordSearched.length; index++) {
+      gridTemp[grid.indexOf(caseSelected) - wordSearched.length + index+1].state = resultComparison[index] === resultCompare.PERFECT ? caseCurrentState.CORRECT : resultComparison[index] === resultCompare.PARTIAL ? caseCurrentState.PARTIALLY_RIGHT : caseCurrentState.WRONG;
+    }
+  return gridTemp;
+}
+
+export const checkIfUniqueArray = (arr: any[]): boolean => {
+  if(arr.length > 0){
+    const initValue = arr[0];
+    for (let index = 1; index < arr.length; index++) {
+      if(arr[index] !== initValue) return false;
+    }
+  }
+  return true;
+}
 
 const Board = ({
   word,
   cases,
-  setCases,
   endGame,
 }: {
   word: string,
-  cases: casesInterface[] | undefined
-  setCases: React.Dispatch<React.SetStateAction<casesInterface[] | undefined>>;
+  cases: casesInterface[] | undefined;
   endGame: Function;
 }) => {
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown, {capture: true, once: true});
-    document.removeEventListener('keydown', handleKeyDown);
-  });
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if(alphabetic.includes(event.key.toLowerCase()) && cases) {
-      let casesTemp = [...cases];
-      const caseSelected = casesTemp.find(c => c.selected);
-      if(caseSelected){
-        casesTemp[cases.indexOf(caseSelected)].letterPlaced = event.key.toUpperCase();
-        if((cases.indexOf(caseSelected)+1) % word.length === 0){
-          //TODO end of the line, test it
-          const comparison: resultCompare[] = checkIfWordCorrespond(word, getWordFromGrid(casesTemp, caseSelected, word));
-          console.log(comparison);
-          casesTemp = updateCaseColor(casesTemp, caseSelected, word, comparison);
-          if(checkIfUniqueArray(comparison) && comparison[0] === resultCompare.PERFECT){
-            // won
-            console.log('finished');
-          }
-          else {
-            // continue
-            console.log('continue');
-          }
-        }
-        casesTemp[cases.indexOf(caseSelected)].selected = false;
-        casesTemp[casesTemp.indexOf(caseSelected)+1].selected = true;
-        setCases(casesTemp);
-      }
-    }
-    else if(event.key === 'Backspace' && cases) {
-      const casesTemp = [...cases];
-      const caseSelected = casesTemp.find(c => c.selected);
-      if(caseSelected){
-        if(cases.indexOf(caseSelected) > 0 && casesTemp[cases.indexOf(caseSelected)-1].state === caseCurrentState.UNUSED){
-          casesTemp[cases.indexOf(caseSelected)-1].selected = true;
-          casesTemp[cases.indexOf(caseSelected)-1].letterPlaced = '';
-          casesTemp[cases.indexOf(caseSelected)].selected = false;
-        }
-        setCases(casesTemp);
-      }
-    }
-    else {
-      setCases(cases)
-    }
-  }
-
-  const getWordFromGrid = (grid: casesInterface[], caseSelected: casesInterface, wordSearched: string): string => {
-    let stringWord = '';
-    for (let index = 0; index < wordSearched.length; index++) {
-      stringWord = grid[grid.indexOf(caseSelected) - index].letterPlaced + stringWord;
-    }
-    return stringWord;
-  }
-
-  const checkIfWordCorrespond = (wordSearched: string, wordGet: string): resultCompare[] => {
-    if(wordGet.toLowerCase() === wordSearched.toLowerCase()) {
-      return Array(wordGet.length).fill(resultCompare.PERFECT);
-    }
-    else {
-      let wordSearchedTemp = "";
-      let wordGetTemp = "";
-      let arrayReturn = Array(wordGet.length).fill(undefined);
-      for (let index = 0; index < wordGet.length; index++) {
-        if(wordGet[index].toLowerCase() === wordSearched[index].toLowerCase()){
-          arrayReturn[index] = resultCompare.PERFECT;
-        }
-        else {
-          wordSearchedTemp += wordSearched[index]
-          wordGetTemp += wordGet[index]
-        }
-      }
-
-      for (let i = 0; i < wordGetTemp.length; i++) {
-        const letterFound = wordSearchedTemp.toLowerCase().split('').find(ws => ws === wordGetTemp[i].toLowerCase());
-        console.log(arrayReturn)
-        if(letterFound) {
-          arrayReturn[arrayReturn.indexOf(undefined)] = resultCompare.PARTIAL
-          wordSearchedTemp = wordSearchedTemp.slice(0, wordSearchedTemp.indexOf(letterFound)) + wordSearchedTemp.slice(wordSearchedTemp.indexOf(letterFound)+1, wordSearchedTemp.length)
-        }
-        else {
-          arrayReturn[arrayReturn.indexOf(undefined)] = resultCompare.NONE;
-        }
-        console.log(arrayReturn)
-      }
-      return arrayReturn;
-    }
-  }
-
-  // TODO check if the word exist
-
-  const updateCaseColor = (grid: casesInterface[], caseSelected: casesInterface, wordSearched: string, resultComparison: resultCompare[]): casesInterface[] => {
-    let gridTemp = grid;
-      for (let index = 0; index < wordSearched.length; index++) {
-        gridTemp[grid.indexOf(caseSelected) - wordSearched.length + index+1].state = resultComparison[index] === resultCompare.PERFECT ? caseCurrentState.CORRECT : resultComparison[index] === resultCompare.PARTIAL ? caseCurrentState.PARTIALLY_RIGHT : caseCurrentState.WRONG;
-      }
-    return gridTemp;
-  }
-
-  const checkIfUniqueArray = (arr: any[]): boolean => {
-    if(arr.length > 0){
-      const initValue = arr[0];
-      for (let index = 1; index < arr.length; index++) {
-        if(arr[index] !== initValue) return false;
-      }
-    }
-    return true;
-  }
 
   /*
   * 6 essais
