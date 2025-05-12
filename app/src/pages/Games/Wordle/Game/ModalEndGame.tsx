@@ -9,7 +9,7 @@ import {
 } from 'semantic-ui-react'
 
 const ModalEndGame = (
-  { open, setOpen, finalScore}: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>, finalScore: {won: boolean, score: Date | null} | undefined}
+  { open, setOpen, finalScore}: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>, finalScore: {nbTry: number}}
 ) => {
   const navigate = useNavigate();
 
@@ -27,20 +27,12 @@ const ModalEndGame = (
         onOpen={() => setOpen(true)}
         open={open}
       >
-        <ModalHeader>{finalScore?.won ? 'You won !' : 'You loose...'}</ModalHeader>
+        <ModalHeader>You won !</ModalHeader>
         <ModalContent>
-          {
-            finalScore?.won ? 
-              <ModalDescription>
-                <p>{`Here's your final score: ${finalScore.score} points`}</p>
-                <p>{ `You're not connected, you can login to save your score` }<Button style={{marginLeft: '10px'}} positive onClick={() => navigate('/auth')}>Login</Button></p> {/* //TODO if logged */}
-              </ModalDescription>
-            :
-              <ModalDescription>
-                <p>{ `You can retry an another game` }</p>
-                {/* <p>{ `You're not connected, you can login to save your score` }<Button style={{marginLeft: '10px'}} positive onClick={() => navigate('/auth')}>Login</Button></p> */}
-              </ModalDescription>
-          }
+          <ModalDescription>
+            <p>{`You guested it in ${finalScore.nbTry} try`}</p>
+            <p>{ `You're not connected, you can login to save your score` }<Button style={{marginLeft: '10px'}} positive onClick={() => navigate('/auth')}>Login</Button></p> {/* //TODO if logged */}
+          </ModalDescription>
         </ModalContent>
         <ModalActions>
           <Button color='black' onClick={() => gotoMenu()}>

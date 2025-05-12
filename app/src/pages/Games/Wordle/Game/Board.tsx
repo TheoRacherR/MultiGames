@@ -1,4 +1,3 @@
-import React from 'react';
 import { casesInterface } from './Wordle';
 import { caseCurrentState, resultCompare } from '../../../../@types/wordle';
 
@@ -64,12 +63,10 @@ export const checkIfUniqueArray = (arr: any[]): boolean => {
 
 const Board = ({
   word,
-  cases,
-  endGame,
+  cases
 }: {
   word: string,
   cases: casesInterface[] | undefined;
-  endGame: Function;
 }) => {
 
   /*
