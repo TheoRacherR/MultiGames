@@ -19,6 +19,10 @@ const links = [
     name: 'Battleship',
     path: '/battleship'
   },
+  {
+    name: 'Quiz',
+    path: '/quiz'
+  },
 ]
 
 const MenuDefault = () => {
