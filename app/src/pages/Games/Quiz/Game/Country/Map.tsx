@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { countryGuess } from '../../../../../@types/guiz'
 
-const Map = ({countryListFound, countryListToGuess}: {countryListFound: countryGuess[], countryListToGuess: countryGuess[]}) => {
+const Map = ({countryListFound, countryListToGuess, isContent}: {countryListFound: countryGuess[], countryListToGuess: countryGuess[], isContent: boolean}) => {
   const refTotalMap: any = useRef(null);
   useEffect(() => {
     console.log(refTotalMap.current)
@@ -14,16 +14,16 @@ const Map = ({countryListFound, countryListToGuess}: {countryListFound: countryG
           {countryListFound.map((item, index) => (
             <path key={`country_main_found_${index}`} name={item.name} d={item.svgPoints.maintLocation}  style={{fill: 'green', stroke: 'black', strokeWidth: 1, strokeOpacity: 0.2, cursor: 'pointer'}}></path>
           ))}
-          {countryListFound.filter(clf => clf.svgPoints.islands.length > 0).map((item, index) => (
+          {!isContent ? countryListFound.filter(clf => clf.svgPoints.islands.length > 0).map((item, index) => (
               <path key={`country_island_found_${index}`} name={item.name} d={item.svgPoints.islands}  style={{fill: 'green', stroke: 'black', strokeWidth: 1, strokeOpacity: 0.2, cursor: 'pointer'}}></path>
-          ))}
+          )) : <></>}
 
           {countryListToGuess.map((item, index) => (
             <path key={`country_main_not_found_${index}`} name={item.name} d={item.svgPoints.maintLocation}  style={{fill: 'white', stroke: 'black', strokeWidth: 1, strokeOpacity: 0.2, cursor: 'pointer'}}></path>
           ))}
-          {countryListToGuess.filter(clf => clf.svgPoints.islands.length > 0).map((item, index) => (
+          {!isContent ? countryListToGuess.filter(clf => clf.svgPoints.islands.length > 0).map((item, index) => (
             <path key={`country_island_not_found_${index}`} name={item.name} d={item.svgPoints.islands}  style={{fill: 'white', stroke: 'black', strokeWidth: 1, strokeOpacity: 0.2, cursor: 'pointer'}}></path>
-          ))}
+          )) : <></>}
         </g>
       </svg>
     </div>

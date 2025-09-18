@@ -194,7 +194,7 @@ import Bhutan_flag from "../../../../assets/flag/Bhutan.png";
 import Guyana_flag from '../../../../assets/flag/Guyana.png';
 import Kosovo_flag from '../../../../assets/flag/Kosovo.png';
 import Taiwan_flag from '../../../../assets/flag/Taiwan.png';
-import { continentEnum, countryGuess } from "../../../../@types/guiz";
+import { modeQuiz, countryGuess } from "../../../../@types/guiz";
 
 export const countryList: countryGuess[] = [
   {
@@ -207,7 +207,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -221,7 +221,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -235,7 +235,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -249,7 +249,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -263,7 +263,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -277,7 +277,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -291,7 +291,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -305,7 +305,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -320,7 +320,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -334,7 +334,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -348,7 +348,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -362,7 +362,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -376,7 +376,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -390,7 +390,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -404,7 +404,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -418,7 +418,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -432,7 +432,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -446,7 +446,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -460,7 +460,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -474,7 +474,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -501,7 +501,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -515,7 +515,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -529,7 +529,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -543,7 +543,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -557,7 +557,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -571,7 +571,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -585,7 +585,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -599,7 +599,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -613,7 +613,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -627,7 +627,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -651,7 +651,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -665,7 +665,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -679,7 +679,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -693,7 +693,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -707,7 +707,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -721,7 +721,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -735,7 +735,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -749,7 +749,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -763,7 +763,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -777,7 +777,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -791,7 +791,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -805,7 +805,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -819,7 +819,7 @@ export const countryList: countryGuess[] = [
         islands: "",
       },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -839,7 +839,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -860,7 +860,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -874,7 +874,7 @@ export const countryList: countryGuess[] = [
       islands: "M355.16610000000003,-169.4296695144943L364.13009444444447,-182.37891927207826L373.4945055555555,-181.36400894578875L376.90071666666665,-189.89067368221222L386.3345333333333,-192.1886403108161L407.65805555555556,-189.20319026903886L424.3554305555556,-171.50319232806615L419.42496666666665,-163.59147207661155L409.2116722222222,-162.71257617451082L394.84472222222223,-160.77283809476435L396.1901222222222,-157.3107903983188L405.6372861111111,-159.44107920198442L413.68032222222223,-152.85582751235026L418.86171388888886,-158.68242786578546L421.0800222222222,-151.86859841967888L418.1489722222222,-141.44049532486778L424.94537777777776,-148.03588051777317L437.90819999999997,-155.20948617410468L445.91119444444445,-151.59033511150963L447.40875277777775,-143.87212034483386L436.5280972222222,-131.8012348699539L435.0198611111111,-128.09461472492077L426.48831666666666,-125.36381173762973L432.67075,-124.61457041092186L429.5475,-113.65844138978278L427.39859722222224,-104.51418734828522L427.48135,-89.9937874722144L430.6873527777778,-82.05542600952279L426.51768055555556,-81.55833604596373L422.12911388888887,-77.86793445438852L427.0542388888889,-71.86639199956883L427.6815583333333,-62.6942952257705L424.82792222222224,-61.73275206235965L428.28485277777776,-53.015917798279446L422.3560166666667,-52.307403830126844L425.44990277777777,-48.360626070438315L424.57699444444444,-45.01496472552438L420.8130777777778,-43.577087797562484L417.0918722222222,-43.549205416862065L420.4366861111111,-37.36933721390565L420.4713888888889,-33.43908422409251L415.1912277777778,-37.09240152697086L413.8164638888889,-34.71798066115386L417.4202138888889,-32.53425931109754L420.9171861111111,-27.318781107874344L421.92890555555556,-20.695002410974865L417.17195555555554,-19.146421202802713L415.1138138888889,-22.250381104935542L411.81438055555554,-26.999923241919845L412.72733055555557,-21.40603109095045L409.6254361111111,-17.20165252029264L416.66209166666664,-16.870588637480836L420.3405861111111,-16.438069550796087L413.186475,-9.744875595718469L405.930925,-3.9030055212658112L398.1174611111111,-1.4124459563493303L395.17306388888886,-1.3837896506508685L392.41285833333336,1.358385840325866L388.69966111111114,8.629401494941249L382.9576861111111,13.290732292874793L381.11310000000003,13.559381591083792L377.5600694444445,15.162296215620842L373.7240777777778,16.67294191922909L371.4363638888889,20.598605674689935L371.3989916666667,24.943850326479293L370.04825277777775,28.917903074236506L365.6970583333333,33.63545871793252L366.770175,38.1195202487759L365.57159444444443,42.744590759021094L364.20483888888884,48.05006694903855L360.44092222222224,48.37640540729137L356.5008222222222,43.96006344902236L351.16460277777776,43.93265720221953L348.57524166666667,40.89700917100441L346.7947222222222,35.36592909427492L342.168575,28.048758449214517L340.81516666666664,24.09104463843059L340.44945277777776,18.469255380968406L336.75227222222225,12.495366417438419L337.71327222222226,7.567322641310028L335.93275277777775,5.161154193209825L338.57283333333334,-3.0903374497066807L342.5903472222222,-5.805192604375577L343.6447777777778,-8.91031949960066L344.2026916666666,-14.874896087568544L341.1515166666667,-12.144327529259527L339.69933888888886,-11.008548436359348L337.30217777777773,-9.933427606686251L334.0267694444444,-12.412271288708695L333.84791666666666,-17.699516251621475L334.89166944444446,-21.965733106342924L337.36891388888887,-22.087663837423662L342.81724999999994,-19.938923979368013L338.228475,-25.11646188667632L335.8393222222222,-27.975260277378624L333.18055555555554,-26.79886351886583L330.95156944444443,-28.880185707489915L333.9333388888889,-36.98532894795804L332.3103166666666,-40.347427825929884L330.1907777777777,-46.76907887221145L326.97676666666666,-57.152388324157215L323.5785638888889,-61.139931911536536L323.61059722222217,-65.53978031877617L316.44580833333333,-71.91084050666527L310.77857777777774,-72.72423635377706L303.64582222222225,-72.2780199447653L297.1323777777777,-71.45583661536168L294.0331527777778,-75.03115394669018L289.3936583333333,-82.32831042287606L296.4036194444444,-86.1020369921761L301.7772111111111,-86.74805806692783L290.3546583333333,-89.95638214247677L284.33773055555554,-95.12739651449189L284.70611388888886,-100.22216106119961L294.81263055555553,-106.76084090020211L304.5881361111111,-113.5713956185505L305.6212111111111,-118.94236749645503L298.4163805555555,-124.42782373202627L300.7441361111111,-130.76090017685348L309.98575277777775,-142.50291010084013L313.86979444444444,-144.38429128357362L312.7566361111111,-152.53848159635245L319.08055,-157.54176261066473L327.28909166666665,-160.5959148770074L335.49229444444444,-160.77283809476435L338.4046583333333,-154.7547938161899L345.484025,-165.54690300632532L351.8559888888889,-158.14004461372977L355.6038888888889,-156.61993905904652L361.148325,-150.51907254582076L354.8003861111111,-160.77283809476435Z",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -888,7 +888,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -902,7 +902,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -923,7 +923,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -946,7 +946,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -960,7 +960,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -974,7 +974,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -988,7 +988,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -1008,7 +1008,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1022,7 +1022,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1036,7 +1036,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1050,7 +1050,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1064,7 +1064,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1085,7 +1085,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -1099,7 +1099,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -1113,7 +1113,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1127,7 +1127,7 @@ export const countryList: countryGuess[] = [
       islands: "M342.1018388888889,238.89604745827467L340.5241972222222,241.34371303268978L339.70467777777776,243.31091031474688L338.6796111111111,244.3261296356588L337.40361666666666,244.51845746740608L337.03790277777773,243.76512112441958L336.4399472222222,243.652909602125L335.61508888888886,244.37688367204746L334.44854166666664,243.82656886625978L335.12924999999996,242.70431266146832L335.3641611111111,241.4800693797017L335.8313138888889,240.33017558914304L334.78222222222223,238.74348241889032L334.5713361111111,236.91178613412353L335.96211666666665,234.6060837938967L336.86972777777777,234.90118284867384L338.8344388888889,235.53679827035154L341.6613805555555,237.79839488659013Z M922.5405000000001,307.5861245476492L924.7294444444444,309.3636258625818L926.1175555555556,310.68735889670336L925.1031666666668,311.3797161129078L923.6349722222222,310.600897556288L921.72365,309.306168849641L920.0045277777779,307.7864346426765L918.2373555555555,305.77328664324745L917.8689722222223,304.80856653787157L919.0168333333334,304.84836587273975L920.5117222222223,305.816022269938L921.6862777777778,306.7858234103152Z",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1141,7 +1141,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1155,7 +1155,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1169,7 +1169,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1183,7 +1183,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1197,7 +1197,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1211,7 +1211,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1225,7 +1225,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -1239,7 +1239,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -1263,7 +1263,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1277,7 +1277,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1291,7 +1291,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -1305,7 +1305,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -1319,7 +1319,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1333,7 +1333,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1347,7 +1347,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1361,7 +1361,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1375,7 +1375,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1389,7 +1389,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1403,7 +1403,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1417,7 +1417,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1431,7 +1431,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1445,7 +1445,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -1459,7 +1459,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1473,7 +1473,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1487,7 +1487,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1501,7 +1501,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1515,7 +1515,7 @@ export const countryList: countryGuess[] = [
       islands: '',
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -1529,7 +1529,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1543,7 +1543,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1557,7 +1557,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1571,7 +1571,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1585,7 +1585,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1599,7 +1599,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1613,7 +1613,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1627,7 +1627,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1641,7 +1641,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1655,7 +1655,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1669,7 +1669,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1683,7 +1683,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1697,7 +1697,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1711,7 +1711,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1725,7 +1725,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1739,7 +1739,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1753,7 +1753,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1767,7 +1767,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -1781,7 +1781,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1795,7 +1795,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1809,7 +1809,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -1823,7 +1823,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1837,7 +1837,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1851,7 +1851,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1865,7 +1865,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1879,7 +1879,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1893,7 +1893,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1907,7 +1907,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1921,7 +1921,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -1935,7 +1935,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -1949,7 +1949,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -1970,7 +1970,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -1984,7 +1984,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -1998,7 +1998,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2012,7 +2012,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2035,7 +2035,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2059,7 +2059,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2073,7 +2073,7 @@ export const countryList: countryGuess[] = [
       islands: "M520.4233972222222,-117.68634459150596L521.4377861111111,-122.86487702134409L525.3565305555555,-123.40471283901545L528.7227,-118.10389227121286L537.5105111111111,-107.34501839114662L530.7915194444445,-101.96252075568245L529.3099777777778,-92.35586655664562L526.9662055555556,-89.981318036072L525.69555,-79.97112206886757L522.4788694444444,-79.51556378547716L516.7395638888889,-86.7969226011447L519.16075,-91.2080678245749L515.1592527777777,-94.88275633908628L509.95650555555557,-106.13735672664544L507.8823472222222,-117.35905633935553L515.1592527777777,-122.7725218688498L516.6221083333334,-117.47799054732147ZM553.1641333333333,-123.48198566697326L549.2053472222223,-115.38031357545194L541.4612888888889,-113.65844138978278L533.5890972222222,-116.10096700332295L533.1139361111111,-120.20862337839125L529.2832833333333,-120.48131158452586L526.3629111111111,-127.60173259779745L534.6061555555556,-132.09509113142454L538.4821888888889,-128.22206470332404L541.1809972222222,-133.06221054738157L547.9320222222223,-129.00498887988604ZM545.9993444444444,-92.69804816559284L540.0358055555555,-87.59311409976098L535.3269055555555,-90.46836342577674L537.1688222222223,-93.72910678567095L535.5564777777778,-97.87024330794353L541.0875666666667,-100.51532276778997L542.1473361111111,-95.5919777407689Z",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2087,7 +2087,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2101,7 +2101,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2115,7 +2115,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -2129,7 +2129,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2143,7 +2143,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -2165,7 +2165,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -2179,7 +2179,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -2193,7 +2193,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -2207,7 +2207,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2221,7 +2221,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2235,7 +2235,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2249,7 +2249,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2263,7 +2263,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2277,7 +2277,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2291,7 +2291,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2313,7 +2313,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -2327,7 +2327,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -2350,7 +2350,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -2364,7 +2364,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -2378,7 +2378,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2403,7 +2403,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2417,7 +2417,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2431,7 +2431,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2445,7 +2445,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2459,7 +2459,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2473,7 +2473,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2487,7 +2487,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2501,7 +2501,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2515,7 +2515,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2535,7 +2535,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -2549,7 +2549,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2563,7 +2563,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2583,7 +2583,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2603,7 +2603,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2617,7 +2617,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2631,7 +2631,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2645,7 +2645,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2659,7 +2659,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -2673,7 +2673,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2687,7 +2687,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2701,7 +2701,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2715,7 +2715,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2729,7 +2729,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2743,7 +2743,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2757,7 +2757,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2771,7 +2771,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -2791,7 +2791,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -2805,7 +2805,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2819,7 +2819,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2833,7 +2833,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2847,7 +2847,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -2861,7 +2861,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -2875,7 +2875,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2895,7 +2895,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2918,7 +2918,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -2941,7 +2941,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.NORTH_AMERICA
+      contient: modeQuiz.NORTH_AMERICA
     },
     found: false,
   },
@@ -2955,7 +2955,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -2969,7 +2969,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -2983,7 +2983,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.OCEANIA
+      contient: modeQuiz.OCEANIA
     },
     found: false,
   },
@@ -3006,7 +3006,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -3020,7 +3020,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -3034,7 +3034,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -3048,7 +3048,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -3062,7 +3062,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -3076,7 +3076,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.AFRICA
+      contient: modeQuiz.AFRICA
     },
     found: false,
   },
@@ -3090,7 +3090,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },
@@ -3104,7 +3104,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.SOUTH_AMERICA
+      contient: modeQuiz.SOUTH_AMERICA
     },
     found: false,
   },
@@ -3118,7 +3118,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.EUROPE
+      contient: modeQuiz.EUROPE
     },
     found: false,
   },
@@ -3132,7 +3132,7 @@ export const countryList: countryGuess[] = [
       islands: "",
     },
     location: {
-      contient: continentEnum.ASIA
+      contient: modeQuiz.ASIA
     },
     found: false,
   },

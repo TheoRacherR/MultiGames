@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { continentEnum, countryGuess, finalScoreInterface, modeQuiz } from '../../../../../@types/guiz'
+import { countryGuess, finalScoreInterface, modeQuiz } from '../../../../../@types/guiz'
 import Map from './Map';
 import { countryList } from "../CountryList";
 import Timer from '../Timer/Timer';
@@ -26,11 +26,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
       listFound: [],
     });
 
-  const countryToGuessInit: countryGuess[] = countryList.filter(cl => cl.location.contient);
-
-  // useEffect(() => {
-  //   console.log(countryToGuessInit);
-  // }, [countryToGuessInit]);
+  const countryToGuessInit: countryGuess[] = countryList.filter(cl => cl.location.contient === mode || mode === modeQuiz.ALL);
 
   const [startTimer, setStartTimer] = useState<boolean>(false);
   const [minutes, setMinutes] = useState(timerTotal.minutes);
@@ -114,7 +110,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
   return (
     <div className='w-screen h-screen bg-white'>
       <div className='flex'>
-        <Map countryListFound={countryFound} countryListToGuess={countryToGuess}/>
+        <Map countryListFound={countryFound} countryListToGuess={countryToGuess} isContent={mode !== modeQuiz.ALL}/>
         <Timer
           timeOut={timeOut}
           score={{ left: countryToGuess.length, total: countryToGuessInit.length }}
