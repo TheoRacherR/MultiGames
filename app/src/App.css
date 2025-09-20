@@ -36,3 +36,115 @@
     transform: rotate(360deg);
   }
 }
+
+.input {
+  /* background-color: transparent; */
+  border: 2px solid #4949496c;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+
+/* CSS */
+.btn {
+  align-items: center;
+  background-clip: padding-box;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.btn:hover,
+.btn:focus {
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+  transform: translateY(0);
+}
+
+/* ORANGE */
+.btn-orange {
+  background-color: #fa6400;
+  color: #fff;
+}
+.btn-orange:hover,
+.btn-orange:focus {
+  background-color: #fb8332;
+}
+.btn-orange:active {
+  background-color: #c85000;
+}
+
+/* BLUE */
+.btn-blue {
+  background-color: #004ffa;
+  color: #fff;
+}
+.btn-blue:hover,
+.btn-blue:focus {
+  background-color: #3171f9;
+}
+.btn-blue:active {
+  background-color: #003bb9;
+}
+
+/* RED */
+.btn-red {
+  background-color: #a22b2b;
+  color: #fff;
+}
+.btn-red:hover,
+.btn-red:focus {
+  background-color: #a53b3b;
+}
+.btn-red:active {
+  background-color: #7d2121;
+}
+
+/* GREEN */
+.btn-green {
+  background-color: #24612e;
+  color: #fff;
+}
+.btn-green:hover,
+.btn-green:focus {
+  background-color: #35623c;
+}
+.btn-green:active {
+  background-color: #173e1e;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 2s linear infinite;
+}
