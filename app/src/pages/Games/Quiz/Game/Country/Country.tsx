@@ -5,6 +5,7 @@ import { countryList } from "../CountryList";
 import Timer from '../Timer/Timer';
 import CountryList from './CountryList/CountryList';
 import CountryModalEndGame from './CountryModalEndGame';
+import { resetCountriesFound } from '../../../../../utils/Quiz/FunctionsForCountry';
 
 
 const Country = ({ mode }: { mode: modeQuiz }) => {
@@ -43,7 +44,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
       // Change en vert
       const newCountryFoundTemp = countryListToGuess.slice(0, countryListToGuess.indexOf(countryFoundTempList[0])).concat(countryListToGuess.slice(countryListToGuess.indexOf(countryFoundTempList[0])+1, countryListToGuess.length));
       setCountryToGuess(newCountryFoundTemp);
-      console.log(newCountryFoundTemp)
+      // console.log(newCountryFoundTemp)
 
       setInputValue('');
       if(newCountryFoundTemp.length === 0){
@@ -99,13 +100,38 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         }
       }, 1000);
       if (minutes === 0 && seconds === 0) {
-        console.log('timeout')
+        // console.log('timeout')
         timeOut();
         clickStopTimer();
       }
     }
     return () => clearInterval(interval);
   }, [seconds, minutes, startTimer]);
+
+  const resetPage = () => {
+    setCountryFound([]);
+    setCountryToGuess(resetCountriesFound(countryList.filter(cl => cl.location.contient === mode || mode === modeQuiz.ALL)));
+    setInputValue("");
+    setFinalScore({
+      end: false,
+      finalTimer: {
+        seconds: 0,
+        minutes: 0,
+      },
+      listLeftToFind: [],
+      listFound: [],
+    });
+    setMinutes(timerTotal.minutes);
+    setSeconds(timerTotal.seconds);
+    setStartTimer(false);
+    if(refInput.current){
+      refInput.current.focus();
+    }
+  }
+
+  // useEffect(() => {
+  //   console.log(countryFound)
+  // }, [countryFound]);
 
   return (
     <div className='w-screen h-screen bg-white'>
@@ -131,13 +157,13 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         ref={refInput}
         autoFocus
         onChange={(e) => handleChangeInput(e, countryToGuess)}
-        // disabled={!startTimer}
+        disabled={!startTimer}
       />
       <CountryList
         countryListFound={countryFound}
         countryListToGuess={countryToGuess}
       />
-      <CountryModalEndGame finalScore={finalScore} setFinalScore={setFinalScore}/>
+      <CountryModalEndGame finalScore={finalScore} setFinalScore={setFinalScore} resetPage={resetPage}/>
     </div>
   )
 }

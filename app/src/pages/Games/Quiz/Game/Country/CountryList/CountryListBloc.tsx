@@ -1,9 +1,13 @@
-import React from 'react'
+import { useEffect } from 'react';
 import { countryGuess } from '../../../../../../@types/guiz'
 
 const CountryListBloc = ({title, countryList}: {title: string, countryList: countryGuess[]}) => {
+  useEffect(() => {
+    console.log(countryList.filter(c => c.found));
+  }, [countryList]);
+
   return (
-    <div className='w-full'>
+    <div className='w-full mb-28'>
       <table className='mx-auto'>
         <thead className='bg-[#7f3f0e] text-white border-2'><tr><th scope="col" className='p-2'>{title}</th></tr></thead>
         <tbody className='border-2'>

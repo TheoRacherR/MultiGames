@@ -8,24 +8,12 @@ import {
   Modal,
 } from 'semantic-ui-react'
 import { finalScoreInterface } from '../../../../../@types/guiz';
-import { useEffect } from 'react';
 
 const CountryModalEndGame = (
-  { finalScore, setFinalScore}: { finalScore: finalScoreInterface, setFinalScore: React.Dispatch<React.SetStateAction<finalScoreInterface>> }
+  { finalScore, setFinalScore, resetPage}: { finalScore: finalScoreInterface, setFinalScore: React.Dispatch<React.SetStateAction<finalScoreInterface>>, resetPage: Function }
 ) => {
   const navigate = useNavigate();
 
-  const replayTheGame = () => {
-    setFinalScore({
-      end: false,
-      finalTimer: {
-        seconds: finalScore.finalTimer.seconds,
-        minutes: finalScore.finalTimer.minutes
-      },
-      listFound: finalScore.listFound,
-      listLeftToFind: finalScore.listLeftToFind
-    })
-  };
   const gotoMenu = () => {
     setFinalScore({
       end: false,
@@ -38,10 +26,6 @@ const CountryModalEndGame = (
     })
     navigate('/')
   }
-
-  useEffect(() => {
-    console.log(finalScore)
-  }, [finalScore])
 
   return (
     <div>
@@ -79,7 +63,7 @@ const CountryModalEndGame = (
             color='orange'
             labelPosition='left'
             icon='redo'
-            onClick={() => replayTheGame()}
+            onClick={() => resetPage()}
           />
         </ModalActions>
       </Modal>

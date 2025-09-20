@@ -36,12 +36,13 @@ function App() {
       <Route path="/quiz/country/north_america" element={<Quiz game={gameQuiz.COUNTRY} mode={modeQuiz.NORTH_AMERICA}/>} />
       <Route path="/quiz/country/south_america" element={<Quiz game={gameQuiz.COUNTRY} mode={modeQuiz.SOUTH_AMERICA}/>} />
       <Route path="/quiz/country/oceania" element={<Quiz game={gameQuiz.COUNTRY} mode={modeQuiz.OCEANIA}/>} />
-      <Route path="/quiz/country" element={<Quiz game={gameQuiz.COUNTRY} mode={modeQuiz.OCEANIA}/>} />
+      <Route path="/quiz/country" element={<Quiz game={gameQuiz.COUNTRY} mode={modeQuiz.ALL}/>} />
 
       <Route path="/quiz/flag/all" element={<Quiz game={gameQuiz.FLAG} mode={modeQuiz.ALL}/>} />
       <Route path="/quiz/flag/5" element={<Quiz game={gameQuiz.FLAG} mode={modeQuiz.FIVE}/>} />
       <Route path="/quiz/flag/10" element={<Quiz game={gameQuiz.FLAG} mode={modeQuiz.TEN}/>} />
       <Route path="/quiz/flag/20" element={<Quiz game={gameQuiz.FLAG} mode={modeQuiz.TWENTY}/>} />
+      <Route path="/quiz/flag" element={<Quiz game={gameQuiz.FLAG} mode={modeQuiz.ALL}/>} />
     </Routes>
     </div>
   );
