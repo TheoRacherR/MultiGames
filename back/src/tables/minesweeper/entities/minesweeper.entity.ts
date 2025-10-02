@@ -1,3 +1,4 @@
+import { levels } from 'src/@types/tables/minesweeper';
 import { User } from 'src/tables/user/entities/user.entity';
 import {
   Column,
@@ -8,12 +9,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-export enum levels {
-  EASY = 'easy',
-  NORMAL = 'normal',
-  HARD = 'hard',
-}
 
 @Entity()
 export class Minesweeper {

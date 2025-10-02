@@ -1,5 +1,5 @@
 import { IsBoolean, IsEnum, IsNotEmpty } from 'class-validator';
-import { levels } from '../entities/minesweeper.entity';
+import { levels } from 'src/@types/tables/minesweeper';
 import { User } from 'src/tables/user/entities/user.entity';
 
 export class CreateMinesweeperDto {

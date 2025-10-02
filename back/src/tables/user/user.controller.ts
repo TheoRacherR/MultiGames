@@ -12,7 +12,11 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User, userRole } from './entities/user.entity';
+import {
+  UserFormated,
+  userRole,
+  UserWithPassword,
+} from 'src/@types/tables/user';
 import { UpdateUserRoleDto } from './dto/update-role-user';
 import { UpdateUserPsswdDto } from './dto/update-psswd-user';
 
@@ -21,14 +25,16 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<User> {
+  async findOne(@Param('id') id: string): Promise<UserFormated> {
     const user = await this.userService.findOne(id);
     if (user) return user;
     else throw new HttpException(`User ${id} not found`, HttpStatus.NOT_FOUND);
   }
 
   @Get(':email')
-  async findOneByEmail(@Param('email') email: string): Promise<User> {
+  async findOneByEmail(
+    @Param('email') email: string,
+  ): Promise<UserWithPassword> {
     const user = await this.userService.findOneByEmail(email);
     if (user) return user;
     else

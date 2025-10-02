@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { country } from '../entities/user.entity';
+import { country } from 'src/@types/tables/user';
 
 export class CreateUserDto {
   @IsNotEmpty()

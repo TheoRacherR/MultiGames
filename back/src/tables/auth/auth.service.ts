@@ -8,7 +8,7 @@ import { UserService } from '../user/user.service';
 // import { UserInfoService } from '../user-info/user-info.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { User, userRole } from '../user/entities/user.entity';
+import { userRole } from 'src/@types/tables/user';
 import { LoginDto } from './dto/login-auth.dto';
 import { TokenValidateDto } from './dto/tokenValidation-auth.dto ';
 import { JsonWebTokenError } from 'jsonwebtoken';
@@ -52,7 +52,7 @@ export class AuthService {
       const { id } = this.jwtService.verify(TokenValidateDto.token, {
         secret: process.env.jwt_secret,
       });
-      const user: User | null = await this.userService.findOne(id);
+      const user = await this.userService.findOne(id);
       // const detail: UserInfo = await this.userInfoService.findOneByUserId(id);
 
       if (!user) {

@@ -3,18 +3,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateUserRoleDto } from './dto/update-role-user';
 import { InjectRepository } from '@nestjs/typeorm';
-import { country, User } from './entities/user.entity';
+import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserPsswdDto } from './dto/update-psswd-user';
-
-export interface UsersFormated {
-  id: string;
-  email: string;
-  pseudo: string;
-  country: country;
-  created_at: Date;
-}
+import { UserFormated, UserWithPassword } from 'src/@types/tables/user';
 
 @Injectable()
 export class UserService {
@@ -23,11 +16,11 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findOne(id: string): Promise<User | null> {
+  async findOne(id: string): Promise<UserFormated | null> {
     return await this.userRepository.findOne({ where: { id } });
   }
 
-  async findOneByEmail(email: string): Promise<User | null> {
+  async findOneByEmail(email: string): Promise<UserWithPassword | null> {
     return await this.userRepository.findOne({ where: { email: email } });
   }
 

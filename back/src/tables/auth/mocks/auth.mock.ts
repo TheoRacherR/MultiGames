@@ -1,5 +1,5 @@
 import { LoginDto } from '../dto/login-auth.dto';
-import { country } from 'src/tables/user/entities/user.entity';
+import { country } from 'src/@types/tables/user';
 import { CreateUserDto } from 'src/tables/user/dto/create-user.dto';
 
 export const authLoginMock: LoginDto = {

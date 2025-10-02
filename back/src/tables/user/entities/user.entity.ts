@@ -1,3 +1,4 @@
+import { country, userRole } from 'src/@types/tables/user';
 import { Battleship } from 'src/tables/battleship/entities/battleship.entity';
 import { BattleshipElo } from 'src/tables/battleship_elo/entities/battleship_elo.entity';
 import { Minesweeper } from 'src/tables/minesweeper/entities/minesweeper.entity';
@@ -11,17 +12,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-export enum country {
-  FRANCE = '🇫🇷',
-  USA = '🇺🇸',
-  UK = '🇬🇧',
-}
-
-export enum userRole {
-  USER = 'user',
-  ADMIN = 'admin',
-}
 
 @Entity()
 export class User {

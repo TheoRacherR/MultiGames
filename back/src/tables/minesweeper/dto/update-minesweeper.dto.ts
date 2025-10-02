@@ -1,7 +1,7 @@
 import { IsBoolean, IsEnum, IsOptional } from 'class-validator';
-import { levels } from '../entities/minesweeper.entity';
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateMinesweeperDto } from './create-minesweeper.dto';
+import { levels } from 'src/@types/tables/minesweeper';
 
 export class UpdateMinesweeperDto extends PartialType(CreateMinesweeperDto) {
   @IsOptional()
