@@ -11,6 +11,7 @@ import Wordle from './pages/Games/Wordle/Game/Wordle';
 import MainQuiz from './pages/Games/Quiz/MainQuiz';
 import Quiz from './pages/Games/Quiz/Game/Quiz';
 import { gameQuiz, modeQuiz } from './@types/guiz';
+import Auth from 'pages/Default/Auth/Auth';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
     <MenuDefault />
     <Routes>
       <Route path="/" element={<Home />} />
+
+      <Route path="/auth" element={<Auth />} />
 
       <Route path="/minesweeper" element={<MainMinesweeper />} />
       <Route path="/minesweeper/game" element={<Minesweeper />} />

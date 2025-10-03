@@ -1,0 +1,72 @@
+services:
+  app:
+    container_name: reactapp-multigames
+    build: 
+      context: ./app
+      dockerfile: Dockerfile
+      target: DEV_IMAGE
+    volumes:
+      - ./app:/app
+      # - pgdata:/app
+    ports:
+      - ${REACT_PORT}:${REACT_PORT}
+      # - 5173:5173
+    environment:
+      WATCHPACK_POLLING: ${NODE_ENV_DEV}
+      CHOKIDAR_USEPOLLING: "true"
+    networks:
+        - front
+    restart: always
+    stdin_open: true
+    tty: true
+    
+  nestapp:
+    container_name: nestapp-multigames
+    image: nestimg
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    ports:
+      - ${NEST_PORT}:${NEST_PORT}
+    environment:
+      - DB_TYPE=${DB_TYPE}
+      - PG_HOST=${PG_HOST} #doit matcher avec le container_name de la db
+      - PG_USER=${PG_USER}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_DB=${PG_DB}
+      - PG_PORT=${PG_PORT}
+      - NODE_ENV_DEV=${NODE_ENV_DEV}
+    restart: always
+    depends_on:
+      - db
+    # tty: true
+    # stdin_open: true
+    networks:
+      - front
+      - back
+    volumes:
+      - pgdata:/home/node
+    command: sh -c "npm install && npm run start:dev"
+
+  db:
+    container_name: db-multigames
+    image: postgres:16
+    ports:
+      - ${PG_PORT}:${PG_PORT}
+    environment:
+      - POSTGRES_USER=${PG_USER} #doit matcher avec PG_USER
+      - POSTGRES_PASSWORD=${PG_PASSWORD} #doit matcher avec PG_PASSWORD
+      - POSTGRES_DB=${PG_DB} #doit matcher avec PG_DB
+    volumes:
+      - pgdata:/var/lib/postgres/data
+    networks:
+      - back
+
+volumes:
+  pgdata: {}
+
+networks:
+  front:
+    driver: bridge
+  back:
+    driver: bridge

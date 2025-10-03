@@ -1,15 +1,23 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { RoomModule } from './room/room.module';
-import { BattleshipModule } from './battleship/battleship.module';
-import { BattleshipEloModule } from './battleship_elo/battleship_elo.module';
-import { MinesweeperModule } from './minesweeper/minesweeper.module';
+import { UserModule } from './tables/user/user.module';
+import { RoomModule } from './tables/room/room.module';
+import { BattleshipModule } from './tables/battleship/battleship.module';
+import { BattleshipEloModule } from './tables/battleship_elo/battleship_elo.module';
+import { MinesweeperModule } from './tables/minesweeper/minesweeper.module';
+import { DatabaseModule } from './database/database.module';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './tables/auth/auth.module';
 
 @Module({
-  imports: [UserModule, RoomModule, BattleshipModule, BattleshipEloModule, MinesweeperModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+    DatabaseModule,
+    UserModule,
+    RoomModule,
+    BattleshipModule,
+    BattleshipEloModule,
+    MinesweeperModule,
+    AuthModule,
+  ],
 })
 export class AppModule {}
