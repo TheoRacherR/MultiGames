@@ -6,9 +6,11 @@ services:
       dockerfile: Dockerfile
       target: DEV_IMAGE
     volumes:
-      - pgdata:/app
+      - ./app:/app
+      # - pgdata:/app
     ports:
-      - 5173:5173
+      - ${REACT_PORT}:${REACT_PORT}
+      # - 5173:5173
     environment:
       WATCHPACK_POLLING: ${NODE_ENV_DEV}
       CHOKIDAR_USEPOLLING: "true"

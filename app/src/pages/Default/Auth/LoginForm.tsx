@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "../../../axiosConfig";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
@@ -12,6 +12,7 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   }>({ mail: "", password: "" });
 
   const handleLogin = async () => {
+    if(valuesLogin.mail.length === 0 || valuesLogin.password.length === 0) return;
     setError({ credentials: false, not_email: false });
 
     const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,8 +24,11 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
         });
         localStorage.setItem("jwtToken", res.data);
         console.log("update jwt");
+        // TODO Alerte de connexion
         return navigate("/");
       } catch (e) {
+        // TODO Alerte d'erreur de connexion
+        console.log(e)
         setError({ ...error, credentials: true });
       }
     } else {
@@ -47,38 +51,58 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
             type="mail"
             placeholder={"mail"}
             value={valuesLogin.mail}
-            onChange={(e) => setValuesLogin((prev) => ({ ...prev, mail: e.target.value }))}
+            onChange={(e) =>
+              setValuesLogin((prev) => ({ ...prev, mail: e.target.value }))
+            }
           />
         </div>
         <div className="my-6 flex flex-col">
           <TextField
             type="password"
+            error={error.not_email}
             placeholder={"password"}
             value={valuesLogin.password}
-            onChange={(e) => setValuesLogin((prev) => ({ ...prev, password: e.target.value }))}
+            onChange={(e) =>
+              setValuesLogin((prev) => ({ ...prev, password: e.target.value }))
+            }
           />
+          {error.not_email ? (
+            <div style={{ color: "red" }}>Email Error</div>
+          ) : (
+            <></>
+          )}
         </div>
         <Button
           style={{ margin: "10px 0", width: "100%" }}
+          variant="contained"
           onClick={handleLogin}
-          disabled={valuesLogin.mail.length === 0 || valuesLogin.password.length === 0}> button_login
+          disabled={
+            valuesLogin.mail.length === 0 || valuesLogin.password.length === 0
+          }
+        >
+          {" "}
+          Login
         </Button>
       </div>
       {error.credentials ? (
-        <div style={{ color: "red" }}>error</div>
+        <div style={{ color: "red" }}>Credentials Error</div>
       ) : error.not_email ? (
-        <div style={{ color: "red" }}>not_email</div>
+        <div style={{ color: "red" }}>Email Error</div>
       ) : (
         <></>
       )}
       <div>
-        have_account
-        <span
-          style={{ color: "#ed6c0280", cursor: "pointer" }}
-          onClick={() => handleSwitchForm(1)}
+        <Typography
+          style={{ color: "hsl(var(--hue) 80% 30%)" }}
         >
-          click
-        </span>
+          Don't have account ? 
+          <span
+            style={{ color: "#ed6c0280", cursor: "pointer" }}
+            onClick={() => handleSwitchForm(1)}
+          >
+            click here
+          </span>
+        </Typography>
       </div>
     </div>
   );

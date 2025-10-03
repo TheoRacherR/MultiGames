@@ -17,26 +17,30 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Get('verifyToken')
-  public verifyToken(@Headers() TokenValidateDto: TokenValidateDto) {
-    return this.authService.verifyToken(TokenValidateDto);
+  async verifyToken(@Headers() TokenValidateDto: TokenValidateDto): Promise<{
+    result: object;
+  }> {
+    const res = await this.authService.verifyToken(TokenValidateDto);
+    console.log(res);
+    return res;
   }
 
   @Post('validateToken')
-  public validateToken(
+  async validateToken(
     @Body(ValidationPipe) TokenValidateDto: TokenValidateDto,
   ) {
-    return this.authService.validateToken(TokenValidateDto);
+    return await this.authService.validateToken(TokenValidateDto);
   }
 
   @Post('register')
   async register(
     @Body() createUserDto: CreateUserDto,
   ): Promise<{ message: string }> {
-    return this.authService.register(createUserDto);
+    return await this.authService.register(createUserDto);
   }
 
   @Post('login')
-  public login(@Body(ValidationPipe) LoginDto: LoginDto): Promise<string> {
-    return this.authService.login(LoginDto);
+  async login(@Body(ValidationPipe) LoginDto: LoginDto): Promise<string> {
+    return await this.authService.login(LoginDto);
   }
 }

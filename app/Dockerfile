@@ -7,16 +7,13 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
 # install app dependencies
-COPY package.json ./
+COPY package.json .
 
 RUN npm install
 
 # add app
-COPY . ./
+COPY . .
 
-# start app
-# CMD ["yarn", "start"]
-# CMD ["npm", "run", "dev"]
 CMD ["npm", "start"]
 
 

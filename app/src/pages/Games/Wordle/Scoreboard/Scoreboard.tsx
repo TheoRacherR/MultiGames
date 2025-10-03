@@ -1,4 +1,3 @@
-import React from 'react'
 import { Label, Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow } from 'semantic-ui-react'
 
 const data = [
