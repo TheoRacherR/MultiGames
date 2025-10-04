@@ -3,6 +3,7 @@ import axios from "../../../axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { country } from "../../../@types/user";
+import { minLengthPassword } from "../../../utils/Default/Auth";
 
 const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   const navigate = useNavigate();
@@ -27,8 +28,6 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
     passwordCooherence: boolean;
     emailAlreadyUsed: boolean;
   }>({ passwordCooherence: false, emailAlreadyUsed: false });
-
-  const minLength: number = 12;
 
   const handleRegister = async () => {
     if(valuesRegister.mail.length === 0 || valuesRegister.password.length === 0 || valuesRegister.confirmPassword.length === 0) return;
@@ -65,6 +64,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   return (
     <div className="p-10 mx-auto w-[400px]">
       <div>
+        {/* firstname / lastname */}
         <div className="my-6 flex flex-unset gap-6">
           <TextField
             type="text"
@@ -94,6 +94,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
           />
         </div>
 
+        {/* mail */}
         <div className="my-6 flex flex-col">
           <TextField
             type="mail"
@@ -112,6 +113,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
           )}
         </div>
 
+        {/* pseudo / country */}
         <div className="my-6 flex flex-unset gap-6">
           <TextField
             type="text"
@@ -146,6 +148,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
           </Select>
         </div>
 
+        {/* password */}
         <div className="my-6 flex flex-col">
           <TextField
             type="password"
@@ -163,7 +166,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
           <LinearProgress
             variant="determinate"
             value={Math.min(
-              (valuesRegister.password.length * 100) / minLength,
+              (valuesRegister.password.length * 100) / minLengthPassword,
               100
             )}
             style={{
@@ -174,17 +177,18 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
           <Typography
             style={{ alignSelf: "flex-end", color: "hsl(var(--hue) 80% 30%)" }}
           >
-            {valuesRegister.password.length < 3 && "very_weak"}
+            {valuesRegister.password.length < 3 && "very weak"}
             {valuesRegister.password.length >= 3 &&
               valuesRegister.password.length < 6 &&
               "weak"}
             {valuesRegister.password.length >= 6 &&
               valuesRegister.password.length < 10 &&
               "strong"}
-            {valuesRegister.password.length >= 10 && "very_strong"}
+            {valuesRegister.password.length >= 10 && "very strong"}
           </Typography>
         </div>
 
+        {/* confirm password */}
         <div className="my-6 flex flex-col">
           <TextField
             type="password"
@@ -202,7 +206,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
           <LinearProgress
             variant="determinate"
             value={Math.min(
-              (valuesRegister.confirmPassword.length * 100) / minLength,
+              (valuesRegister.confirmPassword.length * 100) / minLengthPassword,
               100
             )}
             style={{
@@ -230,6 +234,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
           )}
         </div>
 
+        {/* submit button */}
         <Button
           style={{ margin: "10px 0", width: "100%" }}
           onClick={handleRegister}
@@ -240,9 +245,10 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
             valuesRegister.confirmPassword.length === 0
           }
         >
-          {"button_submit"}
+          {"Submit"}
         </Button>
       </div>
+
       <div>
         <Typography
           style={{ color: "hsl(var(--hue) 80% 30%)" }}

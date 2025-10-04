@@ -1,6 +1,8 @@
 import { UserInfos, userRole } from "../../@types/user";
 import axios from "../../axiosConfig";
 
+export const minLengthPassword: number = 12;
+
 export const verifyIfLogged = async (): Promise<boolean> => {
   if (localStorage.getItem("jwtToken")) {
     try {
@@ -59,6 +61,7 @@ export const getUserInfos = async (): Promise<UserInfos> => {
           email: infos.data.email,
           role: infos.data.role,
           pseudo: infos.data.pseudo,
+          country: infos.data.country
         };
       }
       throw new Error("Error while getting user infos");

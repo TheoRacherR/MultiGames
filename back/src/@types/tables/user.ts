@@ -16,6 +16,7 @@ export interface UserInfos {
   lastname: string;
   pseudo: string;
   role: userRole;
+  country: country;
 }
 
 export interface UserFormated {

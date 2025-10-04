@@ -6,6 +6,14 @@ import { country } from 'src/@types/tables/user';
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   @IsString()
+  firstname?: string;
+
+  @IsOptional()
+  @IsString()
+  lastname?: string;
+
+  @IsOptional()
+  @IsString()
   email?: string;
 
   @IsOptional()

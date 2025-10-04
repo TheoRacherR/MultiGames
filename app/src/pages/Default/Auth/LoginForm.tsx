@@ -45,7 +45,9 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
 
   return (
     <div className="p-10 mx-auto w-[400px]">
-      <div className="">
+      <div>
+
+        {/* mail */}
         <div className="my-6 flex flex-col">
           <TextField
             type="mail"
@@ -56,6 +58,8 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
             }
           />
         </div>
+
+        {/* password */}
         <div className="my-6 flex flex-col">
           <TextField
             type="password"
@@ -72,6 +76,8 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
             <></>
           )}
         </div>
+
+        {/* login button */}
         <Button
           style={{ margin: "10px 0", width: "100%" }}
           variant="contained"
@@ -84,6 +90,8 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
           Login
         </Button>
       </div>
+
+      {/* errors */}
       {error.credentials ? (
         <div style={{ color: "red" }}>Credentials Error</div>
       ) : error.not_email ? (

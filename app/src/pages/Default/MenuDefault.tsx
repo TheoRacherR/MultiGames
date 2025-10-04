@@ -103,11 +103,6 @@ const MenuDefault = () => {
         </div>
 
         {roleStr === "admin" ? 'Admin' : <></>}
-        {/* <Button
-          
-          
-        >
-        </Button> */}
         <IconButton onClick={handleClick} sx={{color: 'white', textDecoration: 'none', textDecorationColor: 'white'}}>
           <PersonOutlineRoundedIcon fontSize='large' sx={{margin: 'auto'}}/>
         </IconButton>
@@ -126,7 +121,7 @@ const MenuDefault = () => {
           >
             <MenuItem onClick={() => {
               handleClose();
-              return navigate('/');
+              return navigate('/account');
             }}>Mon compte</MenuItem>
             <Divider/>
             <MenuItem onClick={() => {
