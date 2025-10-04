@@ -1,9 +1,17 @@
-import './MainWordle.css';
-import Scoreboard from './Scoreboard/Scoreboard';
-import { useNavigate } from 'react-router-dom';
+import "./MainWordle.css";
+import Scoreboard from "../../../components/Scoreboard";
+import { useNavigate } from "react-router-dom";
 
 const choices: { type: string; text: string }[] = [
-  { type: 'create', text: 'Create a party' },
+  { type: "create", text: "Create a party" },
+];
+
+const data = [
+  { user: "Theo", score: 394 },
+  { user: "Léon", score: 96 },
+  { user: "Franck", score: 374 },
+  { user: "Theo", score: 5843 },
+  { user: "Theo", score: 895 },
 ];
 
 const MainWordle = () => {
@@ -11,7 +19,7 @@ const MainWordle = () => {
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <h1 className="text-6xl text-center mb-14">💣 Wordle 💣</h1>
+      <h1 className="text-6xl text-center mb-14">🟩 Wordle 🟩</h1>
 
       <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
         {choices.map((item, index) => (
@@ -22,24 +30,24 @@ const MainWordle = () => {
               style={{
                 top: 35,
                 left: -10,
-                backgroundColor: '#B85656',
-                color: 'white',
-                userSelect: 'none',
+                backgroundColor: "#B85656",
+                color: "white",
+                userSelect: "none",
               }}
-              onClick={() => navigate('game')}
+              onClick={() => navigate("game")}
             >
               {item.text}
             </div>
             <div
               className="rounded-md p-3 text-xl text-center my-auto cursor-pointer"
-              style={{ backgroundColor: '#914343', color: '#914343' }}
+              style={{ backgroundColor: "#914343", color: "#914343" }}
             >
               {item.text}
             </div>
           </div>
         ))}
       </div>
-      <Scoreboard />
+      <Scoreboard data={data}/>
     </div>
   );
 };

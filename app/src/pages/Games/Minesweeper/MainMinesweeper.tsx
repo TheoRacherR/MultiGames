@@ -1,16 +1,23 @@
-import './MainMinesweeper.css';
-import Scoreboard from './Scoreboard/Scoreboard';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-
+import "./MainMinesweeper.css";
+import Scoreboard from "../../../components/Scoreboard";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const choices: { type: string; text: string }[] = [
-  { type: 'create', text: 'Create a party' },
+  { type: "create", text: "Create a party" },
   // {type: 'join',text: 'Join a party'}
 ];
 
+const data = [
+  { user: "Theo", score: 394 },
+  { user: "Léon", score: 96 },
+  { user: "Franck", score: 374 },
+  { user: "Theo", score: 5843 },
+  { user: "Theo", score: 895 },
+];
+
 const MainMinesweeper = () => {
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   return (
@@ -26,24 +33,24 @@ const MainMinesweeper = () => {
               style={{
                 top: 35,
                 left: -10,
-                backgroundColor: '#B85656',
-                color: 'white',
-                userSelect: 'none',
+                backgroundColor: "#B85656",
+                color: "white",
+                userSelect: "none",
               }}
-              onClick={() => navigate('game')}
+              onClick={() => navigate("game")}
             >
               {item.text}
             </div>
             <div
               className="rounded-md p-3 text-xl text-center my-auto cursor-pointer"
-              style={{ backgroundColor: '#914343', color: '#914343' }}
+              style={{ backgroundColor: "#914343", color: "#914343" }}
             >
               {item.text}
             </div>
           </div>
         ))}
       </div>
-      <Scoreboard />
+      <Scoreboard data={data}/>
     </div>
   );
 };

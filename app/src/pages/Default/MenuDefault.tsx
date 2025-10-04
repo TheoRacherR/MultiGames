@@ -1,10 +1,14 @@
 import { verifyRole } from '../../utils/Default/Auth'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Button, Divider, Menu, MenuItem } from '@mui/material'
+import { Button, Divider, IconButton, Menu, MenuItem } from '@mui/material'
 import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
 
 const links = [
+  {
+    name: 'Home',
+    path: '/'
+  },
   {
     name: 'Minesweeper',
     path: '/minesweeper'
@@ -16,6 +20,10 @@ const links = [
   {
     name: 'Quiz',
     path: '/quiz'
+  },
+  {
+    name: 'Wordle',
+    path: '/wordle'
   },
 ]
 
@@ -63,23 +71,28 @@ const MenuDefault = () => {
     return navigate('/');
   };
 
+  const menuIcon = (): string => {
+    switch (location.pathname) {
+      case '/':
+        return '🏠';
+      case '/battleship':
+        return '⛴️';
+      case '/minesweeper':
+        return '💣';
+      case '/quiz':
+        return '❓';
+      case '/wordle':
+        return '🟩';
+      default:
+        return '';
+    }
+  }
+
   return (
     <menu className='flex justify-between h-[45px] bg-slate-900'>
         <div className='flex'>
           <div className='my-auto mx-5 text-xl text-white'>
-            {
-              location.pathname === '/' ?
-                'Home'
-              :
-                location.pathname.startsWith('/battleship') ?
-                  '⛴️'
-                :
-                  location.pathname.startsWith('/minesweeper') ?
-                    '💣'
-                    :
-                      ''
-              // `${location.pathname.substring(1,2).toUpperCase()}${location.pathname.substring(2,location.pathname.length)}`
-            }
+            {menuIcon()}
           </div>
           {links.map((item, index) => (
             <Link to={item.path} key={index} className='my-auto mx-5 text-xl text-white'>
@@ -90,12 +103,15 @@ const MenuDefault = () => {
         </div>
 
         {roleStr === "admin" ? 'Admin' : <></>}
-        <Button
-          className='text-white no-underline decoration-white'
-          onClick={handleClick}
+        {/* <Button
+          
+          
         >
-          <PersonOutlineRoundedIcon color='primary'/>
-        </Button>
+        </Button> */}
+        <IconButton onClick={handleClick} sx={{color: 'white', textDecoration: 'none', textDecorationColor: 'white'}}>
+          <PersonOutlineRoundedIcon fontSize='large' sx={{margin: 'auto'}}/>
+        </IconButton>
+
         {logged ?
           <Menu
             id="basic-menu"

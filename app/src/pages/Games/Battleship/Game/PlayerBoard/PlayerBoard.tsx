@@ -1,7 +1,10 @@
 import { Dispatch, useEffect, useState } from 'react';
 import ShipsBoard from './ShipsBoard';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button } from '@mui/material';
 import { alphabet, lengthOfTheBoard, numbers, orientationCase, ship, shipCase } from '../Battleship';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
 
 
 const PlayerBoard = ({ startTheGame, gameStarted, cases, setCases }: { startTheGame: Function, gameStarted: boolean, cases: shipCase[], setCases: Dispatch<React.SetStateAction<shipCase[]>> }) => {
@@ -293,12 +296,12 @@ const PlayerBoard = ({ startTheGame, gameStarted, cases, setCases }: { startTheG
             <div className='text-white font-bold'>Opponent status: { opponentReady ? 'Ready' : 'Pending...'}</div>
             {
               boardValidated ?
-                <Button color='orange' onClick={cancel}><Icon name='cancel'/>Cancel</Button>
+                <Button color='error' onClick={cancel}><CancelRoundedIcon/>Cancel</Button>
               :
-                <Button color='green' onClick={validate} disabled={listOfShips.length > 0}><Icon name='check'/>Validation</Button>
+                <Button color='success' onClick={validate} disabled={listOfShips.length > 0}><CheckCircleRoundedIcon/>Validation</Button>
             }
-            <Button color='grey' onClick={resetBoard}><Icon name='redo'/>Reset the board</Button>
-            <Button onClick={() => setOpponentReady(true)}><Icon name='redo'/>Trap</Button>
+            <Button color='primary' onClick={resetBoard}><ReplayRoundedIcon/>Reset the board</Button>
+            <Button onClick={() => setOpponentReady(true)}><ReplayRoundedIcon/>Trap</Button>
           </div>
       }
     </div>

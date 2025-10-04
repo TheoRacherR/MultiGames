@@ -1,14 +1,6 @@
 import { TableHead, Table, TableBody, TableCell, TableRow, TableContainer, Paper } from '@mui/material'
 
-const data = [
-  { user: 'Theo', score: 394 },
-  { user: 'Léon', score: 96 },
-  { user: 'Franck', score: 374 },
-  { user: 'Theo', score: 5843 },
-  { user: 'Theo', score: 895 },
-]
-
-const Scoreboard = () => {
+const Scoreboard = ({data}: { data: {user: string, score: number}[]}) => {
   return (
     <div>
       <h2 className='text-center'>Scoreboard :</h2>

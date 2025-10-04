@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import './MainBattleship.css';
-import Scoreboard from './Scoreboard/Scoreboard';
+import Scoreboard from '../../../components/Scoreboard';
 import ModalParty from './ModalParty';
 
 const choices: { type: string; text: string }[] = [
   { type: 'create', text: 'Create a party' },
   { type: 'join', text: 'Join a party' },
+];
+
+const data = [
+  { user: 'Theo', score: 394 },
+  { user: 'Léon', score: 96 },
+  { user: 'Franck', score: 374 },
+  { user: 'Theo', score: 5843 },
+  { user: 'Theo', score: 895 },
 ];
 
 export const giveStartOrder = () => {
@@ -57,7 +65,7 @@ const Battleships = () => {
           </div>
         ))}
       </div>
-      <Scoreboard />
+      <Scoreboard data={data}/>
       <ModalParty open={open} setOpen={setOpen} selected={selected} />
     </div>
   );
