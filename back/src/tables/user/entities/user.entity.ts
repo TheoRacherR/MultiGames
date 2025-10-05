@@ -2,6 +2,7 @@ import { country, userRole } from 'src/@types/tables/user';
 import { Battleship } from 'src/tables/battleship/entities/battleship.entity';
 import { BattleshipElo } from 'src/tables/battleship_elo/entities/battleship_elo.entity';
 import { Minesweeper } from 'src/tables/minesweeper/entities/minesweeper.entity';
+import { Quiz } from 'src/tables/quiz/entities/quiz.entity';
 import { Room } from 'src/tables/room/entities/room.entity';
 import {
   Column,
@@ -67,4 +68,7 @@ export class User {
 
   @OneToMany(() => Battleship, (bs_looser) => bs_looser.looser)
   bs_looser: Battleship;
+
+  @OneToMany(() => Quiz, (quiz) => quiz.player)
+  quiz: Quiz;
 }
