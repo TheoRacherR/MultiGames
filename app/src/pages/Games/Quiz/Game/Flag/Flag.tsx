@@ -169,8 +169,12 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
         seconds={seconds}
         minutes={minutes}
       />
-
-      <FlagModalEndGame finalScore={finalScore} setFinalScore={setFinalScore} />
+      {
+        finalScore.end ?
+          <FlagModalEndGame finalScore={finalScore} setFinalScore={setFinalScore} />
+        :
+        <></>
+      }
     </div>
   );
 };
