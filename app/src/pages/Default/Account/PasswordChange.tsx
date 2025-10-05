@@ -82,14 +82,14 @@ const PasswordChange = () => {
         <Typography
           style={{ alignSelf: "flex-end", color: "hsl(var(--hue) 80% 30%)" }}
         >
-          {userPassword.password.length < 3 && "very_weak"}
+          {userPassword.password.length < 3 && "very weak"}
           {userPassword.password.length >= 3 &&
             userPassword.password.length < 6 &&
             "weak"}
           {userPassword.password.length >= 6 &&
             userPassword.password.length < 10 &&
             "strong"}
-          {userPassword.password.length >= 10 && "very_strong"}
+          {userPassword.password.length >= 10 && "very strong"}
         </Typography>
       </div>
       <div className="my-6 flex flex-col">

@@ -3,7 +3,10 @@ import axios from "../../../axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { country } from "../../../@types/user";
-import { minLengthPassword } from "../../../utils/Default/Auth";
+import { mailRegex, minLengthPassword } from "../../../utils/Default/Auth";
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   const navigate = useNavigate();
@@ -27,15 +30,16 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   const [error, setError] = useState<{
     passwordCooherence: boolean;
     emailAlreadyUsed: boolean;
-  }>({ passwordCooherence: false, emailAlreadyUsed: false });
+    not_email: boolean;
+  }>({ passwordCooherence: false, emailAlreadyUsed: false, not_email: false });
 
   const handleRegister = async () => {
     if(valuesRegister.mail.length === 0 || valuesRegister.password.length === 0 || valuesRegister.confirmPassword.length === 0) return;
-    if(valuesRegister.password !== valuesRegister.confirmPassword) {
-      setError({ passwordCooherence: true, emailAlreadyUsed: false });
-      return;
-    }
-    setError({ passwordCooherence: false, emailAlreadyUsed: false });
+    if(valuesRegister.password !== valuesRegister.confirmPassword) return setError({ ...error, passwordCooherence: true }); 
+
+    if (mailRegex.test(valuesRegister.mail)) return setError({ ...error, not_email: true });
+
+    setError({ passwordCooherence: false, emailAlreadyUsed: false, not_email: false });
     try {
       await axios.post("/auth/register/", {
         firstname: valuesRegister.firstname,
@@ -51,7 +55,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
       // TODO Alerte d'erreur d'inscription
       if (e.response) {
         if (e.response.status === 409)
-          setError({ passwordCooherence: false, emailAlreadyUsed: true });
+          setError({ ...error, emailAlreadyUsed: true });
         else {
           console.log(e.response);
         }
@@ -105,6 +109,20 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
             onChange={(e) =>
               setValuesRegister((prev) => ({ ...prev, mail: e.target.value }))
             }
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="start">
+                    {
+                      mailRegex.test(valuesRegister.mail) ?
+                      <CheckCircleRoundedIcon color='success' />
+                      :
+                      <CancelRoundedIcon color='error'/>
+                    }
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
           {error.emailAlreadyUsed ? (
             <div style={{ color: "red" }}>{"mail.error"}</div>

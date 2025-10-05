@@ -2,11 +2,14 @@ import { MenuItem, Select, TextField, Button } from '@mui/material';
 import { country, UserInfos, userRole } from '../../../@types/user';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserInfos, verifyRole } from '../../../utils/Default/Auth';
+import { getUserInfos, mailRegex, verifyRole } from '../../../utils/Default/Auth';
 import axios from '../../../axiosConfig';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import InputAdornment from '@mui/material/InputAdornment';
+
 
 const UserInfosChange = () => {
-  const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [userInfos, setUserInfos] = useState<UserInfos>({
     id: "",
     email: "",
@@ -118,6 +121,20 @@ const UserInfosChange = () => {
               ...prev,
               email: e.target.value,
             }));
+          }}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="start">
+                  {
+                    mailRegex.test(userInfos.email) ?
+                    <CheckCircleRoundedIcon color='success' />
+                    :
+                    <CancelRoundedIcon color='error'/>
+                  }
+                </InputAdornment>
+              ),
+            },
           }}
         />
         {errors.mailFormat

@@ -3,6 +3,8 @@ import axios from "../../axiosConfig";
 
 export const minLengthPassword: number = 12;
 
+export const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export const verifyIfLogged = async (): Promise<boolean> => {
   if (localStorage.getItem("jwtToken")) {
     try {

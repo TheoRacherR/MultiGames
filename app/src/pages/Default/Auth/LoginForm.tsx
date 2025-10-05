@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "../../../axiosConfig";
 import { Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { mailRegex } from "../../../utils/Default/Auth";
 
 const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
     if(valuesLogin.mail.length === 0 || valuesLogin.password.length === 0) return;
     setError({ credentials: false, not_email: false });
 
-    const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (mailRegex.test(valuesLogin.mail)) {
       try {
         const res = await axios.post("/auth/login/", {
