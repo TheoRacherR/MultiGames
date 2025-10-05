@@ -7,6 +7,7 @@ import { MinesweeperModule } from './tables/minesweeper/minesweeper.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './tables/auth/auth.module';
+import { QuizModule } from './tables/quiz/quiz.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AuthModule } from './tables/auth/auth.module';
     BattleshipEloModule,
     MinesweeperModule,
     AuthModule,
+    QuizModule,
   ],
 })
 export class AppModule {}
