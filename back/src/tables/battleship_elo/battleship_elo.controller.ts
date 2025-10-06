@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpException,
@@ -11,23 +10,24 @@ import {
 } from '@nestjs/common';
 import { BattleshipEloService } from './battleship_elo.service';
 import { CreateBattleshipEloDto } from './dto/create-battleship_elo.dto';
-import { UpdateBattleshipEloDto } from './dto/update-battleship_elo.dto';
 import { BattleshipElo } from './entities/battleship_elo.entity';
+import { SearchScoreboardBattleshipEloDto } from './dto/search-scoreboard-battleship_elo.dto';
+import { BattleshipEloFormatedScoreboard } from 'src/@types/tables/battleshipElo';
 
 @Controller('battleship-elo')
 export class BattleshipEloController {
   constructor(private readonly battleshipEloService: BattleshipEloService) {}
 
   @Post()
-  create(
+  async create(
     @Body() createBattleshipEloDto: CreateBattleshipEloDto,
   ): Promise<{ message: string }> {
-    return this.battleshipEloService.create(createBattleshipEloDto);
+    return await this.battleshipEloService.create(createBattleshipEloDto);
   }
 
   @Get()
-  findAll(): Promise<BattleshipElo[]> {
-    return this.battleshipEloService.findAll();
+  async findAll(): Promise<BattleshipElo[]> {
+    return await this.battleshipEloService.findAll();
   }
 
   @Get(':id')
@@ -41,19 +41,26 @@ export class BattleshipEloController {
       );
   }
 
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateBattleshipEloDto: UpdateBattleshipEloDto,
-  ): Promise<{ message: string }> {
-    const battleshipToEloFound = await this.battleshipEloService.findOne(id);
-    if (!battleshipToEloFound)
-      throw new HttpException(
-        `Battleship Elo ${id} not found`,
-        HttpStatus.NOT_FOUND,
+  @Post('/scoreboard')
+  async findTopScoreboard(
+    @Body() searchScoreboardBattleshipEloDto: SearchScoreboardBattleshipEloDto,
+  ): Promise<BattleshipEloFormatedScoreboard[]> {
+    const battleshipEloFound =
+      await this.battleshipEloService.findBestScoreByType(
+        searchScoreboardBattleshipEloDto,
       );
-    else
-      return await this.battleshipEloService.update(id, updateBattleshipEloDto);
+    const battleshipEloFormated: BattleshipEloFormatedScoreboard[] = [];
+    for (let index = 0; index < battleshipEloFound.length; index++) {
+      battleshipEloFormated.push({
+        user: {
+          id: battleshipEloFound[index].user.id,
+          pseudo: battleshipEloFound[index].user.pseudo,
+          country: battleshipEloFound[index].user.country,
+        },
+        score: battleshipEloFound[index].score,
+      });
+    }
+    return battleshipEloFormated;
   }
 
   @Delete(':id')

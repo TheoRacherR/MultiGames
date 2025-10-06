@@ -1,3 +1,5 @@
+import { UserLimitedInfos } from "./user";
+
 export enum minesweeperDifficulty {
   EASY = 'easy',
   NORMAL = 'normal',
@@ -28,4 +30,10 @@ export enum casePosition {
   BOTTOM_LEFT_CORNER='bottom_left_corner',
   LEFT='left',
   MIDDLE='middle'
+}
+
+export interface MinesweeperFormatedScoreboard {
+  user: UserLimitedInfos,
+  score: number,
+  level: minesweeperDifficulty;
 }

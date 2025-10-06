@@ -31,7 +31,7 @@ export class UserController {
     else throw new HttpException(`User ${id} not found`, HttpStatus.NOT_FOUND);
   }
 
-  @Get(':email')
+  @Get('email/:email')
   async findOneByEmail(
     @Param('email') email: string,
   ): Promise<UserWithPassword> {
@@ -50,7 +50,10 @@ export class UserController {
   }
 
   @Patch('info/:id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<{ message: string }> {
     return await this.userService.updateInfos(id, updateUserDto);
   }
 
@@ -58,7 +61,7 @@ export class UserController {
   async updatePassword(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserPsswdDto,
-  ) {
+  ): Promise<{ message: string }> {
     return await this.userService.updatePassword(id, updateUserDto);
   }
 
@@ -66,11 +69,11 @@ export class UserController {
   async updateRole(
     @Param('id') id: string,
     @Body() updateUserRoleDto: UpdateUserRoleDto,
-  ) {
+  ): Promise<{ message: string }> {
     const userFound = await this.userService.findOne(id);
     if (userFound) {
       if (userFound.role === userRole.ADMIN) {
-        return this.userService.updateRole(id, updateUserRoleDto);
+        return await this.userService.updateRole(id, updateUserRoleDto);
       } else
         throw new HttpException(`User ${id} not admin`, HttpStatus.FORBIDDEN);
     } else
@@ -78,7 +81,7 @@ export class UserController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<{ message: string }> {
     return await this.userService.delete(id);
   }
 }

@@ -1,19 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './MainBattleship.css';
 import Scoreboard from '../../../components/Scoreboard';
 import ModalParty from './ModalParty';
+import axios from "../../../axiosConfig";
+import {
+  BattleshipEloFormatedScoreboard
+} from '../../../@types/battleship';
 
 const choices: { type: string; text: string }[] = [
   { type: 'create', text: 'Create a party' },
   { type: 'join', text: 'Join a party' },
-];
-
-const data = [
-  { user: 'Theo', score: 394 },
-  { user: 'Léon', score: 96 },
-  { user: 'Franck', score: 374 },
-  { user: 'Theo', score: 5843 },
-  { user: 'Theo', score: 895 },
 ];
 
 export const giveStartOrder = () => {
@@ -28,12 +24,35 @@ export const giveStartOrder = () => {
 const Battleships = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>('create');
+  const [dataScoreboard, setDataScoreboard] = useState<BattleshipEloFormatedScoreboard[]>([]);
 
   const handleOpenModal = (type: string) => {
     setOpen(true);
     setSelected(type);
   };
 
+  const getScoreboardInfos = async () => {
+    try {
+      const req = await axios.post('/battleship-elo/scoreboard', {
+        length: 5
+      })
+      if(req.status === 201) {
+        setDataScoreboard(req.data);
+        return;
+      }
+      else {
+        // TODO Alerte error
+      }
+    }
+    catch (e) {
+      console.log(e)
+      // TODO Alerte error
+    }
+  }
+
+  useEffect(() => {
+    getScoreboardInfos();
+  }, [])
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
@@ -65,7 +84,7 @@ const Battleships = () => {
           </div>
         ))}
       </div>
-      {/* <Scoreboard data={data}/> */}
+      <Scoreboard data={dataScoreboard} unity={'s'}/>
       <ModalParty open={open} setOpen={setOpen} selected={selected} />
     </div>
   );

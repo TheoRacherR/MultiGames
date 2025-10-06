@@ -7,18 +7,14 @@ import {
   TableContainer,
   Paper,
 } from "@mui/material";
-import { QuizFormatedScoreboard } from "../@types/guiz";
-import { countryObject } from "../utils/Default/Default";
-import { useEffect } from "react";
+import { countryObject } from "../../../utils/Default/Default";
+import { MinesweeperFormatedScoreboard } from "../../../@types/minesweeper";
 
-const Scoreboard = ({
+const ScoreboardMinesweeper = ({
   data,
-  unity,
 }: {
-  data: QuizFormatedScoreboard[];
-  unity: string;
+  data: MinesweeperFormatedScoreboard[];
 }) => {
-  useEffect(() => console.log(data), []);
   return (
     <div>
       <h2 className="text-center">Scoreboard :</h2>
@@ -41,9 +37,8 @@ const Scoreboard = ({
                 <TableCell>{countryObject[item.user.country].flag}</TableCell>
                 <TableCell>{item.user.pseudo}</TableCell>
                 <TableCell>
-                  {unity === "s"
-                    ? `${Math.trunc(item.score / 60)}m ${item.score % 60}s`
-                    : `${item.score} ${unity}`}
+                  {Math.trunc(item.score / 60)}m {item.score % 60}s, mode:{" "}
+                  {item.level}
                 </TableCell>
               </TableRow>
             ))}
@@ -54,4 +49,4 @@ const Scoreboard = ({
   );
 };
 
-export default Scoreboard;
+export default ScoreboardMinesweeper;

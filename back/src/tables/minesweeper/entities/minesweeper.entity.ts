@@ -35,7 +35,7 @@ export class Minesweeper {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => User, (player) => player.minesweeper)
+  @ManyToOne(() => User, (player) => player.minesweeper, { eager: true })
   @JoinColumn()
   player: User;
 }

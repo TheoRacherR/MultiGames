@@ -43,7 +43,12 @@ export class AuthService {
     throw new BadRequestException('Invalid token');
   }
 
-  async validateToken(TokenValidateDto: TokenValidateDto) {
+  async validateToken(TokenValidateDto: TokenValidateDto): Promise<{
+    isConnected: boolean;
+    id: string;
+    role: userRole;
+    isAdmin: boolean;
+  }> {
     if (!TokenValidateDto.token) {
       throw new BadRequestException('Token is missing');
     }
@@ -77,7 +82,7 @@ export class AuthService {
     }
   }
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<string> {
     const user = await this.userService.findOneByEmail(loginDto.email);
     if (!user) {
       throw new HttpException(

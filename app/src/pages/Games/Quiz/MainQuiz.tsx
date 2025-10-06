@@ -160,7 +160,7 @@ const MainQuiz = () => {
           }
         />
       </div>
-      <Scoreboard data={dataScoreboard}/>
+      <Scoreboard data={dataScoreboard} unity={'s'}/>
     </div>
   );
 };

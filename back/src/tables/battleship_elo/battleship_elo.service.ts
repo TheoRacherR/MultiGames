@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBattleshipEloDto } from './dto/create-battleship_elo.dto';
-import { UpdateBattleshipEloDto } from './dto/update-battleship_elo.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BattleshipElo } from './entities/battleship_elo.entity';
 import { Repository } from 'typeorm';
+import { SearchScoreboardBattleshipEloDto } from './dto/search-scoreboard-battleship_elo.dto';
 
 @Injectable()
 export class BattleshipEloService {
@@ -12,14 +12,16 @@ export class BattleshipEloService {
     private battleshipEloRepository: Repository<BattleshipElo>,
   ) {}
 
-  async create(createBattleshipEloDto: CreateBattleshipEloDto) {
+  async create(createBattleshipEloDto: CreateBattleshipEloDto): Promise<{
+    message: string;
+  }> {
     await this.battleshipEloRepository.insert({
       ...createBattleshipEloDto,
     });
     return { message: `BattleshipElo created` };
   }
 
-  async findAll() {
+  async findAll(): Promise<BattleshipElo[]> {
     return await this.battleshipEloRepository.find();
   }
 
@@ -27,12 +29,16 @@ export class BattleshipEloService {
     return await this.battleshipEloRepository.findOne({ where: { id } });
   }
 
-  async update(id: string, updateBattleshipEloDto: UpdateBattleshipEloDto) {
-    await this.battleshipEloRepository.update(id, updateBattleshipEloDto);
-    return { message: `BattleshipElo ${id} updated` };
+  async findBestScoreByType(
+    searchScoreboardBattleshipEloDto: SearchScoreboardBattleshipEloDto,
+  ): Promise<BattleshipElo[]> {
+    const battleshipEloFound = await this.battleshipEloRepository.find();
+    return battleshipEloFound
+      .sort((a: BattleshipElo, b: BattleshipElo) => a.score - b.score)
+      .slice(0, searchScoreboardBattleshipEloDto.length);
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<{ message: string }> {
     await this.battleshipEloRepository.delete(id);
     return { message: `BattleshipElo ${id} deleted` };
   }

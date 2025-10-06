@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpException,
@@ -11,23 +10,24 @@ import {
 } from '@nestjs/common';
 import { MinesweeperService } from './minesweeper.service';
 import { CreateMinesweeperDto } from './dto/create-minesweeper.dto';
-import { UpdateMinesweeperDto } from './dto/update-minesweeper.dto';
 import { Minesweeper } from './entities/minesweeper.entity';
+import { SearchScoreboardMinesweeperDto } from './dto/search-scoreboard-minesweeper.dto';
+import { MinesweeperFormatedScoreboard } from 'src/@types/tables/minesweeper';
 
 @Controller('minesweeper')
 export class MinesweeperController {
   constructor(private readonly minesweeperService: MinesweeperService) {}
 
   @Post()
-  create(
+  async create(
     @Body() createMinesweeperDto: CreateMinesweeperDto,
   ): Promise<{ message: string }> {
-    return this.minesweeperService.create(createMinesweeperDto);
+    return await this.minesweeperService.create(createMinesweeperDto);
   }
 
   @Get()
-  findAll(): Promise<Minesweeper[]> {
-    return this.minesweeperService.findAll();
+  async findAll(): Promise<Minesweeper[]> {
+    return await this.minesweeperService.findAll();
   }
 
   @Get(':id')
@@ -41,18 +41,26 @@ export class MinesweeperController {
       );
   }
 
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateMinesweeperDto: UpdateMinesweeperDto,
-  ): Promise<{ message: string }> {
-    const minesweeperToEloFound = await this.minesweeperService.findOne(id);
-    if (!minesweeperToEloFound)
-      throw new HttpException(
-        `Minesweeper ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
-    else return await this.minesweeperService.update(id, updateMinesweeperDto);
+  @Post('/scoreboard')
+  async findTopScoreboard(
+    @Body() searchScoreboardMinesweeperDto: SearchScoreboardMinesweeperDto,
+  ): Promise<MinesweeperFormatedScoreboard[]> {
+    const minesweeperFound = await this.minesweeperService.findBestScoreByType(
+      searchScoreboardMinesweeperDto,
+    );
+    const minesweeperFormated: MinesweeperFormatedScoreboard[] = [];
+    for (let index = 0; index < minesweeperFound.length; index++) {
+      minesweeperFormated.push({
+        user: {
+          id: minesweeperFound[index].player.id,
+          pseudo: minesweeperFound[index].player.pseudo,
+          country: minesweeperFound[index].player.country,
+        },
+        score: minesweeperFound[index].score,
+        level: minesweeperFound[index].level,
+      });
+    }
+    return minesweeperFormated;
   }
 
   @Delete(':id')

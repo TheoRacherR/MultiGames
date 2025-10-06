@@ -12,24 +12,30 @@ export class WordleService {
     private wordleRepository: Repository<Wordle>,
   ) {}
 
-  async create(createWordleDto: CreateWordleDto) {
+  async create(createWordleDto: CreateWordleDto): Promise<{ message: string }> {
     await this.wordleRepository.insert({
       ...createWordleDto,
     });
     return { message: `Wordle created` };
   }
 
-  async findAll() {
+  async findAll(): Promise<Wordle[]> {
     return await this.wordleRepository.find();
   }
 
   async findBestScoreByType(
     searchScoreboardWordleDto: SearchScoreboardWordleDto,
-  ) {
+  ): Promise<Wordle[]> {
     const wordleFound = await this.wordleRepository.find({
-      where: { created_at: new Date(), won: true },
+      where: { won: true },
     });
     return wordleFound
+      .filter(
+        (word) =>
+          new Date(word.created_at).getDate() === new Date().getDate() &&
+          new Date(word.created_at).getMonth() === new Date().getMonth() &&
+          new Date(word.created_at).getFullYear() === new Date().getFullYear(),
+      )
       .sort((a: Wordle, b: Wordle) => a.nbTry - b.nbTry)
       .slice(0, searchScoreboardWordleDto.length);
   }
@@ -38,7 +44,7 @@ export class WordleService {
     return await this.wordleRepository.findOne({ where: { id } });
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<{ message: string }> {
     await this.wordleRepository.delete(id);
     return { message: `Wordle ${id} deleted` };
   }

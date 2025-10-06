@@ -23,7 +23,7 @@ export class BattleshipElo {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToOne(() => User, (user) => user.bs_elo)
+  @OneToOne(() => User, (user) => user.bs_elo, { eager: true })
   @JoinColumn()
   user: User;
 }

@@ -12,14 +12,14 @@ export class RoomService {
     private roomRepository: Repository<Room>,
   ) {}
 
-  async create(createRoomDto: CreateRoomDto) {
+  async create(createRoomDto: CreateRoomDto): Promise<{ message: string }> {
     await this.roomRepository.insert({
       ...createRoomDto,
     });
     return { message: `Room created` };
   }
 
-  async findAll() {
+  async findAll(): Promise<Room[]> {
     return await this.roomRepository.find();
   }
 
@@ -27,12 +27,15 @@ export class RoomService {
     return await this.roomRepository.findOne({ where: { id } });
   }
 
-  async update(id: string, updateRoomDto: UpdateRoomDto) {
+  async update(
+    id: string,
+    updateRoomDto: UpdateRoomDto,
+  ): Promise<{ message: string }> {
     await this.roomRepository.update(id, updateRoomDto);
     return { message: `Room ${id} updated` };
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<{ message: string }> {
     await this.roomRepository.delete(id);
     return { message: `Room ${id} deleted` };
   }

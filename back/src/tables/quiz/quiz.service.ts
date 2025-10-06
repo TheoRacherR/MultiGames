@@ -1,4 +1,3 @@
-import { QuizEntity } from './../../@types/tables/quiz';
 import { Injectable } from '@nestjs/common';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,18 +18,19 @@ export class QuizService {
     return { message: 'Quiz created' };
   }
 
-  async findAll() {
-    const req = await this.quizRepository.find();
-    return req;
+  async findAll(): Promise<Quiz[]> {
+    return await this.quizRepository.find();
   }
 
-  async findBestScoreByType(searchScoreboardQuizDto: SearchScoreboardQuizDto) {
+  async findBestScoreByType(
+    searchScoreboardQuizDto: SearchScoreboardQuizDto,
+  ): Promise<Quiz[]> {
     const quizFound = await this.quizRepository.find({
       where: { type: searchScoreboardQuizDto.type },
     });
     return quizFound
       .filter((qf) => qf.scoreFound === qf.scoreTotal)
-      .sort((a: QuizEntity, b: QuizEntity) => a.timerFinished - b.timerFinished)
+      .sort((a: Quiz, b: Quiz) => a.timerFinished - b.timerFinished)
       .slice(0, searchScoreboardQuizDto.length);
   }
 

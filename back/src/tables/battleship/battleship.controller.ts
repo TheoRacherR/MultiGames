@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpException,
@@ -11,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { BattleshipService } from './battleship.service';
 import { CreateBattleshipDto } from './dto/create-battleship.dto';
-import { UpdateBattleshipDto } from './dto/update-battleship.dto';
 import { Battleship } from './entities/battleship.entity';
 
 @Controller('battleship')
@@ -19,15 +17,15 @@ export class BattleshipController {
   constructor(private readonly battleshipService: BattleshipService) {}
 
   @Post()
-  create(
+  async create(
     @Body() createBattleshipDto: CreateBattleshipDto,
   ): Promise<{ message: string }> {
-    return this.battleshipService.create(createBattleshipDto);
+    return await this.battleshipService.create(createBattleshipDto);
   }
 
   @Get()
-  findAll(): Promise<Battleship[]> {
-    return this.battleshipService.findAll();
+  async findAll(): Promise<Battleship[]> {
+    return await this.battleshipService.findAll();
   }
 
   @Get(':id')
@@ -39,20 +37,6 @@ export class BattleshipController {
         `Battleship ${id} not found`,
         HttpStatus.NOT_FOUND,
       );
-  }
-
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateBattleshipDto: UpdateBattleshipDto,
-  ): Promise<{ message: string }> {
-    const battleshipToEloFound = await this.battleshipService.findOne(id);
-    if (!battleshipToEloFound)
-      throw new HttpException(
-        `Battleship ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
-    else return await this.battleshipService.update(id, updateBattleshipDto);
   }
 
   @Delete(':id')

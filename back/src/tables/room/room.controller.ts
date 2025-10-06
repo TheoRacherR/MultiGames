@@ -19,13 +19,15 @@ export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
   @Post()
-  create(@Body() createRoomDto: CreateRoomDto): Promise<{ message: string }> {
-    return this.roomService.create(createRoomDto);
+  async create(
+    @Body() createRoomDto: CreateRoomDto,
+  ): Promise<{ message: string }> {
+    return await this.roomService.create(createRoomDto);
   }
 
   @Get()
-  findAll(): Promise<Room[]> {
-    return this.roomService.findAll();
+  async findAll(): Promise<Room[]> {
+    return await this.roomService.findAll();
   }
 
   @Get(':id')
