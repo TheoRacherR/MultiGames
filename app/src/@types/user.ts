@@ -47,3 +47,9 @@ export interface UserWithPassword {
   password: string;
   role: userRole;
 }
+
+export interface UserLimitedInfos {
+  id: string;
+  pseudo: string;
+  country: country;
+}

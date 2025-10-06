@@ -7,6 +7,9 @@ import {
 } from "../../../../../@types/guiz";
 import { countryList } from "../CountryList";
 import Timer from "../Timer/Timer";
+import axios from "../../../../../axiosConfig";
+import { getUserInfos } from "../../../../../utils/Default/Auth";
+import { country, UserInfos, userRole } from "../../../../../@types/user";
 
 const Flag = ({ mode }: { mode: modeQuiz }) => {
   const refInput = useRef<HTMLInputElement>(null);
@@ -24,9 +27,18 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
   const [startTimer, setStartTimer] = useState<boolean>(false);
   const [flagToGuess, setFlagToGuess] = useState<countryGuess[]>([]);
   const [flagFound, setFlagFound] = useState<countryGuess[]>([]);
+  const [userInfos, setUserInfos] = useState<UserInfos>({
+    id: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+    pseudo: "",
+    role: userRole.USER,
+    country: country.FRANCE,
+  });
 
-  const [minutes, setMinutes] = useState(15);
-  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(15);
 
   const selectRandomInList = (
     list: countryGuess[],
@@ -63,15 +75,7 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
       setInputValue("");
       // si pas l'index
       if (flagToGuess.length === 0) {
-        setFinalScore({
-          end: true,
-          finalTimer: {
-            seconds: seconds,
-            minutes: minutes,
-          },
-          listFound: flagFound,
-          listLeftToFind: flagToGuess,
-        });
+        endGame();
       } else if (selected > flagToGuess.length - 1) {
         setSelected(selected - 1);
       }
@@ -91,7 +95,7 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
     setStartTimer(false);
   };
 
-  const timeOut = () => {
+  const endGame = async () => {
     setFinalScore({
       end: true,
       finalTimer: {
@@ -101,6 +105,20 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
       listFound: flagFound,
       listLeftToFind: flagToGuess,
     });
+    try {
+      const userInfosRequest = await getUserInfos();
+      setUserInfos(userInfosRequest)
+      if (userInfosRequest) {
+        await axios.post('/quiz', {
+          scoreFound: flagFound.length,
+          scoreTotal: flagFound.length + flagToGuess.length,
+          player: userInfosRequest.id
+        });
+      }
+    } catch (e) {
+      // return navigate("auth");
+      console.log(e)
+    }
   };
 
   useEffect(() => {
@@ -119,7 +137,7 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
         }
       }, 1000);
       if (minutes === 0 && seconds === 0) {
-        timeOut();
+        endGame();
         clickStopTimer();
       }
     }
@@ -161,7 +179,7 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
         disabled={!startTimer}
       />
       <Timer
-        timeOut={timeOut}
+        timeOut={endGame}
         score={{ left: flagToGuess.length, total: flagToGuessInit.length }}
         startTimer={startTimer}
         clickStartTimer={clickStartTimer}
@@ -169,11 +187,12 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
         seconds={seconds}
         minutes={minutes}
       />
+
       {
         finalScore.end ?
-          <FlagModalEndGame finalScore={finalScore} setFinalScore={setFinalScore} />
+          <FlagModalEndGame finalScore={finalScore} setFinalScore={setFinalScore} userInfos={userInfos}/>
         :
-        <></>
+          <></>
       }
     </div>
   );

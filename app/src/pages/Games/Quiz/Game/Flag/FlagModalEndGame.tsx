@@ -9,32 +9,23 @@ import {
 } from 'semantic-ui-react'
 import { finalScoreInterface } from '../../../../../@types/guiz';
 import { useEffect } from 'react';
+import { UserInfos } from '../../../../../@types/user';
 
 const FlagModalEndGame = (
-  { finalScore, setFinalScore}: { finalScore: finalScoreInterface, setFinalScore: React.Dispatch<React.SetStateAction<finalScoreInterface>> }
+  { finalScore, setFinalScore, userInfos}: { finalScore: finalScoreInterface, setFinalScore: React.Dispatch<React.SetStateAction<finalScoreInterface>>, userInfos: UserInfos }
 ) => {
   const navigate = useNavigate();
 
   const replayTheGame = () => {
     setFinalScore({
+      ...finalScore,
       end: false,
-      finalTimer: {
-        seconds: finalScore.finalTimer.seconds,
-        minutes: finalScore.finalTimer.minutes
-      },
-      listFound: finalScore.listFound,
-      listLeftToFind: finalScore.listLeftToFind
     })
   };
   const gotoMenu = () => {
     setFinalScore({
+      ...finalScore,
       end: false,
-      finalTimer: {
-        seconds: finalScore.finalTimer.seconds,
-        minutes: finalScore.finalTimer.minutes
-      },
-      listFound: finalScore.listFound,
-      listLeftToFind: finalScore.listLeftToFind
     })
     navigate('/')
   }
@@ -47,13 +38,8 @@ const FlagModalEndGame = (
     <div>
       <Modal
         onOpen={() => setFinalScore({
+          ...finalScore,
           end: true,
-          finalTimer: {
-            seconds: finalScore.finalTimer.seconds,
-            minutes: finalScore.finalTimer.minutes
-          },
-          listFound: finalScore.listFound,
-          listLeftToFind: finalScore.listLeftToFind
         })}
         open={finalScore.end}
       >
@@ -67,7 +53,11 @@ const FlagModalEndGame = (
                 ${(60 - finalScore.finalTimer.seconds) === 1 ? '1 second' : (60 - finalScore.finalTimer.seconds) > 1 ? (60 - finalScore.finalTimer.seconds) +' seconds' : ''}
               🎉` : ''}
             </p>
-            <p>{ `You're not connected, you can login to save your score` }<Button style={{marginLeft: '10px'}} positive onClick={() => navigate('/auth')}>Login</Button></p> {/* //TODO if logged */}
+            {userInfos.id === '' ?
+              <p>{ `You're not connected, you can login to save your score` }<Button style={{marginLeft: '10px'}} positive onClick={() => navigate('/auth')}>Login</Button></p>
+            :
+              <></>
+            }
           </ModalDescription>
         </ModalContent>
         <ModalActions>

@@ -1,3 +1,5 @@
+import { UserLimitedInfos } from "./user";
+
 export interface countryGuess {
   name: string;
   nameList: string[];
@@ -67,4 +69,9 @@ export enum buttonComponentType {
 export interface countriesSortedInterface {
   type: modeQuiz;
   countries: countryGuess[];
+}
+
+export interface QuizFormatedScoreboard {
+  user: UserLimitedInfos;
+  score: number;
 }

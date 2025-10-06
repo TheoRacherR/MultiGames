@@ -65,7 +65,7 @@ const Battleships = () => {
           </div>
         ))}
       </div>
-      <Scoreboard data={data}/>
+      {/* <Scoreboard data={data}/> */}
       <ModalParty open={open} setOpen={setOpen} selected={selected} />
     </div>
   );

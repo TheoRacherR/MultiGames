@@ -50,7 +50,7 @@ const MainMinesweeper = () => {
           </div>
         ))}
       </div>
-      <Scoreboard data={data}/>
+      {/* <Scoreboard data={data}/> */}
     </div>
   );
 };

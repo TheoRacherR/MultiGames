@@ -21,7 +21,6 @@ export class AuthController {
     result: object;
   }> {
     const res = await this.authService.verifyToken(TokenValidateDto);
-    console.log(res);
     return res;
   }
 

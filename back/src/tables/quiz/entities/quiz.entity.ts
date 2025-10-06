@@ -1,3 +1,4 @@
+import { typeQuizEnum } from 'src/@types/tables/quiz';
 import { User } from 'src/tables/user/entities/user.entity';
 import {
   Column,
@@ -19,10 +20,16 @@ export class Quiz {
   @Column()
   scoreTotal: number;
 
+  @Column()
+  timerFinished: number;
+
   @CreateDateColumn()
   created_at: Date;
 
-  @ManyToOne(() => User, (player) => player.quiz)
+  @Column()
+  type: typeQuizEnum;
+
+  @ManyToOne(() => User, (player) => player.quiz, { eager: true })
   @JoinColumn()
   player: User;
 }

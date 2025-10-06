@@ -7,22 +7,17 @@ import {
   modeFlagList,
   modeCountryList,
   modeQuiz,
+  QuizFormatedScoreboard
 } from "../../../@types/guiz";
 import ButtonComponent from "./ButtonComponent";
 import { useNavigate } from "react-router-dom";
-
-const data = [
-  { user: "Theo", score: 394 },
-  { user: "Léon", score: 96 },
-  { user: "Franck", score: 374 },
-  { user: "Theo", score: 5843 },
-  { user: "Theo", score: 895 },
-];
+import axios from "../../../axiosConfig"
 
 const MainQuiz = () => {
   const navigate = useNavigate();
   const [game, setGame] = useState<gameQuiz>(gameQuiz.FLAG);
   const [mode, setMode] = useState<modeQuiz>(modeQuiz.ALL);
+  const [dataScoreboard, setDataScoreboard] = useState<QuizFormatedScoreboard[]>([]);
 
   useEffect(() => {
     console.log(game);
@@ -39,14 +34,17 @@ const MainQuiz = () => {
     console.log("first");
     const value = e.target.value;
     if (type === "mode") {
-      switch (value) {
-        case "Flag":
-          setGame(gameQuiz.FLAG);
-          break;
-        case "Country":
-          setGame(gameQuiz.COUNTRY);
-          break;
+      if(game !== value) {
+        switch (value) {
+          case "Flag":
+            setGame(gameQuiz.FLAG);
+            break;
+          case "Country":
+            setGame(gameQuiz.COUNTRY);
+            break;
+        }
       }
+      else return;
     } else if (type === "difficulty" && game === gameQuiz.FLAG) {
       switch (value) {
         case "All":
@@ -89,6 +87,30 @@ const MainQuiz = () => {
       }
     }
   };
+
+  const getScoreboardInfos = async () => {
+    try {
+      const req = await axios.post('/quiz/scoreboard', {
+        type: game,
+        length: 5
+      })
+      if(req.status === 201) {
+        setDataScoreboard(req.data);
+        return;
+      }
+      else {
+        // TODO Alerte error
+      }
+    }
+    catch (e) {
+      console.log(e)
+      // TODO Alerte error
+    }
+  }
+
+  useEffect(() => {
+    getScoreboardInfos();
+  }, [game])
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
@@ -138,7 +160,7 @@ const MainQuiz = () => {
           }
         />
       </div>
-      <Scoreboard data={data}/>
+      <Scoreboard data={dataScoreboard}/>
     </div>
   );
 };

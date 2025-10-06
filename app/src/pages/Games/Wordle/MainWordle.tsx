@@ -47,7 +47,7 @@ const MainWordle = () => {
           </div>
         ))}
       </div>
-      <Scoreboard data={data}/>
+      {/* <Scoreboard data={data}/> */}
     </div>
   );
 };

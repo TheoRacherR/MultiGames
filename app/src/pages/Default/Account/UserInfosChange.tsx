@@ -7,6 +7,7 @@ import axios from '../../../axiosConfig';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import InputAdornment from '@mui/material/InputAdornment';
+import { countryList, countryObject } from '../../../utils/Default/Default';
 
 
 const UserInfosChange = () => {
@@ -166,9 +167,9 @@ const UserInfosChange = () => {
             }));
           }}
         >
-          {Object.keys(country).map((key) => (
-            <MenuItem key={key} value={country[key as keyof typeof country]}>
-              {key}
+          {countryList.map((key) => (
+            <MenuItem key={key} value={key}>
+              {countryObject[key].flag} {countryObject[key].name}
             </MenuItem>
           ))}
         </Select>
