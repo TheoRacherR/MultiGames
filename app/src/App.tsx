@@ -13,6 +13,7 @@ import Quiz from "./pages/Games/Quiz/Game/Quiz";
 import { gameQuiz, modeQuiz } from "./@types/guiz";
 import Auth from "pages/Default/Auth/Auth";
 import Account from "pages/Default/Account/Account";
+import UserPage from "pages/Default/UserPage/UserPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/user/:id" element={<UserPage/>} />
 
         <Route path="/auth" element={<Auth />} />
 

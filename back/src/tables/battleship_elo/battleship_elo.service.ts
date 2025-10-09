@@ -38,6 +38,16 @@ export class BattleshipEloService {
       .slice(0, searchScoreboardBattleshipEloDto.length);
   }
 
+  async findAllByPlayer(userID: string): Promise<BattleshipElo[]> {
+    const battleshipEloFound = await this.battleshipEloRepository.find({
+      where: { user: { id: userID } },
+    });
+    return battleshipEloFound.sort(
+      (a: BattleshipElo, b: BattleshipElo) =>
+        b.created_at.getTime() - a.created_at.getTime(),
+    );
+  }
+
   async remove(id: string): Promise<{ message: string }> {
     await this.battleshipEloRepository.delete(id);
     return { message: `BattleshipElo ${id} deleted` };

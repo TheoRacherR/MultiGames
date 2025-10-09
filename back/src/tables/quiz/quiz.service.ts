@@ -38,6 +38,15 @@ export class QuizService {
     return await this.quizRepository.findOne({ where: { id } });
   }
 
+  async findAllByPlayer(userID: string): Promise<Quiz[]> {
+    const quizFound = await this.quizRepository.find({
+      where: { player: { id: userID } },
+    });
+    return quizFound.sort(
+      (a: Quiz, b: Quiz) => b.created_at.getTime() - a.created_at.getTime(),
+    );
+  }
+
   async remove(id: string): Promise<{ message: string }> {
     await this.quizRepository.delete(id);
     return { message: `Quiz ${id} deleted` };

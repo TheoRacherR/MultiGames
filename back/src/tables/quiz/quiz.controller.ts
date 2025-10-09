@@ -12,7 +12,7 @@ import { QuizService } from './quiz.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { Quiz } from './entities/quiz.entity';
 import { SearchScoreboardQuizDto } from './dto/search-scoreboard-quiz.dto';
-import { QuizFormatedScoreboard } from 'src/@types/tables/quiz';
+import { FormatedScoreboard } from 'src/@types/tables/games';
 
 @Controller('quiz')
 export class QuizController {
@@ -30,6 +30,25 @@ export class QuizController {
     return await this.quizService.findAll();
   }
 
+  @Get('/user/:userID')
+  async findAllByPlayer(
+    @Param('userID') userID: string,
+  ): Promise<FormatedScoreboard[]> {
+    const quizFound = await this.quizService.findAllByPlayer(userID);
+    const quizFormated: FormatedScoreboard[] = [];
+    for (let index = 0; index < quizFound.length; index++) {
+      quizFormated.push({
+        user: {
+          id: quizFound[index].player.id,
+          pseudo: quizFound[index].player.pseudo,
+          country: quizFound[index].player.country,
+        },
+        score: `${Math.trunc(quizFound[index].timerFinished / 60)}m ${quizFound[index].timerFinished % 60}s`,
+      });
+    }
+    return quizFormated;
+  }
+
   @Get('/:id')
   async findOne(@Param('id') id: string): Promise<Quiz | null> {
     const battleship = await this.quizService.findOne(id);
@@ -40,11 +59,11 @@ export class QuizController {
   @Post('/scoreboard')
   async findTopScoreboard(
     @Body() searchScoreboardQuizDto: SearchScoreboardQuizDto,
-  ): Promise<QuizFormatedScoreboard[]> {
+  ): Promise<FormatedScoreboard[]> {
     const quizFound = await this.quizService.findBestScoreByType(
       searchScoreboardQuizDto,
     );
-    const quizFormated: QuizFormatedScoreboard[] = [];
+    const quizFormated: FormatedScoreboard[] = [];
     for (let index = 0; index < quizFound.length; index++) {
       quizFormated.push({
         user: {
@@ -52,7 +71,7 @@ export class QuizController {
           pseudo: quizFound[index].player.pseudo,
           country: quizFound[index].player.country,
         },
-        score: quizFound[index].timerFinished,
+        score: `${Math.trunc(quizFound[index].timerFinished / 60)}m ${quizFound[index].timerFinished % 60}s`,
       });
     }
     return quizFormated;

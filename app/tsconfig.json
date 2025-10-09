@@ -22,9 +22,6 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "./src",
-    "paths": {
-      "@utils/*": ["utils/*"]
-    },
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,

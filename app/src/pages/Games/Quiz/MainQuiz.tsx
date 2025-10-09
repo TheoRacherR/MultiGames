@@ -7,17 +7,17 @@ import {
   modeFlagList,
   modeCountryList,
   modeQuiz,
-  QuizFormatedScoreboard
 } from "../../../@types/guiz";
 import ButtonComponent from "./ButtonComponent";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../axiosConfig"
+import { FormatedScoreboard } from "../../../@types/games";
 
 const MainQuiz = () => {
   const navigate = useNavigate();
   const [game, setGame] = useState<gameQuiz>(gameQuiz.FLAG);
   const [mode, setMode] = useState<modeQuiz>(modeQuiz.ALL);
-  const [dataScoreboard, setDataScoreboard] = useState<QuizFormatedScoreboard[]>([]);
+  const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>([]);
 
   useEffect(() => {
     console.log(game);
@@ -160,7 +160,10 @@ const MainQuiz = () => {
           }
         />
       </div>
-      <Scoreboard data={dataScoreboard} unity={'s'}/>
+      <div>
+        <h2 className="text-center">Scoreboard :</h2>
+        <Scoreboard data={dataScoreboard} />
+      </div>
     </div>
   );
 };
