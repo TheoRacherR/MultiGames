@@ -1,13 +1,16 @@
 import UserInfosChange from "./UserInfosChange";
 import PasswordChange from "./PasswordChange";
+import ContainerUserInfos from "components/ContainerUserInfos";
 
 const Account = () => {
 
   return (
-    <div className="p-10 mx-auto w-[400px]">
-      <UserInfosChange/>
-      <PasswordChange/>
-    </div>
+    <ContainerUserInfos>
+      <>
+        <UserInfosChange/>
+        <PasswordChange/>
+      </>
+    </ContainerUserInfos>
   );
 };
 

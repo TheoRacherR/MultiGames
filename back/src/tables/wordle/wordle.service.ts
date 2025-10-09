@@ -44,6 +44,15 @@ export class WordleService {
     return await this.wordleRepository.findOne({ where: { id } });
   }
 
+  async findAllByPlayer(userID: string): Promise<Wordle[]> {
+    const wordleFound = await this.wordleRepository.find({
+      where: { player: { id: userID } },
+    });
+    return wordleFound.sort(
+      (a: Wordle, b: Wordle) => b.created_at.getTime() - a.created_at.getTime(),
+    );
+  }
+
   async remove(id: string): Promise<{ message: string }> {
     await this.wordleRepository.delete(id);
     return { message: `Wordle ${id} deleted` };

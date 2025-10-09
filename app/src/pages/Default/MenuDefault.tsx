@@ -1,8 +1,9 @@
-import { verifyRole } from '../../utils/Default/Auth'
+import { getUserInfos, verifyRole } from '../../utils/Default/Auth'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Button, Divider, IconButton, Menu, MenuItem } from '@mui/material'
+import { Divider, IconButton, Menu, MenuItem } from '@mui/material'
 import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
+import { UserInfos } from '../../@types/user';
 
 const links = [
   {
@@ -39,20 +40,16 @@ const MenuDefault = () => {
     setAnchorEl(null);
   };
 
-  const [logged, setLogged] = useState<boolean>(false);
-  const [roleStr, setRoleStr] = useState("not logged");
+  const [userInfos, setUserInfos] = useState<UserInfos | null>(null);
   const navigate = useNavigate();
 
   const getLogInfos = async () => {
     try {
-      const role = await verifyRole();
-      setLogged(role !== "not logged");
-      setRoleStr(role);
-      console.log(role);
+      const userInfo = await getUserInfos();
+      console.log(userInfo);
+      setUserInfos(userInfo);
     }
     catch (e) {
-      setLogged(false);
-      setRoleStr("not logged");
       console.log(e);
       // TODO Alerte d'erreur de récupération des infos du user
     }
@@ -65,7 +62,7 @@ const MenuDefault = () => {
   const handleLogout = () => {
     localStorage.setItem("jwtToken", "");
     console.log("update jwt");
-    setLogged(false);
+    setUserInfos(null);
     // handleClose();
     // TODO Alerte de déconnexion
     return navigate('/');
@@ -102,12 +99,12 @@ const MenuDefault = () => {
           ))}
         </div>
 
-        {roleStr === "admin" ? 'Admin' : <></>}
+        {userInfos && userInfos.role === "admin" ? 'Admin' : <></>}
         <IconButton onClick={handleClick} sx={{color: 'white', textDecoration: 'none', textDecorationColor: 'white'}}>
           <PersonOutlineRoundedIcon fontSize='large' sx={{margin: 'auto'}}/>
         </IconButton>
 
-        {logged ?
+        {userInfos ?
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
@@ -123,6 +120,10 @@ const MenuDefault = () => {
               handleClose();
               return navigate('/account');
             }}>Mon compte</MenuItem>
+            <MenuItem onClick={() => {
+              handleClose();
+              return navigate(`/user/${userInfos.id}`);
+            }}>Mes informations</MenuItem>
             <Divider/>
             <MenuItem onClick={() => {
               handleClose();

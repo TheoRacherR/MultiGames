@@ -12,7 +12,7 @@ import { BattleshipEloService } from './battleship_elo.service';
 import { CreateBattleshipEloDto } from './dto/create-battleship_elo.dto';
 import { BattleshipElo } from './entities/battleship_elo.entity';
 import { SearchScoreboardBattleshipEloDto } from './dto/search-scoreboard-battleship_elo.dto';
-import { BattleshipEloFormatedScoreboard } from 'src/@types/tables/battleshipElo';
+import { FormatedScoreboard } from 'src/@types/tables/games';
 
 @Controller('battleship-elo')
 export class BattleshipEloController {
@@ -44,12 +44,12 @@ export class BattleshipEloController {
   @Post('/scoreboard')
   async findTopScoreboard(
     @Body() searchScoreboardBattleshipEloDto: SearchScoreboardBattleshipEloDto,
-  ): Promise<BattleshipEloFormatedScoreboard[]> {
+  ): Promise<FormatedScoreboard[]> {
     const battleshipEloFound =
       await this.battleshipEloService.findBestScoreByType(
         searchScoreboardBattleshipEloDto,
       );
-    const battleshipEloFormated: BattleshipEloFormatedScoreboard[] = [];
+    const battleshipEloFormated: FormatedScoreboard[] = [];
     for (let index = 0; index < battleshipEloFound.length; index++) {
       battleshipEloFormated.push({
         user: {
@@ -57,7 +57,27 @@ export class BattleshipEloController {
           pseudo: battleshipEloFound[index].user.pseudo,
           country: battleshipEloFound[index].user.country,
         },
-        score: battleshipEloFound[index].score,
+        score: `${battleshipEloFound[index].score} elo`,
+      });
+    }
+    return battleshipEloFormated;
+  }
+
+  @Get('/user/:userID')
+  async findAllByPlayer(
+    @Param('userID') userID: string,
+  ): Promise<FormatedScoreboard[]> {
+    const battleshipEloFound =
+      await this.battleshipEloService.findAllByPlayer(userID);
+    const battleshipEloFormated: FormatedScoreboard[] = [];
+    for (let index = 0; index < battleshipEloFound.length; index++) {
+      battleshipEloFormated.push({
+        user: {
+          id: battleshipEloFound[index].user.id,
+          pseudo: battleshipEloFound[index].user.pseudo,
+          country: battleshipEloFound[index].user.country,
+        },
+        score: `${battleshipEloFound[index].score} elo`,
       });
     }
     return battleshipEloFormated;

@@ -3,7 +3,7 @@ import Scoreboard from "../../../components/Scoreboard";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "../../../axiosConfig";
-import { MinesweeperFormatedScoreboard } from "../../../@types/minesweeper";
+import { FormatedScoreboard } from "../../../@types/games";
 
 const choices: { type: string; text: string }[] = [
   { type: "create", text: "Create a party" },
@@ -12,7 +12,7 @@ const choices: { type: string; text: string }[] = [
 
 const MainMinesweeper = () => {
   const navigate = useNavigate();
-    const [dataScoreboard, setDataScoreboard] = useState<MinesweeperFormatedScoreboard[]>([]);
+    const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>([]);
 
   const getScoreboardInfos = async () => {
     try {
@@ -67,7 +67,10 @@ const MainMinesweeper = () => {
           </div>
         ))}
       </div>
-      <Scoreboard data={dataScoreboard} unity={'s'}/>
+      <div>
+        <h2 className="text-center">Scoreboard :</h2>
+        <Scoreboard data={dataScoreboard} />
+      </div>
     </div>
   );
 };

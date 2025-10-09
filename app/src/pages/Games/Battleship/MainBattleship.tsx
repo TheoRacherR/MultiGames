@@ -3,9 +3,7 @@ import './MainBattleship.css';
 import Scoreboard from '../../../components/Scoreboard';
 import ModalParty from './ModalParty';
 import axios from "../../../axiosConfig";
-import {
-  BattleshipEloFormatedScoreboard
-} from '../../../@types/battleship';
+import { FormatedScoreboard } from "../../../@types/games";
 
 const choices: { type: string; text: string }[] = [
   { type: 'create', text: 'Create a party' },
@@ -24,7 +22,7 @@ export const giveStartOrder = () => {
 const Battleships = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>('create');
-  const [dataScoreboard, setDataScoreboard] = useState<BattleshipEloFormatedScoreboard[]>([]);
+  const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>([]);
 
   const handleOpenModal = (type: string) => {
     setOpen(true);
@@ -84,7 +82,10 @@ const Battleships = () => {
           </div>
         ))}
       </div>
-      <Scoreboard data={dataScoreboard} unity={'s'}/>
+      <div>
+        <h2 className="text-center">Scoreboard :</h2>
+        <Scoreboard data={dataScoreboard} />
+      </div>
       <ModalParty open={open} setOpen={setOpen} selected={selected} />
     </div>
   );

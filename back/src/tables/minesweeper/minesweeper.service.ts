@@ -40,6 +40,16 @@ export class MinesweeperService {
     return await this.minesweeperRepository.findOne({ where: { id } });
   }
 
+  async findAllByPlayer(userID: string): Promise<Minesweeper[]> {
+    const minesweeperFound = await this.minesweeperRepository.find({
+      where: { player: { id: userID } },
+    });
+    return minesweeperFound.sort(
+      (a: Minesweeper, b: Minesweeper) =>
+        b.created_at.getTime() - a.created_at.getTime(),
+    );
+  }
+
   async remove(id: string): Promise<{ message: string }> {
     await this.minesweeperRepository.delete(id);
     return { message: `Minesweeper ${id} deleted` };

@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "../../../axiosConfig"
 import { useEffect, useState } from "react";
 import {
-  WordleFormatedScoreboard
-} from '../../../@types/wordle'
+  FormatedScoreboard
+} from '../../../@types/games'
 
 const choices: { type: string; text: string }[] = [
   { type: "create", text: "Create a party" },
@@ -13,7 +13,7 @@ const choices: { type: string; text: string }[] = [
 
 const MainWordle = () => {
   const navigate = useNavigate();
-  const [dataScoreboard, setDataScoreboard] = useState<WordleFormatedScoreboard[]>([]);
+  const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>([]);
   
 
   const getScoreboardInfos = async () => {
@@ -69,7 +69,10 @@ const MainWordle = () => {
           </div>
         ))}
       </div>
-      <Scoreboard data={dataScoreboard} unity={'try'}/>
+      <div>
+        <h2 className="text-center">Scoreboard :</h2>
+        <Scoreboard data={dataScoreboard} />
+      </div>
     </div>
   );
 };

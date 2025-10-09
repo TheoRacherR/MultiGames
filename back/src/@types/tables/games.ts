@@ -1,6 +1,6 @@
 import { UserLimitedInfos } from './user';
 
-export interface BattleshipEloFormatedScoreboard {
+export interface FormatedScoreboard {
   user: UserLimitedInfos;
-  score: number;
+  score: string;
 }

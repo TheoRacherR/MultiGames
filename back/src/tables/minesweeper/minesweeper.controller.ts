@@ -12,7 +12,7 @@ import { MinesweeperService } from './minesweeper.service';
 import { CreateMinesweeperDto } from './dto/create-minesweeper.dto';
 import { Minesweeper } from './entities/minesweeper.entity';
 import { SearchScoreboardMinesweeperDto } from './dto/search-scoreboard-minesweeper.dto';
-import { MinesweeperFormatedScoreboard } from 'src/@types/tables/minesweeper';
+import { FormatedScoreboard } from 'src/@types/tables/games';
 
 @Controller('minesweeper')
 export class MinesweeperController {
@@ -44,11 +44,11 @@ export class MinesweeperController {
   @Post('/scoreboard')
   async findTopScoreboard(
     @Body() searchScoreboardMinesweeperDto: SearchScoreboardMinesweeperDto,
-  ): Promise<MinesweeperFormatedScoreboard[]> {
+  ): Promise<FormatedScoreboard[]> {
     const minesweeperFound = await this.minesweeperService.findBestScoreByType(
       searchScoreboardMinesweeperDto,
     );
-    const minesweeperFormated: MinesweeperFormatedScoreboard[] = [];
+    const minesweeperFormated: FormatedScoreboard[] = [];
     for (let index = 0; index < minesweeperFound.length; index++) {
       minesweeperFormated.push({
         user: {
@@ -56,8 +56,27 @@ export class MinesweeperController {
           pseudo: minesweeperFound[index].player.pseudo,
           country: minesweeperFound[index].player.country,
         },
-        score: minesweeperFound[index].score,
-        level: minesweeperFound[index].level,
+        score: `Mode: ${minesweeperFound[index].level}, in ${minesweeperFound[index].score}s`,
+      });
+    }
+    return minesweeperFormated;
+  }
+
+  @Get('/user/:userID')
+  async findAllByPlayer(
+    @Param('userID') userID: string,
+  ): Promise<FormatedScoreboard[]> {
+    const minesweeperFound =
+      await this.minesweeperService.findAllByPlayer(userID);
+    const minesweeperFormated: FormatedScoreboard[] = [];
+    for (let index = 0; index < minesweeperFound.length; index++) {
+      minesweeperFormated.push({
+        user: {
+          id: minesweeperFound[index].player.id,
+          pseudo: minesweeperFound[index].player.pseudo,
+          country: minesweeperFound[index].player.country,
+        },
+        score: `Mode: ${minesweeperFound[index].level}, in ${minesweeperFound[index].score}s`,
       });
     }
     return minesweeperFormated;
