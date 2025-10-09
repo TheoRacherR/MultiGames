@@ -1,3 +1,4 @@
+import { WordleDayModule } from './tables/wordle_day/wordle_day.module';
 import { Module } from '@nestjs/common';
 import { UserModule } from './tables/user/user.module';
 import { RoomModule } from './tables/room/room.module';
@@ -22,6 +23,7 @@ import { WordleModule } from './tables/wordle/wordle.module';
     AuthModule,
     QuizModule,
     WordleModule,
+    WordleDayModule,
   ],
 })
 export class AppModule {}
