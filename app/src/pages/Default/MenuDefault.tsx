@@ -1,4 +1,4 @@
-import { getUserInfos, verifyRole } from '../../utils/Default/Auth'
+import { getUserInfos } from '../../utils/Default/Auth'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Divider, IconButton, Menu, MenuItem } from '@mui/material'
