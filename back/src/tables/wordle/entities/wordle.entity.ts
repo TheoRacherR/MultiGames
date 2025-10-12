@@ -1,4 +1,5 @@
 import { User } from 'src/tables/user/entities/user.entity';
+import { WordleDay } from 'src/tables/wordle_day/entities/wordle_day.entity';
 import {
   Column,
   CreateDateColumn,
@@ -6,7 +7,6 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -23,10 +23,11 @@ export class Wordle {
   @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @ManyToOne(() => User, (player) => player.minesweeper, { eager: true })
+  @ManyToOne(() => User, (player) => player.wordle, { eager: true })
   @JoinColumn()
   player: User;
+
+  @ManyToOne(() => WordleDay, (word) => word.wordle)
+  @JoinColumn()
+  word: WordleDay;
 }

@@ -4,6 +4,7 @@ import { BattleshipElo } from 'src/tables/battleship_elo/entities/battleship_elo
 import { Minesweeper } from 'src/tables/minesweeper/entities/minesweeper.entity';
 import { Quiz } from 'src/tables/quiz/entities/quiz.entity';
 import { Room } from 'src/tables/room/entities/room.entity';
+import { Wordle } from 'src/tables/wordle/entities/wordle.entity';
 import {
   Column,
   CreateDateColumn,
@@ -71,4 +72,7 @@ export class User {
 
   @OneToMany(() => Quiz, (quiz) => quiz.player)
   quiz: Quiz;
+
+  @OneToMany(() => Wordle, (wordle) => wordle.player)
+  wordle: Wordle;
 }

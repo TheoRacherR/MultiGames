@@ -33,9 +33,6 @@ const ModalEndGame = (
     getLogInfos();
   }, []);
 
-  const replayTheGame = () => {
-    setOpen(false);
-  };
   const gotoMenu = () => {
     setOpen(false);
     navigate('/')
@@ -62,13 +59,6 @@ const ModalEndGame = (
           <Button color='black' onClick={() => gotoMenu()}>
             Home
           </Button>
-          <Button
-            content='Replay'
-            color='orange'
-            labelPosition='left'
-            icon='redo'
-            onClick={() => replayTheGame()}
-          />
         </ModalActions>
       </Modal>
     </div>

@@ -8,13 +8,12 @@ import {
 } from '../../../@types/games'
 
 const choices: { type: string; text: string }[] = [
-  { type: "create", text: "Create a party" },
+  { type: "create", text: "Play" },
 ];
 
 const MainWordle = () => {
   const navigate = useNavigate();
   const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>([]);
-  
 
   const getScoreboardInfos = async () => {
     try {

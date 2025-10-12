@@ -53,6 +53,18 @@ export class WordleService {
     );
   }
 
+  async findTodayByPlayer(
+    userID: string,
+    wordleDayID: string,
+  ): Promise<Wordle | null> {
+    return await this.wordleRepository.findOne({
+      where: {
+        player: { id: userID },
+        word: { id: wordleDayID },
+      },
+    });
+  }
+
   async remove(id: string): Promise<{ message: string }> {
     await this.wordleRepository.delete(id);
     return { message: `Wordle ${id} deleted` };

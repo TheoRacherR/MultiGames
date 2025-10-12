@@ -52,6 +52,23 @@ export class WordleController {
     return wordleFormated;
   }
 
+  @Get('/today/:userID/:wordleDayID')
+  async findTodayByPlayer(
+    @Param('userID') userID: string,
+    @Param('wordleDayID') wordleDayID: string,
+  ): Promise<Wordle | null> {
+    const wordle = await this.wordleService.findTodayByPlayer(
+      userID,
+      wordleDayID,
+    );
+    if (wordle) return wordle;
+    else
+      throw new HttpException(
+        `Today's Wordle for user ${userID} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Wordle | null> {
     const wordle = await this.wordleService.findOne(id);
