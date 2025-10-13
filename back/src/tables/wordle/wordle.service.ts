@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Wordle } from './entities/wordle.entity';
 import { Repository } from 'typeorm';
 import { SearchScoreboardWordleDto } from './dto/search-scoreboard-wordle.dto';
+import { WordleFormatedToday } from '../../@types/tables/wordle';
 
 @Injectable()
 export class WordleService {
@@ -56,7 +57,7 @@ export class WordleService {
   async findTodayByPlayer(
     userID: string,
     wordleDayID: string,
-  ): Promise<Wordle | null> {
+  ): Promise<WordleFormatedToday | null> {
     return await this.wordleRepository.findOne({
       where: {
         player: { id: userID },

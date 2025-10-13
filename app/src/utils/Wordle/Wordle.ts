@@ -71,3 +71,14 @@ export const updateKeyboardStates = (keyList: keyInterface[][], grid: casesInter
   // si deja vert => aucun changement
   // si 
 }
+
+export const checkIfLocalStorageWordleIsFine = () => {
+  const local = localStorage.getItem('dailyWordleDone');
+  if(local) {
+    const formated = JSON.parse(local);
+    if(formated.nbTry > 0 && (formated.won || !formated.won) && (typeof formated.player === 'number' || typeof formated.player === 'string') && typeof formated.word === 'number') {
+      return true;
+    }
+  }
+  return false;
+}

@@ -1,4 +1,4 @@
-import { getUserInfos } from '../../utils/Default/Auth'
+import { errorWithUserOrLogout, getUserInfos } from '../../utils/Default/Auth'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Divider, IconButton, Menu, MenuItem } from '@mui/material'
@@ -60,8 +60,7 @@ const MenuDefault = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.setItem("jwtToken", "");
-    console.log("update jwt");
+    errorWithUserOrLogout();
     setUserInfos(null);
     // handleClose();
     // TODO Alerte de déconnexion

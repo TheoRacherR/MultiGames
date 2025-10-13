@@ -50,3 +50,10 @@ export enum keyState {
 export interface KeyListDictionary {
   [key: string]: { row: number; column: number };
 }
+
+export interface WordleLocalStorageInformations {
+  nbTry: number,
+  won: boolean,
+  player: string,
+  word: string,
+}

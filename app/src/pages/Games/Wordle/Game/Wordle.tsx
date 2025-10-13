@@ -14,7 +14,7 @@ import {
   WordleContext,
   WordleContextProvider,
 } from "utils/Context/WordleContext";
-import { checkIfWordCorrespond, updateCaseColor, updateKeyboardStates } from "utils/Wordle/Wordle";
+import { checkIfLocalStorageWordleIsFine, checkIfWordCorrespond, updateCaseColor, updateKeyboardStates } from "utils/Wordle/Wordle";
 
 const alphabetic = "abcdefghijklmnopqrstuvwxyz";
 
@@ -220,6 +220,12 @@ const Wordle = () => {
     const nbTry: number =
       (totalCases.indexOf(caseSelected) + 1) / wordDay.current.word.length;
     try {
+      localStorage.setItem('dailyWordleDone', JSON.stringify({
+        nbTry: nbTry,
+        won: true,
+        player: userInfo.current ? userInfo.current.id : '',
+        word: wordDay.current.id,
+      }))
       if (userInfo.current) {
         await axios.post("/wordle/", {
           nbTry: nbTry,
@@ -240,11 +246,29 @@ const Wordle = () => {
 
   const checkIfWordleIsDoneByUser = async (): Promise<boolean> => {
     try {
+      if(checkIfLocalStorageWordleIsFine()) wordleOfTodayDone.current = true;
+    }
+    catch(e) {
+      console.log(e)
+    }
+    try {
+      if(wordleOfTodayDone.current) {
+        console.log('already done')
+        return true;
+      };
       if (userInfo.current && wordDay.current.word.length > 0) {
-        await axios.get(
+        const wordleInfos = await axios.get(
           `/wordle/today/${userInfo.current.id}/${wordDay.current.id}`
         );
-        wordleOfTodayDone.current = true;
+        if(wordleInfos){
+          wordleOfTodayDone.current = true;
+          localStorage.setItem('dailyWordleDone', JSON.stringify({
+            nbTry: wordleInfos.data.nbTry,
+            won: wordleInfos.data.won,
+            player: wordleInfos.data.player.id,
+            word: wordleInfos.data.word.id,
+          }))
+        }
         return true;
       }
     } catch (e) {

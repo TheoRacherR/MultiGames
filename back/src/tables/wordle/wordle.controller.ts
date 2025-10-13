@@ -13,6 +13,7 @@ import { CreateWordleDto } from './dto/create-wordle.dto';
 import { Wordle } from './entities/wordle.entity';
 import { SearchScoreboardWordleDto } from './dto/search-scoreboard-wordle.dto';
 import { FormatedScoreboard } from 'src/@types/tables/games';
+import { WordleFormatedToday } from 'src/@types/tables/wordle';
 
 @Controller('wordle')
 export class WordleController {
@@ -56,7 +57,7 @@ export class WordleController {
   async findTodayByPlayer(
     @Param('userID') userID: string,
     @Param('wordleDayID') wordleDayID: string,
-  ): Promise<Wordle | null> {
+  ): Promise<WordleFormatedToday | null> {
     const wordle = await this.wordleService.findTodayByPlayer(
       userID,
       wordleDayID,

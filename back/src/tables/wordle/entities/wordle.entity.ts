@@ -27,7 +27,7 @@ export class Wordle {
   @JoinColumn()
   player: User;
 
-  @ManyToOne(() => WordleDay, (word) => word.wordle)
+  @ManyToOne(() => WordleDay, (word) => word.wordle, { eager: true })
   @JoinColumn()
   word: WordleDay;
 }

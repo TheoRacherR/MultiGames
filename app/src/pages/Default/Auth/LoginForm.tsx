@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "../../../axiosConfig";
 import { Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { mailRegex } from "../../../utils/Default/Auth";
+import { createEntitesAtLogin, getUserInfos, mailRegex } from "../../../utils/Default/Auth";
 import ContainerUserInfos from "components/ContainerUserInfos";
 
 const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
@@ -26,6 +26,10 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
         localStorage.setItem("jwtToken", res.data);
         console.log("update jwt");
         // TODO Alerte de connexion
+        const usrInfos = await getUserInfos();
+        if(usrInfos) {
+          createEntitesAtLogin(usrInfos.id)
+        }
         return navigate("/");
       } catch (e) {
         // TODO Alerte d'erreur de connexion
