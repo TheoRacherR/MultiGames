@@ -7,13 +7,13 @@ import MainBattleships from "./pages/Games/Battleship/MainBattleship";
 import Minesweeper from "./pages/Games/Minesweeper/Game/Minesweeper";
 import Battleship from "./pages/Games/Battleship/Game/Battleship";
 import MainWordle from "./pages/Games/Wordle/MainWordle";
-import Wordle from "./pages/Games/Wordle/Game/Wordle";
 import MainQuiz from "./pages/Games/Quiz/MainQuiz";
 import Quiz from "./pages/Games/Quiz/Game/Quiz";
 import { gameQuiz, modeQuiz } from "./@types/guiz";
 import Auth from "pages/Default/Auth/Auth";
 import Account from "pages/Default/Account/Account";
 import UserPage from "pages/Default/UserPage/UserPage";
+import WordleWrapperContext from "./pages/Games/Wordle/Game/Wordle";
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
         <Route path="/battleship/room/:id" element={<Battleship />} />
 
         <Route path="/wordle" element={<MainWordle />} />
-        <Route path="/wordle/game" element={<Wordle />} />
+        <Route path="/wordle/game" element={<WordleWrapperContext />} />
 
         <Route path="/quiz" element={<MainQuiz />} />
         <Route

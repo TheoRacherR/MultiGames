@@ -1,5 +1,4 @@
-import { casesInterface } from './Wordle';
-import { caseCurrentState, resultCompare } from '../../../../@types/wordle';
+import { caseCurrentState, casesInterface } from '../../../../@types/wordle';
 
 export const getWordFromGrid = (grid: casesInterface[], caseSelected: casesInterface, wordSearched: string): string => {
   let stringWord = '';
@@ -9,47 +8,7 @@ export const getWordFromGrid = (grid: casesInterface[], caseSelected: casesInter
   return stringWord;
 }
 
-export const checkIfWordCorrespond = (wordSearched: string, wordGet: string): resultCompare[] => {
-  if(wordGet.toLowerCase() === wordSearched.toLowerCase()) {
-    return Array(wordGet.length).fill(resultCompare.PERFECT);
-  }
-  else {
-    let wordSearchedTemp = "";
-    let wordGetTemp = "";
-    let arrayReturn = Array(wordGet.length).fill(undefined);
-    for (let index = 0; index < wordGet.length; index++) {
-      if(wordGet[index].toLowerCase() === wordSearched[index].toLowerCase()){
-        arrayReturn[index] = resultCompare.PERFECT;
-      }
-      else {
-        wordSearchedTemp += wordSearched[index]
-        wordGetTemp += wordGet[index]
-      }
-    }
-
-    for (let i = 0; i < wordGetTemp.length; i++) {
-      const letterFound = wordSearchedTemp.toLowerCase().split('').find(ws => ws === wordGetTemp[i].toLowerCase());
-      if(letterFound) {
-        arrayReturn[arrayReturn.indexOf(undefined)] = resultCompare.PARTIAL
-        wordSearchedTemp = wordSearchedTemp.slice(0, wordSearchedTemp.indexOf(letterFound)) + wordSearchedTemp.slice(wordSearchedTemp.indexOf(letterFound)+1, wordSearchedTemp.length)
-      }
-      else {
-        arrayReturn[arrayReturn.indexOf(undefined)] = resultCompare.NONE;
-      }
-    }
-    return arrayReturn;
-  }
-}
-
 // TODO check if the word exist
-
-export const updateCaseColor = (grid: casesInterface[], caseSelected: casesInterface, wordSearched: string, resultComparison: resultCompare[]): casesInterface[] => {
-  let gridTemp = grid;
-    for (let index = 0; index < wordSearched.length; index++) {
-      gridTemp[grid.indexOf(caseSelected) - wordSearched.length + index+1].state = resultComparison[index] === resultCompare.PERFECT ? caseCurrentState.CORRECT : resultComparison[index] === resultCompare.PARTIAL ? caseCurrentState.PARTIALLY_RIGHT : caseCurrentState.WRONG;
-    }
-  return gridTemp;
-}
 
 export const checkIfUniqueArray = (arr: any[]): boolean => {
   if(arr.length > 0){
@@ -61,13 +20,7 @@ export const checkIfUniqueArray = (arr: any[]): boolean => {
   return true;
 }
 
-const Board = ({
-  word,
-  cases
-}: {
-  word: string,
-  cases: casesInterface[] | undefined;
-}) => {
+const Board = ({ word, cases }: { word: string, cases: casesInterface[] | undefined }) => {
 
   /*
   * 6 essais
