@@ -14,6 +14,8 @@ import Auth from "pages/Default/Auth/Auth";
 import Account from "pages/Default/Account/Account";
 import UserPage from "pages/Default/UserPage/UserPage";
 import WordleWrapperContext from "./pages/Games/Wordle/Game/Wordle";
+import WordleAlreadyDone from "pages/Games/Wordle/Game/Errors/WordleAlreadyDone";
+import Wordday404 from "pages/Games/Wordle/Game/Errors/WordOfTheDay404";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
 
         <Route path="/wordle" element={<MainWordle />} />
         <Route path="/wordle/game" element={<WordleWrapperContext />} />
+        <Route path="/worlde/game/already-done" element={<WordleAlreadyDone />} />
+        <Route path="/worlde/game/word-dont-exists" element={<Wordday404 />} />
 
         <Route path="/quiz" element={<MainQuiz />} />
         <Route

@@ -9,12 +9,14 @@ import Keyboard from "./Keyboard";
 import axios from "../../../../axiosConfig";
 import { getUserInfos } from "utils/Default/Auth";
 import { UserInfos } from "../../../../@types/user";
-import { useNavigate } from "react-router-dom";
+import { Route, useNavigate } from "react-router-dom";
 import {
   WordleContext,
   WordleContextProvider,
 } from "utils/Context/WordleContext";
 import { checkIfLocalStorageWordleIsFine, checkIfWordCorrespond, updateCaseColor, updateKeyboardStates } from "utils/Wordle/Wordle";
+import WordleAlreadyDone from "./Errors/WordleAlreadyDone";
+import Wordday404 from "./Errors/WordOfTheDay404";
 
 const alphabetic = "abcdefghijklmnopqrstuvwxyz";
 
@@ -60,8 +62,11 @@ const Wordle = () => {
           gridInit.current = !check;
         } else {
           // TODO Alerte wordle du jour deja fait
-          return navigate("/");
+          return navigate("/already-done");
         }
+      }
+      else {
+        return navigate("/word-dont-exists")
       }
     } catch (e) {
       logged.current = false;
@@ -308,9 +313,10 @@ const Wordle = () => {
 };
 
 const WordleWrapperContext = () => {
+
   return (
     <WordleContextProvider>
-      <Wordle />
+      <Wordle/>
     </WordleContextProvider>
   );
 };
