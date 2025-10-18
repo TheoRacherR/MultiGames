@@ -30,7 +30,7 @@ export interface WordleContextInterface {
   setKeyPressed: React.Dispatch<React.SetStateAction<string>>
   keyList: keyInterface[][],
   setKeyList: React.Dispatch<React.SetStateAction<keyInterface[][]>>
-
+  initKeys: () => void
 }
 
 // Context

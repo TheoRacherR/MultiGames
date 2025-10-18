@@ -14,6 +14,7 @@ import { Wordle } from './entities/wordle.entity';
 import { SearchScoreboardWordleDto } from './dto/search-scoreboard-wordle.dto';
 import { FormatedScoreboard } from 'src/@types/tables/games';
 import { WordleFormatedToday } from 'src/@types/tables/wordle';
+import { CheckWordWordleDto } from './dto/check-word-wordle.dto';
 
 @Controller('wordle')
 export class WordleController {
@@ -100,6 +101,16 @@ export class WordleController {
       });
     }
     return wordleFormated;
+  }
+
+  @Post('/checkWord')
+  async checkIfWordExists(
+    @Body() checkWordDTO: CheckWordWordleDto,
+  ): Promise<boolean> {
+    const wordle = await this.wordleService.checkWord(checkWordDTO);
+    console.log(wordle.data);
+    if (wordle.data.query.pages[-1]) return false;
+    else return true;
   }
 
   @Delete(':id')

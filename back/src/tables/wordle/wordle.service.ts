@@ -5,6 +5,8 @@ import { Wordle } from './entities/wordle.entity';
 import { Repository } from 'typeorm';
 import { SearchScoreboardWordleDto } from './dto/search-scoreboard-wordle.dto';
 import { WordleFormatedToday } from '../../@types/tables/wordle';
+import { CheckWordWordleDto } from './dto/check-word-wordle.dto';
+import axios from 'axios';
 
 @Injectable()
 export class WordleService {
@@ -64,6 +66,16 @@ export class WordleService {
         word: { id: wordleDayID },
       },
     });
+  }
+
+  async checkWord(checkWordDTO: CheckWordWordleDto): Promise<any> {
+    const searchWord = await axios.get(
+      `https://fr.wiktionary.org/w/api.php?action=query&format=json&titles=${checkWordDTO.word}`,
+      {
+        headers: { 'Access-Control-Allow-Origin': 'https://fr.wiktionary.org' },
+      },
+    );
+    return searchWord;
   }
 
   async remove(id: string): Promise<{ message: string }> {

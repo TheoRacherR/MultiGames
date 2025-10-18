@@ -37,7 +37,7 @@ const Wordle = () => {
   });
   const wordleOfTodayDone = useRef<boolean>(false);
 
-  const { setKeyPressed, keyList, setKeyList } = useContext(WordleContext) as WordleContextInterface;
+  const { /*setKeyPressed,*/ keyList, setKeyList, initKeys } = useContext(WordleContext) as WordleContextInterface;
 
   const asyncGetInfo = async () => {
     let uInfos;
@@ -92,7 +92,7 @@ const Wordle = () => {
   //   });
   // });
 
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = async (event: KeyboardEvent) => {
     if (alphabetic.includes(event.key.toLowerCase()) && cases) {
       let casesTemp = [...cases];
       const caseSelected = casesTemp.find((c) => c.selected);
@@ -136,14 +136,25 @@ const Wordle = () => {
       let casesTemp = [...cases];
       const caseSelected = casesTemp.find((c) => c.selected);
       if (caseSelected) {
-        if (
-          (cases.indexOf(caseSelected) + 1) % wordDay.current.word.length ===
-          0
-        ) {
+        if ((cases.indexOf(caseSelected) + 1) % wordDay.current.word.length === 0) {
+          const typedWord = getWordFromGrid(casesTemp, caseSelected, wordDay.current.word);
+          try {
+            const searchWord = await axios.post('wordle/checkWord', {word: typedWord.toLowerCase()});
+            console.log(searchWord.data);
+            if(!searchWord.data) {
+              console.log("word doesn't exist")
+              return
+            };
+          }
+          catch (e) {
+            console.log(e)
+            setCases(cases);
+            return;
+          }
           //TODO end of the line, test it
           const comparison: resultCompare[] = checkIfWordCorrespond(
             wordDay.current.word,
-            getWordFromGrid(casesTemp, caseSelected, wordDay.current.word)
+            typedWord
           );
           casesTemp = updateCaseColor(
             casesTemp,
@@ -202,6 +213,7 @@ const Wordle = () => {
   };
 
   const initGrid = async (wordArg: string) => {
+    initKeys();
     let arrGridTemp: casesInterface[] = [];
     for (let lineIndex = 0; lineIndex < nbTry * wordArg.length; lineIndex++) {
       arrGridTemp.push({
