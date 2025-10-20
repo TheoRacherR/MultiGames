@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { caseTypes, minesweeperDifficulty, casePosition, caseInterface } from '../../../../@types/minesweeper';
+import { caseTypes, casePosition, caseInterface } from '../../../../@types/minesweeper';
 import { checkIfGameIsEnded, getPositionArray, initCases } from 'utils/Minesweepeer/Minesweeper';
 
 const Board = ({
   xcases, //8
   ycases, //7
-  safeFlagsMax,
-  safeFlagsUsed,
+  safeFlags,
   changeNumberOfFlag,
   endGame,
   start,
@@ -15,8 +14,10 @@ const Board = ({
 }: {
   xcases: number;
   ycases: number;
-  safeFlagsMax: number;
-  safeFlagsUsed: number
+  safeFlags: {
+    max: number;
+    used: number;
+  };
   changeNumberOfFlag: Function;
   endGame: Function;
   start: boolean;
@@ -26,8 +27,8 @@ const Board = ({
   const [cases, setCases] = useState<caseInterface[]>([]);
 
   useEffect(() => {
-    setCases(initCases(xcases, ycases, safeFlagsMax));
-  }, [safeFlagsMax, reset]);
+    setCases(initCases(xcases, ycases, safeFlags.max));
+  }, [safeFlags.max, reset]);
 
 
   const handleClickOnCase = (index: number) => {
@@ -51,7 +52,7 @@ const Board = ({
           const casesTempToDetect: boolean[] = Array(casesArrayTemp.length);
           detectEmptyCases(index, casesArrayTemp[index].placment, casesTempToDetect)
         }
-        if(checkIfGameIsEnded(casesArrayTemp, xcases, ycases, safeFlagsMax)) endGame(true)
+        if(checkIfGameIsEnded(casesArrayTemp, xcases, ycases, safeFlags.max)) endGame(true)
       }
       setCases(casesArrayTemp);
     }
@@ -62,7 +63,7 @@ const Board = ({
     event.preventDefault();
     const id: number = parseInt((event.target  as HTMLInputElement).id.substring(5));
     if(cases.length > 0) {
-      if(!cases[id].showed && (safeFlagsMax > safeFlagsUsed)){
+      if(!cases[id].showed && (safeFlags.max > safeFlags.used)){
         const casesArrayTemp = [...cases];
         const result = changeNumberOfFlag(!casesArrayTemp[id].flagPlaced)
         if(result) {

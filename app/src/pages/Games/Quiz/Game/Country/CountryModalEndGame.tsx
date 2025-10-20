@@ -2,9 +2,20 @@ import { useNavigate } from 'react-router-dom';
 import { buttonComponentType, finalScoreInterface } from '../../../../../@types/guiz';
 import ModalEndGame from 'components/ModalEndGame';
 import ButtonComponent from 'components/ButtonComponent';
+import { UserInfos } from '../../../../../@types/user';
 
 const CountryModalEndGame = (
-  { finalScore, setFinalScore, resetPage}: { finalScore: finalScoreInterface, setFinalScore: React.Dispatch<React.SetStateAction<finalScoreInterface>>, resetPage: Function }
+  {
+    finalScore,
+    setFinalScore,
+    resetPage,
+    userInfos
+  }: {
+    finalScore: finalScoreInterface,
+    setFinalScore: React.Dispatch<React.SetStateAction<finalScoreInterface>>,
+    resetPage: Function,
+    userInfos: UserInfos;
+  }
 ) => {
   const navigate = useNavigate();
 
@@ -34,7 +45,19 @@ const CountryModalEndGame = (
                 ${finalScore.finalTimer.seconds === 1 ? '1 second' : finalScore.finalTimer.seconds > 1 ? finalScore.finalTimer.seconds +' seconds' : ''}
               🎉` : ''}
             </p>
-            <p>{ `You're not connected, you can login to save your score` }<ButtonComponent index='login_button' text='Login' type={buttonComponentType.GREEN} clickOn={() => navigate('/auth')}/></p> {/* //TODO if logged */}
+            {userInfos.id === "" ? (
+              <p>
+                {`You're not connected, you can login to save your score`}
+                <ButtonComponent
+                  index="login_button"
+                  text="Login"
+                  type={buttonComponentType.GREEN}
+                  clickOn={() => navigate("/auth")}
+                />
+              </p>
+            ) : (
+              <></>
+            )}
           </>
           
         }

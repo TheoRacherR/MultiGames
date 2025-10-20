@@ -1,12 +1,14 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Board, {
-  checkIfUniqueArray,
-  getWordFromGrid,
-} from "./Board";
+import Board, { checkIfUniqueArray, getWordFromGrid } from "./Board";
 import ModalEndGame from "./WordleModalEndGame";
-import { caseCurrentState, casesInterface, resultCompare, WordleContextInterface } from "../../../../@types/wordle";
+import {
+  caseCurrentState,
+  casesInterface,
+  resultCompare,
+  WordleContextInterface,
+} from "../../../../@types/wordle";
 import Keyboard from "./Keyboard";
-import axios from "../../../../axiosConfig";
+import axios from "axiosConfig";
 import { getUserInfos } from "utils/Default/Auth";
 import { UserInfos } from "../../../../@types/user";
 import { Route, useNavigate } from "react-router-dom";
@@ -14,9 +16,12 @@ import {
   WordleContext,
   WordleContextProvider,
 } from "utils/Context/WordleContext";
-import { checkIfLocalStorageWordleIsFine, checkIfWordCorrespond, updateCaseColor, updateKeyboardStates } from "utils/Wordle/Wordle";
-import WordleAlreadyDone from "./Errors/WordleAlreadyDone";
-import Wordday404 from "./Errors/WordOfTheDay404";
+import {
+  checkIfLocalStorageWordleIsFine,
+  checkIfWordCorrespond,
+  updateCaseColor,
+  updateKeyboardStates,
+} from "utils/Wordle/Wordle";
 
 const alphabetic = "abcdefghijklmnopqrstuvwxyz";
 
@@ -39,7 +44,9 @@ const Wordle = () => {
   });
   const wordleOfTodayDone = useRef<boolean>(false);
 
-  const { /*setKeyPressed,*/ keyList, setKeyList, initKeys } = useContext(WordleContext) as WordleContextInterface;
+  const { /*setKeyPressed,*/ keyList, setKeyList, initKeys } = useContext(
+    WordleContext
+  ) as WordleContextInterface;
 
   const asyncGetInfo = async () => {
     let uInfos;
@@ -64,9 +71,8 @@ const Wordle = () => {
           // TODO Alerte wordle du jour deja fait
           return navigate("/already-done");
         }
-      }
-      else {
-        return navigate("/word-dont-exists")
+      } else {
+        return navigate("/word-dont-exists");
       }
     } catch (e) {
       logged.current = false;
@@ -141,18 +147,26 @@ const Wordle = () => {
       let casesTemp = [...cases];
       const caseSelected = casesTemp.find((c) => c.selected);
       if (caseSelected) {
-        if ((cases.indexOf(caseSelected) + 1) % wordDay.current.word.length === 0) {
-          const typedWord = getWordFromGrid(casesTemp, caseSelected, wordDay.current.word);
+        if (
+          (cases.indexOf(caseSelected) + 1) % wordDay.current.word.length ===
+          0
+        ) {
+          const typedWord = getWordFromGrid(
+            casesTemp,
+            caseSelected,
+            wordDay.current.word
+          );
           try {
-            const searchWord = await axios.post('wordle/checkWord', {word: typedWord.toLowerCase()});
+            const searchWord = await axios.post("wordle/checkWord", {
+              word: typedWord.toLowerCase(),
+            });
             console.log(searchWord.data);
-            if(!searchWord.data) {
-              console.log("word doesn't exist")
-              return
-            };
-          }
-          catch (e) {
-            console.log(e)
+            if (!searchWord.data) {
+              console.log("word doesn't exist");
+              return;
+            }
+          } catch (e) {
+            console.log(e);
             setCases(cases);
             return;
           }
@@ -237,12 +251,15 @@ const Wordle = () => {
     const nbTry: number =
       (totalCases.indexOf(caseSelected) + 1) / wordDay.current.word.length;
     try {
-      localStorage.setItem('dailyWordleDone', JSON.stringify({
-        nbTry: nbTry,
-        won: true,
-        player: userInfo.current ? userInfo.current.id : '',
-        word: wordDay.current.id,
-      }))
+      localStorage.setItem(
+        "dailyWordleDone",
+        JSON.stringify({
+          nbTry: nbTry,
+          won: true,
+          player: userInfo.current ? userInfo.current.id : "",
+          word: wordDay.current.id,
+        })
+      );
       if (userInfo.current) {
         await axios.post("/wordle/", {
           nbTry: nbTry,
@@ -263,33 +280,34 @@ const Wordle = () => {
 
   const checkIfWordleIsDoneByUser = async (): Promise<boolean> => {
     try {
-      if(checkIfLocalStorageWordleIsFine()) wordleOfTodayDone.current = true;
-    }
-    catch(e) {
-      console.log(e)
+      if (checkIfLocalStorageWordleIsFine()) wordleOfTodayDone.current = true;
+    } catch (e) {
+      console.log(e);
     }
     try {
-      if(wordleOfTodayDone.current) {
-        console.log('already done')
+      if (wordleOfTodayDone.current) {
+        console.log("already done");
         return true;
-      };
+      }
       if (userInfo.current && wordDay.current.word.length > 0) {
         const wordleInfos = await axios.get(
           `/wordle/today/${userInfo.current.id}/${wordDay.current.id}`
         );
-        if(wordleInfos){
+        if (wordleInfos) {
           wordleOfTodayDone.current = true;
-          localStorage.setItem('dailyWordleDone', JSON.stringify({
-            nbTry: wordleInfos.data.nbTry,
-            won: wordleInfos.data.won,
-            player: wordleInfos.data.player.id,
-            word: wordleInfos.data.word.id,
-          }))
+          localStorage.setItem(
+            "dailyWordleDone",
+            JSON.stringify({
+              nbTry: wordleInfos.data.nbTry,
+              won: wordleInfos.data.won,
+              player: wordleInfos.data.player.id,
+              word: wordleInfos.data.word.id,
+            })
+          );
         }
         return true;
       }
-    } catch (e) {
-    }
+    } catch (e) {}
     return false;
   };
 
@@ -313,10 +331,9 @@ const Wordle = () => {
 };
 
 const WordleWrapperContext = () => {
-
   return (
     <WordleContextProvider>
-      <Wordle/>
+      <Wordle />
     </WordleContextProvider>
   );
 };

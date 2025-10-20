@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { countryGuess, finalScoreInterface, modeQuiz } from '../../../../../@types/guiz'
+import { countryGuess, finalScoreInterface, gameQuiz, modeQuiz } from '../../../../../@types/guiz'
 import Map from './Map';
 import { countryList } from "../CountryList";
 import Timer from '../Timer/Timer';
 import CountryList from './CountryList/CountryList';
 import CountryModalEndGame from './CountryModalEndGame';
 import { resetCountriesFound } from '../../../../../utils/Quiz/FunctionsForCountry';
+import { getUserInfos } from 'utils/Default/Auth';
+import { country, UserInfos, userRole } from '../../../../../@types/user';
+import axios from 'axios';
 
 
 const Country = ({ mode }: { mode: modeQuiz }) => {
@@ -28,7 +31,15 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
     });
 
   const countryToGuessInit: countryGuess[] = countryList.filter(cl => cl.location.contient === mode || mode === modeQuiz.ALL);
-
+  const [userInfos, setUserInfos] = useState<UserInfos>({
+    id: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+    pseudo: "",
+    role: userRole.USER,
+    country: country.FRANCE,
+  });
   const [startTimer, setStartTimer] = useState<boolean>(false);
   const [minutes, setMinutes] = useState(timerTotal.minutes);
   const [seconds, setSeconds] = useState(timerTotal.seconds);
@@ -48,15 +59,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
 
       setInputValue('');
       if(newCountryFoundTemp.length === 0){
-        setFinalScore({
-          end: true,
-          finalTimer: {
-            seconds: timerTotal.seconds - seconds,
-            minutes: timerTotal.minutes - minutes,
-          },
-          listFound: countryFoundTemp,
-          listLeftToFind: newCountryFoundTemp,
-        });
+        endGame();
       }
     }
     else {
@@ -72,7 +75,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
     setStartTimer(false);
   };
 
-  const timeOut = () => {
+  const endGame = async () => {
     setFinalScore({
       end: true,
       finalTimer: {
@@ -82,7 +85,23 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
       listFound: countryFound,
       listLeftToFind: countryToGuess,
     });
-  };
+    try {
+      const userInfosRequest = await getUserInfos();
+      setUserInfos(userInfosRequest);
+      if (userInfosRequest) {
+        await axios.post("/quiz", {
+          scoreFound: countryFound.length,
+          scoreTotal: countryFound.length + countryToGuess.length,
+          timerFinished: 0, //TODO calcul temps total
+          type: gameQuiz.COUNTRY,
+          player: userInfosRequest.id,
+        });
+      }
+    } catch (e) {
+      // return navigate("auth");
+      console.log(e);
+    }
+  }
 
   useEffect(() => {
     setCountryToGuess(countryToGuessInit);
@@ -101,7 +120,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
       }, 1000);
       if (minutes === 0 && seconds === 0) {
         // console.log('timeout')
-        timeOut();
+        endGame();
         clickStopTimer();
       }
     }
@@ -138,7 +157,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
       <div className='flex'>
         <Map countryListFound={countryFound} countryListToGuess={countryToGuess} isContent={mode !== modeQuiz.ALL}/>
         <Timer
-          timeOut={timeOut}
+          endGame={endGame}
           score={{ left: countryToGuess.length, total: countryToGuessInit.length }}
           startTimer={startTimer}
           clickStartTimer={clickStartTimer}
@@ -163,7 +182,12 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         countryListFound={countryFound}
         countryListToGuess={countryToGuess}
       />
-      <CountryModalEndGame finalScore={finalScore} setFinalScore={setFinalScore} resetPage={resetPage}/>
+      <CountryModalEndGame
+        finalScore={finalScore}
+        setFinalScore={setFinalScore}
+        resetPage={resetPage}
+        userInfos={userInfos}
+      />
     </div>
   )
 }

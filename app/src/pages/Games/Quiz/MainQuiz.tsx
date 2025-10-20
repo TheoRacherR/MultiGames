@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Scoreboard from "../../../components/Scoreboard";
+import Scoreboard from "components/Scoreboard";
 import {
   buttonComponentType,
   gameList,
@@ -8,9 +8,9 @@ import {
   modeCountryList,
   modeQuiz,
 } from "../../../@types/guiz";
-import ButtonComponent from "../../../components/ButtonComponent";
+import ButtonComponent from "components/ButtonComponent";
 import { useNavigate } from "react-router-dom";
-import axios from "../../../axiosConfig";
+import axios from "axiosConfig";
 import { FormatedScoreboard } from "../../../@types/games";
 
 const MainQuiz = () => {

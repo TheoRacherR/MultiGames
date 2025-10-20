@@ -1,9 +1,9 @@
-import ButtonComponent from "../../../../../components/ButtonComponent";
+import ButtonComponent from "components/ButtonComponent";
 import { buttonComponentType } from "../../../../../@types/guiz";
 import { useNavigate } from "react-router-dom";
 
 const Timer = ({
-  timeOut,
+  endGame,
   score,
   startTimer,
   clickStartTimer,
@@ -11,7 +11,7 @@ const Timer = ({
   seconds,
   minutes,
 }: {
-  timeOut: Function;
+  endGame: Function;
   score: { left: number; total: number };
   startTimer: boolean;
   clickStartTimer: () => void;
@@ -53,7 +53,7 @@ const Timer = ({
             text="Give Up"
             clickOn={() => {
               clickStopTimer();
-              timeOut();
+              endGame();
             }}
             type={buttonComponentType.RED}
           />

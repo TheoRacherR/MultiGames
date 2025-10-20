@@ -4,10 +4,11 @@ import {
   finalScoreInterface,
   countryGuess,
   modeQuiz,
+  gameQuiz,
 } from "../../../../../@types/guiz";
 import { countryList } from "../CountryList";
 import Timer from "../Timer/Timer";
-import axios from "../../../../../axiosConfig";
+import axios from "axiosConfig";
 import { getUserInfos } from "../../../../../utils/Default/Auth";
 import { country, UserInfos, userRole } from "../../../../../@types/user";
 
@@ -107,17 +108,19 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
     });
     try {
       const userInfosRequest = await getUserInfos();
-      setUserInfos(userInfosRequest)
+      setUserInfos(userInfosRequest);
       if (userInfosRequest) {
-        await axios.post('/quiz', {
+        await axios.post("/quiz", {
           scoreFound: flagFound.length,
           scoreTotal: flagFound.length + flagToGuess.length,
-          player: userInfosRequest.id
+          timerFinished: 0, //TODO calcul temps total
+          type: gameQuiz.FLAG,
+          player: userInfosRequest.id,
         });
       }
     } catch (e) {
       // return navigate("auth");
-      console.log(e)
+      console.log(e);
     }
   };
 
@@ -179,7 +182,7 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
         disabled={!startTimer}
       />
       <Timer
-        timeOut={endGame}
+        endGame={endGame}
         score={{ left: flagToGuess.length, total: flagToGuessInit.length }}
         startTimer={startTimer}
         clickStartTimer={clickStartTimer}
@@ -188,12 +191,15 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
         minutes={minutes}
       />
 
-      {
-        finalScore.end ?
-          <FlagModalEndGame finalScore={finalScore} setFinalScore={setFinalScore} userInfos={userInfos}/>
-        :
-          <></>
-      }
+      {finalScore.end ? (
+        <FlagModalEndGame
+          finalScore={finalScore}
+          setFinalScore={setFinalScore}
+          userInfos={userInfos}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

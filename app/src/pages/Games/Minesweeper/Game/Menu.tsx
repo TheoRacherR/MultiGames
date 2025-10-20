@@ -9,15 +9,16 @@ const Menu = ({
   changeDifficulty,
   difficulty,
   timer,
-  safeFlagsUsed,
-  safeFlagsMax,
+  safeFlags,
   start
 }: { 
   changeDifficulty: (diff: minesweeperDifficulty) => void;
   difficulty: minesweeperDifficulty;
   timer: number;
-  safeFlagsUsed: number;
-  safeFlagsMax: number;
+  safeFlags: {
+    used: number;
+    max: number;
+  };
   start: boolean;
 }) => {
   
@@ -41,7 +42,7 @@ const Menu = ({
         </Select>
       </div>
       <div className='p-2 text-center my-auto'>{timer} <TimerRoundedIcon sx={{ color: yellow[600] }}/> </div>
-      <div className='p-2 text-center my-auto'>{safeFlagsMax - safeFlagsUsed} <FlagRoundedIcon sx={{ color: red[900] }}/></div>
+      <div className='p-2 text-center my-auto'>{safeFlags.max - safeFlags.used} <FlagRoundedIcon sx={{ color: red[900] }}/></div>
     </div>
   )
 }

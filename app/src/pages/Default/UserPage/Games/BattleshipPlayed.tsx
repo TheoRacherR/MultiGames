@@ -1,8 +1,8 @@
 import { FormatedScoreboard } from "../../../../@types/games";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../../../../axiosConfig";
-import Scoreboard from "../../../../components/Scoreboard";
+import axios from "axiosConfig";
+import Scoreboard from "components/Scoreboard";
 import {
   Accordion,
   AccordionDetails,

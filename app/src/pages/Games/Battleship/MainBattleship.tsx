@@ -1,26 +1,30 @@
-import { useEffect, useState } from 'react';
-import './MainBattleship.css';
-import Scoreboard from 'components/Scoreboard';
-import ModalParty from './ModalParty';
-import axios from "../../../axiosConfig";
+import { useEffect, useState } from "react";
+import "./MainBattleship.css";
+import Scoreboard from "components/Scoreboard";
+import ModalParty from "./ModalParty";
+import axios from "axiosConfig";
 import { FormatedScoreboard } from "../../../@types/games";
-import ButtonComponent from 'components/ButtonComponent';
-import { buttonComponentType } from '../../../@types/guiz';
-import { battleshipButtonType } from '../../../@types/battleship';
+import ButtonComponent from "components/ButtonComponent";
+import { buttonComponentType } from "../../../@types/guiz";
+import { battleshipButtonType } from "../../../@types/battleship";
 
 export const giveStartOrder = () => {
-  const starter = Math.floor(Math.random()*2);
+  const starter = Math.floor(Math.random() * 2);
   return starter === 0;
   // if(starter === 0)
   //   setSocketStarter to owner
   // else
   //  setSocketStarter to other
-}
+};
 
 const Battleships = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState<battleshipButtonType>(battleshipButtonType.CREATE);
-  const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>([]);
+  const [selected, setSelected] = useState<battleshipButtonType>(
+    battleshipButtonType.CREATE
+  );
+  const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>(
+    []
+  );
 
   const handleOpenModal = (type: battleshipButtonType) => {
     setOpen(true);
@@ -29,26 +33,24 @@ const Battleships = () => {
 
   const getScoreboardInfos = async () => {
     try {
-      const req = await axios.post('/battleship-elo/scoreboard', {
-        length: 5
-      })
-      if(req.status === 201) {
+      const req = await axios.post("/battleship-elo/scoreboard", {
+        length: 5,
+      });
+      if (req.status === 201) {
         setDataScoreboard(req.data);
         return;
-      }
-      else {
+      } else {
         // TODO Alerte error
       }
-    }
-    catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
       // TODO Alerte error
     }
-  }
+  };
 
   useEffect(() => {
     getScoreboardInfos();
-  }, [])
+  }, []);
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
@@ -56,14 +58,14 @@ const Battleships = () => {
 
       <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
         <ButtonComponent
-          index='Create a party'
-          text='Create a party'
+          index="Create a party"
+          text="Create a party"
           type={buttonComponentType.BLUE}
           clickOn={() => handleOpenModal(battleshipButtonType.CREATE)}
         />
         <ButtonComponent
-          index='Join a party'
-          text='Join a party'
+          index="Join a party"
+          text="Join a party"
           type={buttonComponentType.BLUE}
           clickOn={() => handleOpenModal(battleshipButtonType.JOIN)}
         />
@@ -72,9 +74,7 @@ const Battleships = () => {
         <h2 className="text-center">Scoreboard :</h2>
         <Scoreboard data={dataScoreboard} />
       </div>
-      {open ?
-        <ModalParty setOpen={setOpen} selected={selected} />
-      : <></>}
+      {open ? <ModalParty setOpen={setOpen} selected={selected} /> : <></>}
     </div>
   );
 };

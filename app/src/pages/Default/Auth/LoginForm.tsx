@@ -1,8 +1,12 @@
 import { useState } from "react";
-import axios from "../../../axiosConfig";
+import axios from "axiosConfig";
 import { Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { createEntitesAtLogin, getUserInfos, mailRegex } from "../../../utils/Default/Auth";
+import {
+  createEntitesAtLogin,
+  getUserInfos,
+  mailRegex,
+} from "../../../utils/Default/Auth";
 import ContainerUserInfos from "components/ContainerUserInfos";
 
 const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
@@ -14,7 +18,8 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   }>({ mail: "", password: "" });
 
   const handleLogin = async () => {
-    if(valuesLogin.mail.length === 0 || valuesLogin.password.length === 0) return;
+    if (valuesLogin.mail.length === 0 || valuesLogin.password.length === 0)
+      return;
     setError({ credentials: false, not_email: false });
 
     if (mailRegex.test(valuesLogin.mail)) {
@@ -27,13 +32,13 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
         console.log("update jwt");
         // TODO Alerte de connexion
         const usrInfos = await getUserInfos();
-        if(usrInfos) {
-          createEntitesAtLogin(usrInfos.id)
+        if (usrInfos) {
+          createEntitesAtLogin(usrInfos.id);
         }
         return navigate("/");
       } catch (e) {
         // TODO Alerte d'erreur de connexion
-        console.log(e)
+        console.log(e);
         setError({ ...error, credentials: true });
       }
     } else {
@@ -52,7 +57,6 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
     <ContainerUserInfos>
       <>
         <div>
-
           {/* mail */}
           <div className="my-6 flex flex-col">
             <TextField
@@ -73,7 +77,10 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
               placeholder={"password"}
               value={valuesLogin.password}
               onChange={(e) =>
-                setValuesLogin((prev) => ({ ...prev, password: e.target.value }))
+                setValuesLogin((prev) => ({
+                  ...prev,
+                  password: e.target.value,
+                }))
               }
             />
             {error.not_email ? (
@@ -106,10 +113,8 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
           <></>
         )}
         <div>
-          <Typography
-            style={{ color: "hsl(var(--hue) 80% 30%)" }}
-          >
-            Don't have account ? 
+          <Typography style={{ color: "hsl(var(--hue) 80% 30%)" }}>
+            Don't have account ?
             <span
               style={{ color: "#ed6c0280", cursor: "pointer" }}
               onClick={() => handleSwitchForm(1)}

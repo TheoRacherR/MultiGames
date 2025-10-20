@@ -1,14 +1,17 @@
-import { MenuItem, Select, TextField, Button } from '@mui/material';
-import { country, UserInfos, userRole } from '../../../@types/user';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getUserInfos, mailRegex, verifyRole } from '../../../utils/Default/Auth';
-import axios from '../../../axiosConfig';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import InputAdornment from '@mui/material/InputAdornment';
-import { countryList, countryObject } from '../../../utils/Default/Default';
-
+import { MenuItem, Select, TextField, Button } from "@mui/material";
+import { country, UserInfos, userRole } from "../../../@types/user";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  getUserInfos,
+  mailRegex,
+  verifyRole,
+} from "../../../utils/Default/Auth";
+import axios from "axiosConfig";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import InputAdornment from "@mui/material/InputAdornment";
+import { countryList, countryObject } from "../../../utils/Default/Default";
 
 const UserInfosChange = () => {
   const [userInfos, setUserInfos] = useState<UserInfos>({
@@ -29,7 +32,9 @@ const UserInfosChange = () => {
     role: userRole.USER,
     country: country.FRANCE,
   });
-  const [errors, setErrors] = useState<{mailFormat: boolean}>({ mailFormat: false })
+  const [errors, setErrors] = useState<{ mailFormat: boolean }>({
+    mailFormat: false,
+  });
 
   const navigate = useNavigate();
 
@@ -58,10 +63,10 @@ const UserInfosChange = () => {
   const handleUpdateUserInfos = async () => {
     if (!mailRegex.test(userInfos.email)) {
       // TODO Alerte mauvais format de mail
-      setErrors({...errors, mailFormat: true})
-      return
-    };
-    setErrors({...errors, mailFormat: false})
+      setErrors({ ...errors, mailFormat: true });
+      return;
+    }
+    setErrors({ ...errors, mailFormat: false });
     try {
       if (JSON.stringify(userInfos) === JSON.stringify(userInfosInit)) return;
       const res = await axios.patch(`/user/info/${userInfos.id}`, {
@@ -71,8 +76,8 @@ const UserInfosChange = () => {
         pseudo: userInfos.pseudo,
         country: userInfos.country,
       });
-      console.log(res)
-      if(res.status === 200) {
+      console.log(res);
+      if (res.status === 200) {
         // TODO Alerte infos mis à jour
         // res.data.message
       }
@@ -117,7 +122,8 @@ const UserInfosChange = () => {
           error={errors.mailFormat}
           value={userInfos.email}
           onChange={(e) => {
-            if (mailRegex.test(e.target.value)) setErrors({...errors, mailFormat: false});
+            if (mailRegex.test(e.target.value))
+              setErrors({ ...errors, mailFormat: false });
             setUserInfos((prev) => ({
               ...prev,
               email: e.target.value,
@@ -127,21 +133,21 @@ const UserInfosChange = () => {
             input: {
               endAdornment: (
                 <InputAdornment position="start">
-                  {
-                    mailRegex.test(userInfos.email) ?
-                    <CheckCircleRoundedIcon color='success' />
-                    :
-                    <CancelRoundedIcon color='error'/>
-                  }
+                  {mailRegex.test(userInfos.email) ? (
+                    <CheckCircleRoundedIcon color="success" />
+                  ) : (
+                    <CancelRoundedIcon color="error" />
+                  )}
                 </InputAdornment>
               ),
             },
           }}
         />
-        {errors.mailFormat
-        ? <div style={{ color: "red" }}>Email Format Error</div>
-        : <></>
-        }
+        {errors.mailFormat ? (
+          <div style={{ color: "red" }}>Email Format Error</div>
+        ) : (
+          <></>
+        )}
       </div>
 
       <div className="my-6 flex flex-unset gap-6">
@@ -183,7 +189,7 @@ const UserInfosChange = () => {
         Submit
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default UserInfosChange
+export default UserInfosChange;

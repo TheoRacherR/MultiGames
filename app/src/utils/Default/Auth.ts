@@ -1,6 +1,6 @@
 import { checkIfLocalStorageWordleIsFine } from "utils/Wordle/Wordle";
 import { UserInfos, userRole } from "../../@types/user";
-import axios from "../../axiosConfig";
+import axios from "axiosConfig";
 
 export const minLengthPassword: number = 12;
 
@@ -40,7 +40,6 @@ export const verifyRole = async (): Promise<userRole | string> => {
   } else return "not logged";
 };
 
-
 export const getUserInfos = async (): Promise<UserInfos> => {
   if (localStorage.getItem("jwtToken")) {
     try {
@@ -61,7 +60,7 @@ export const getUserInfos = async (): Promise<UserInfos> => {
           email: infos.data.email,
           role: infos.data.role,
           pseudo: infos.data.pseudo,
-          country: infos.data.country
+          country: infos.data.country,
         };
       }
       throw new Error("Error while getting user infos");
@@ -70,8 +69,7 @@ export const getUserInfos = async (): Promise<UserInfos> => {
       console.log("change jwtToken");
       throw new Error("No token found");
     }
-  }
-  else {
+  } else {
     throw new Error("No token found");
   }
 };
@@ -81,13 +79,13 @@ export const errorWithUserOrLogout = () => {
   console.log("change jwtToken");
 
   localStorage.setItem("dailyWordleDone", "");
-}
+};
 
 export const createEntitesAtLogin = async (userID: string) => {
   try {
-    if(checkIfLocalStorageWordleIsFine()) {
-      const local = localStorage.getItem('dailyWordleDone');
-      if(local) {
+    if (checkIfLocalStorageWordleIsFine()) {
+      const local = localStorage.getItem("dailyWordleDone");
+      if (local) {
         await axios.post("/wordle/", {
           nbTry: JSON.parse(local).nbTry,
           won: JSON.parse(local).won,
@@ -96,8 +94,7 @@ export const createEntitesAtLogin = async (userID: string) => {
         });
       }
     }
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e);
   }
-}
+};

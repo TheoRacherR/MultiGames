@@ -1,12 +1,19 @@
-import { Button, LinearProgress, TextField, Typography, Select, MenuItem } from "@mui/material";
-import axios from "../../../axiosConfig";
+import {
+  Button,
+  LinearProgress,
+  TextField,
+  Typography,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import axios from "axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { country } from "../../../@types/user";
 import { mailRegex, minLengthPassword } from "../../../utils/Default/Auth";
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import InputAdornment from '@mui/material/InputAdornment';
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import InputAdornment from "@mui/material/InputAdornment";
 import { countryList, countryObject } from "../../../utils/Default/Default";
 import ContainerUserInfos from "components/ContainerUserInfos";
 
@@ -36,12 +43,23 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   }>({ passwordCooherence: false, emailAlreadyUsed: false, not_email: false });
 
   const handleRegister = async () => {
-    if(valuesRegister.mail.length === 0 || valuesRegister.password.length === 0 || valuesRegister.confirmPassword.length === 0) return;
-    if(valuesRegister.password !== valuesRegister.confirmPassword) return setError({ ...error, passwordCooherence: true }); 
+    if (
+      valuesRegister.mail.length === 0 ||
+      valuesRegister.password.length === 0 ||
+      valuesRegister.confirmPassword.length === 0
+    )
+      return;
+    if (valuesRegister.password !== valuesRegister.confirmPassword)
+      return setError({ ...error, passwordCooherence: true });
 
-    if (mailRegex.test(valuesRegister.mail)) return setError({ ...error, not_email: true });
+    if (mailRegex.test(valuesRegister.mail))
+      return setError({ ...error, not_email: true });
 
-    setError({ passwordCooherence: false, emailAlreadyUsed: false, not_email: false });
+    setError({
+      passwordCooherence: false,
+      emailAlreadyUsed: false,
+      not_email: false,
+    });
     try {
       await axios.post("/auth/register/", {
         firstname: valuesRegister.firstname,
@@ -116,12 +134,11 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
                 input: {
                   endAdornment: (
                     <InputAdornment position="start">
-                      {
-                        mailRegex.test(valuesRegister.mail) ?
-                        <CheckCircleRoundedIcon color='success' />
-                        :
-                        <CancelRoundedIcon color='error'/>
-                      }
+                      {mailRegex.test(valuesRegister.mail) ? (
+                        <CheckCircleRoundedIcon color="success" />
+                      ) : (
+                        <CancelRoundedIcon color="error" />
+                      )}
                     </InputAdornment>
                   ),
                 },
@@ -195,7 +212,10 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
               }}
             />
             <Typography
-              style={{ alignSelf: "flex-end", color: "hsl(var(--hue) 80% 30%)" }}
+              style={{
+                alignSelf: "flex-end",
+                color: "hsl(var(--hue) 80% 30%)",
+              }}
             >
               {valuesRegister.password.length < 3 && "very weak"}
               {valuesRegister.password.length >= 3 &&
@@ -226,7 +246,8 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
             <LinearProgress
               variant="determinate"
               value={Math.min(
-                (valuesRegister.confirmPassword.length * 100) / minLengthPassword,
+                (valuesRegister.confirmPassword.length * 100) /
+                  minLengthPassword,
                 100
               )}
               style={{
@@ -236,7 +257,10 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
             />
 
             <Typography
-              style={{ alignSelf: "flex-end", color: "hsl(var(--hue) 80% 30%)" }}
+              style={{
+                alignSelf: "flex-end",
+                color: "hsl(var(--hue) 80% 30%)",
+              }}
             >
               {valuesRegister.password.length < 3 && "very_weak"}
               {valuesRegister.password.length >= 3 &&
@@ -248,7 +272,9 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
               {valuesRegister.password.length >= 10 && "very_strong"}
             </Typography>
             {error.passwordCooherence ? (
-              <div style={{ color: "red" }}>{"confirm password should be the same as the password"}</div>
+              <div style={{ color: "red" }}>
+                {"confirm password should be the same as the password"}
+              </div>
             ) : (
               <></>
             )}
@@ -270,10 +296,8 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
         </div>
 
         <div>
-          <Typography
-            style={{ color: "hsl(var(--hue) 80% 30%)" }}
-          >
-            Have account ? 
+          <Typography style={{ color: "hsl(var(--hue) 80% 30%)" }}>
+            Have account ?
             <span
               style={{ color: "#ed6c0280", cursor: "pointer" }}
               onClick={() => handleSwitchForm(0)}

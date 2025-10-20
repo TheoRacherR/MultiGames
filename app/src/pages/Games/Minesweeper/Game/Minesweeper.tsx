@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Menu from './Menu'
 import { minesweeperDifficulty } from '../../../../@types/minesweeper'
 import Board from './Board'
 import MinesweeperModalEndGame from './MinesweeperModalEndGame'
+import { UserInfos } from '../../../../@types/user'
+import { getUserInfos } from 'utils/Default/Auth'
+import axios from 'axiosConfig'
 
 interface difficultyDetails {
   mine: number;
@@ -36,13 +39,13 @@ const rules:{easy: difficultyDetails, normal: difficultyDetails, hard: difficult
 const Minesweeper = () => {
   const [difficulty, setDifficulty] = useState<minesweeperDifficulty>(minesweeperDifficulty.EASY)
   const [timer, setTimer] = useState<number>(0);
-  const [safeFlagsUsed, setSafeFlagsUsed] = useState<number>(0);
-  const [safeFlagsMax, setSafeFlagsMax] = useState<number>(0);
+  const [safeFlags, setSafeFlags] = useState<{ used: number, max: number }>({used: 0, max: 0});
   const [start, setStart] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false)
   const [finalScore, setFinalScore] = useState<{won: boolean, score: number, end: boolean}>({won: false, score: 0, end: false})
   const [timeOutID, setTimeOutID] = useState<NodeJS.Timeout>();
   const [reset, setReset] = useState<boolean>(false);
+  const userInfo = useRef<UserInfos | null>(null);
 
   useEffect(() => {
     if(start){
@@ -58,7 +61,7 @@ const Minesweeper = () => {
   const resetParty = () => {
     resetTimer();
     setTimer(0);
-    setSafeFlagsUsed(0);
+    setSafeFlags(prev => ({ ...prev, used: 0 }));
     setStart(false);
     initMines(difficulty);
     setReset(!reset)
@@ -66,11 +69,11 @@ const Minesweeper = () => {
 
   const initMines = (diff: minesweeperDifficulty) => {
     if(diff === minesweeperDifficulty.EASY)
-      setSafeFlagsMax(rules.easy.mine);
+      setSafeFlags(prev => ({...prev, max: rules.easy.mine}));
     else if(diff === minesweeperDifficulty.NORMAL)
-      setSafeFlagsMax(rules.normal.mine);
+      setSafeFlags(prev => ({...prev, max: rules.normal.mine}));
     else
-      setSafeFlagsMax(rules.hard.mine);
+      setSafeFlags(prev => ({...prev, max: rules.hard.mine}));
   }
 
   const changeDifficulty = (diff: minesweeperDifficulty) => {
@@ -82,8 +85,8 @@ const Minesweeper = () => {
 
   const changeNumberOfFlag = (positive: boolean) => {
     if(positive)
-      if(safeFlagsMax > safeFlagsUsed) {
-        setSafeFlagsUsed(safeFlagsUsed+1)
+      if(safeFlags.max > safeFlags.used) {
+        setSafeFlags(prev => ({ ...prev, used: safeFlags.used+1 }))
         return true;
       }
       else {
@@ -91,19 +94,40 @@ const Minesweeper = () => {
         return false;
       }
     else 
-      if(safeFlagsUsed === 0) {
+      if(safeFlags.used === 0) {
         console.log("error min flag used")
         return false;
       }
       else {
-        setSafeFlagsUsed(safeFlagsUsed-1)
+        setSafeFlags(prev => ({ ...prev, used: safeFlags.used-1 }))
         return true;
       }
   }
 
-  const endGame = (won: boolean) => {
-    setFinalScore({won: won, score: timer, end: true});
-    setOpen(true);
+  const endGame = async (won: boolean) => {
+    // TODO Alerte Game gagné
+    let uInfos;
+    try {
+      uInfos = await getUserInfos();
+    } catch (e) {
+    }
+    if(uInfos) userInfo.current = uInfos;
+
+    try {
+      if (userInfo.current) {
+        await axios.post("/minesweeper", {
+          score: timer,
+          won: won,
+          level: difficulty,
+          player: userInfo.current.id
+        });
+      }
+      setFinalScore({won: won, score: timer, end: true});
+      setOpen(true);
+    } catch (e) {
+      // TODO Alerte d'erreur de récupération des infos du user
+    }
+    
   }
 
   useEffect(() => {
@@ -116,16 +140,14 @@ const Minesweeper = () => {
         changeDifficulty={changeDifficulty}
         difficulty={difficulty}
         timer={timer}
-        safeFlagsUsed={safeFlagsUsed}
-        safeFlagsMax={safeFlagsMax}
+        safeFlags={safeFlags}
         start={start}
       />
 
       <Board
         xcases={difficulty === minesweeperDifficulty.EASY ? rules.easy.xcases : difficulty === minesweeperDifficulty.NORMAL ? rules.normal.xcases : rules.hard.xcases}
         ycases={difficulty === minesweeperDifficulty.EASY ? rules.easy.ycases : difficulty === minesweeperDifficulty.NORMAL ? rules.normal.ycases : rules.hard.ycases}
-        safeFlagsMax={safeFlagsMax}
-        safeFlagsUsed={safeFlagsUsed}
+        safeFlags={safeFlags}
         changeNumberOfFlag={changeNumberOfFlag}
         endGame={endGame}
         start={start}
