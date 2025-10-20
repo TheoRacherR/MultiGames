@@ -1,13 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import {
-  ModalHeader,
-  ModalDescription,
-  ModalContent,
-  ModalActions,
-  Button,
-  Modal,
-} from 'semantic-ui-react'
-import { finalScoreInterface } from '../../../../../@types/guiz';
+import { buttonComponentType, finalScoreInterface } from '../../../../../@types/guiz';
+import ModalEndGame from 'components/ModalEndGame';
+import ButtonComponent from 'components/ButtonComponent';
 
 const CountryModalEndGame = (
   { finalScore, setFinalScore, resetPage}: { finalScore: finalScoreInterface, setFinalScore: React.Dispatch<React.SetStateAction<finalScoreInterface>>, resetPage: Function }
@@ -29,21 +23,10 @@ const CountryModalEndGame = (
 
   return (
     <div>
-      <Modal
-        onOpen={() => setFinalScore({
-          end: true,
-          finalTimer: {
-            seconds: finalScore.finalTimer.seconds,
-            minutes: finalScore.finalTimer.minutes
-          },
-          listFound: finalScore.listFound,
-          listLeftToFind: finalScore.listLeftToFind
-        })}
-        open={finalScore.end}
-      >
-        {finalScore.listLeftToFind.length === 0 ? <ModalHeader>You won !</ModalHeader> : <ModalHeader>End of the game</ModalHeader>}
-        <ModalContent>
-          <ModalDescription>
+      <ModalEndGame
+        title={finalScore.listLeftToFind.length === 0 ? "You won !" : "End of the game"}
+        content={
+          <>
             <p className='text-2xl'>
               You guested {finalScore.listFound.length}/{finalScore.listFound.length + finalScore.listLeftToFind.length} 
               {finalScore.finalTimer.seconds > 0 || finalScore.finalTimer.minutes > 0 ? ` in 
@@ -51,22 +34,27 @@ const CountryModalEndGame = (
                 ${finalScore.finalTimer.seconds === 1 ? '1 second' : finalScore.finalTimer.seconds > 1 ? finalScore.finalTimer.seconds +' seconds' : ''}
               🎉` : ''}
             </p>
-            <p>{ `You're not connected, you can login to save your score` }<Button style={{marginLeft: '10px'}} positive onClick={() => navigate('/auth')}>Login</Button></p> {/* //TODO if logged */}
-          </ModalDescription>
-        </ModalContent>
-        <ModalActions>
-          <Button color='black' onClick={() => gotoMenu()}>
-            Home
-          </Button>
-          <Button
-            content='Replay'
-            color='orange'
-            labelPosition='left'
-            icon='redo'
-            onClick={() => resetPage()}
-          />
-        </ModalActions>
-      </Modal>
+            <p>{ `You're not connected, you can login to save your score` }<ButtonComponent index='login_button' text='Login' type={buttonComponentType.GREEN} clickOn={() => navigate('/auth')}/></p> {/* //TODO if logged */}
+          </>
+          
+        }
+        buttons={
+          <>
+            <ButtonComponent
+              index="go_to_menu"
+              text="Home"
+              type={buttonComponentType.BLUE}
+              clickOn={() => gotoMenu()}
+            />
+            <ButtonComponent
+              index="replay_button"
+              text="Replay"
+              type={buttonComponentType.ORANGE}
+              clickOn={() => resetPage()}
+            />
+          </>
+        }
+      />
     </div>
   )
 }

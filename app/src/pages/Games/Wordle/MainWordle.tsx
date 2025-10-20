@@ -6,10 +6,8 @@ import { useEffect, useState } from "react";
 import {
   FormatedScoreboard
 } from '../../../@types/games'
-
-const choices: { type: string; text: string }[] = [
-  { type: "create", text: "Play" },
-];
+import ButtonComponent from "components/ButtonComponent";
+import { buttonComponentType } from "../../../@types/guiz";
 
 const MainWordle = () => {
   const navigate = useNavigate();
@@ -43,30 +41,12 @@ const MainWordle = () => {
       <h1 className="text-6xl text-center mb-14">🟩 Wordle 🟩</h1>
 
       <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
-        {choices.map((item, index) => (
-          <div key={index}>
-            <div
-              id="toclick"
-              className="rounded-md p-3 text-xl text-center my-auto cursor-pointer relative"
-              style={{
-                top: 35,
-                left: -10,
-                backgroundColor: "#B85656",
-                color: "white",
-                userSelect: "none",
-              }}
-              onClick={() => navigate("game")}
-            >
-              {item.text}
-            </div>
-            <div
-              className="rounded-md p-3 text-xl text-center my-auto cursor-pointer"
-              style={{ backgroundColor: "#914343", color: "#914343" }}
-            >
-              {item.text}
-            </div>
-          </div>
-        ))}
+        <ButtonComponent
+          index="play"
+          text="Play"
+          type={buttonComponentType.RED}
+          clickOn={() => navigate("game")}
+        />
       </div>
       <div>
         <h2 className="text-center">Scoreboard :</h2>

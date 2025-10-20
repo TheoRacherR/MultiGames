@@ -37,3 +37,12 @@ export interface MinesweeperFormatedScoreboard {
   score: number,
   level: minesweeperDifficulty;
 }
+
+export interface caseInterface {
+  type: caseTypes;
+  flagPlaced: boolean;
+  text: string;
+  showed: boolean;
+  placment: casePosition | null;
+  loosed: boolean;
+}

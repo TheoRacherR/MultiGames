@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Menu from './Menu'
 import { minesweeperDifficulty } from '../../../../@types/minesweeper'
 import Board from './Board'
-import ModalEndGame from './ModalEndGame'
+import MinesweeperModalEndGame from './MinesweeperModalEndGame'
 
 interface difficultyDetails {
   mine: number;
@@ -39,8 +39,8 @@ const Minesweeper = () => {
   const [safeFlagsUsed, setSafeFlagsUsed] = useState<number>(0);
   const [safeFlagsMax, setSafeFlagsMax] = useState<number>(0);
   const [start, setStart] = useState<boolean>(false);
-  const [open, setOpen] = useState(false)
-  const [finalScore, setFinalScore] = useState<{won: boolean, score: number}>({won: false, score: 0})
+  const [open, setOpen] = useState<boolean>(false)
+  const [finalScore, setFinalScore] = useState<{won: boolean, score: number, end: boolean}>({won: false, score: 0, end: false})
   const [timeOutID, setTimeOutID] = useState<NodeJS.Timeout>();
   const [reset, setReset] = useState<boolean>(false);
 
@@ -102,7 +102,7 @@ const Minesweeper = () => {
   }
 
   const endGame = (won: boolean) => {
-    setFinalScore({won: won, score: timer});
+    setFinalScore({won: won, score: timer, end: true});
     setOpen(true);
   }
 
@@ -116,7 +116,6 @@ const Minesweeper = () => {
         changeDifficulty={changeDifficulty}
         difficulty={difficulty}
         timer={timer}
-        setTimer={setTimer}
         safeFlagsUsed={safeFlagsUsed}
         safeFlagsMax={safeFlagsMax}
         start={start}
@@ -127,7 +126,6 @@ const Minesweeper = () => {
         ycases={difficulty === minesweeperDifficulty.EASY ? rules.easy.ycases : difficulty === minesweeperDifficulty.NORMAL ? rules.normal.ycases : rules.hard.ycases}
         safeFlagsMax={safeFlagsMax}
         safeFlagsUsed={safeFlagsUsed}
-        difficulty={difficulty}
         changeNumberOfFlag={changeNumberOfFlag}
         endGame={endGame}
         start={start}
@@ -135,7 +133,12 @@ const Minesweeper = () => {
         reset={reset}
       />
 
-      <ModalEndGame open={open} setOpen={setOpen} finalScore={finalScore} resetParty={resetParty}/>
+      {
+        open ?
+        <MinesweeperModalEndGame setOpen={setOpen} finalScore={finalScore} resetParty={resetParty}/>
+        :
+        <></>
+      }
 
       
     </div>

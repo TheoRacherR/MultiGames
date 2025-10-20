@@ -8,16 +8,18 @@ import {
   modeCountryList,
   modeQuiz,
 } from "../../../@types/guiz";
-import ButtonComponent from "./ButtonComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
 import { useNavigate } from "react-router-dom";
-import axios from "../../../axiosConfig"
+import axios from "../../../axiosConfig";
 import { FormatedScoreboard } from "../../../@types/games";
 
 const MainQuiz = () => {
   const navigate = useNavigate();
   const [game, setGame] = useState<gameQuiz>(gameQuiz.FLAG);
   const [mode, setMode] = useState<modeQuiz>(modeQuiz.ALL);
-  const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>([]);
+  const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>(
+    []
+  );
 
   useEffect(() => {
     console.log(game);
@@ -34,7 +36,7 @@ const MainQuiz = () => {
     console.log("first");
     const value = e.target.value;
     if (type === "mode") {
-      if(game !== value) {
+      if (game !== value) {
         switch (value) {
           case "Flag":
             setGame(gameQuiz.FLAG);
@@ -43,8 +45,7 @@ const MainQuiz = () => {
             setGame(gameQuiz.COUNTRY);
             break;
         }
-      }
-      else return;
+      } else return;
     } else if (type === "difficulty" && game === gameQuiz.FLAG) {
       switch (value) {
         case "All":
@@ -90,27 +91,25 @@ const MainQuiz = () => {
 
   const getScoreboardInfos = async () => {
     try {
-      const req = await axios.post('/quiz/scoreboard', {
+      const req = await axios.post("/quiz/scoreboard", {
         type: game,
-        length: 5
-      })
-      if(req.status === 201) {
+        length: 5,
+      });
+      if (req.status === 201) {
         setDataScoreboard(req.data);
         return;
-      }
-      else {
+      } else {
         // TODO Alerte error
       }
-    }
-    catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
       // TODO Alerte error
     }
-  }
+  };
 
   useEffect(() => {
     getScoreboardInfos();
-  }, [game])
+  }, [game]);
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>

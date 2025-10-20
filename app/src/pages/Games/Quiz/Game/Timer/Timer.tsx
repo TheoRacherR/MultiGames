@@ -1,4 +1,4 @@
-import ButtonComponent from "../../ButtonComponent";
+import ButtonComponent from "../../../../../components/ButtonComponent";
 import { buttonComponentType } from "../../../../../@types/guiz";
 import { useNavigate } from "react-router-dom";
 

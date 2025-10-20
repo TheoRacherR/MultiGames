@@ -3,7 +3,7 @@ import Board, {
   checkIfUniqueArray,
   getWordFromGrid,
 } from "./Board";
-import ModalEndGame from "./ModalEndGame";
+import ModalEndGame from "./WordleModalEndGame";
 import { caseCurrentState, casesInterface, resultCompare, WordleContextInterface } from "../../../../@types/wordle";
 import Keyboard from "./Keyboard";
 import axios from "../../../../axiosConfig";

@@ -16,6 +16,7 @@ import UserPage from "pages/Default/UserPage/UserPage";
 import WordleWrapperContext from "./pages/Games/Wordle/Game/Wordle";
 import WordleAlreadyDone from "pages/Games/Wordle/Game/Errors/WordleAlreadyDone";
 import Wordday404 from "pages/Games/Wordle/Game/Errors/WordOfTheDay404";
+import ModalEndGame from "components/ModalEndGame";
 
 function App() {
   return (

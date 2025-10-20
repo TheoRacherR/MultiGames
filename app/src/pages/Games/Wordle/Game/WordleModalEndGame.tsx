@@ -1,17 +1,12 @@
+import ModalEndGame from 'components/ModalEndGame';
 import { UserInfos } from '../../../../@types/user';
 import { getUserInfos } from '../../../../utils/Default/Auth';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  ModalHeader,
-  ModalDescription,
-  ModalContent,
-  ModalActions,
-  Button,
-  Modal,
-} from 'semantic-ui-react'
+import ButtonComponent from 'components/ButtonComponent';
+import { buttonComponentType } from '../../../../@types/guiz';
 
-const ModalEndGame = (
+const WordleModalEndGame = (
   { open, setOpen, finalScore}: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>, finalScore: {nbTry: number}}
 ) => {
   const navigate = useNavigate();
@@ -40,29 +35,34 @@ const ModalEndGame = (
 
   return (
     <div>
-      <Modal
-        onOpen={() => setOpen(true)}
-        open={open}
-      >
-        <ModalHeader>You won !</ModalHeader>
-        <ModalContent>
-          <ModalDescription>
+      <ModalEndGame
+        title= {"You won !"}
+        content={
+          <>
             <p>{`You guested it in ${finalScore.nbTry} try`}</p>
             {userInfos ? 
               <p>{ `You're logged as ${userInfos.pseudo}, your score has been saved` }</p>
             :
-              <p>{ `You're not connected, you can login to save your score` }<Button style={{marginLeft: '10px'}} positive onClick={() => navigate('/auth')}>Login</Button></p>
+              <p>{ `You're not connected, you can login to save your score` }<ButtonComponent
+                  index="login_button"
+                  text="Login"
+                  type={buttonComponentType.GREEN}
+                  clickOn={() => navigate("/auth")}
+                /></p>
             }
-          </ModalDescription>
-        </ModalContent>
-        <ModalActions>
-          <Button color='black' onClick={() => gotoMenu()}>
-            Home
-          </Button>
-        </ModalActions>
-      </Modal>
+          </>
+        }
+        buttons={
+          <ButtonComponent
+            index="home_button"
+            text="Home"
+            type={buttonComponentType.BLUE}
+            clickOn={() => gotoMenu()}
+          />
+        }
+      />
     </div>
   )
 }
 
-export default ModalEndGame
+export default WordleModalEndGame

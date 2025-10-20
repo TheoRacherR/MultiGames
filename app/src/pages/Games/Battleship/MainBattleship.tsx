@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import './MainBattleship.css';
-import Scoreboard from '../../../components/Scoreboard';
+import Scoreboard from 'components/Scoreboard';
 import ModalParty from './ModalParty';
 import axios from "../../../axiosConfig";
 import { FormatedScoreboard } from "../../../@types/games";
-
-const choices: { type: string; text: string }[] = [
-  { type: 'create', text: 'Create a party' },
-  { type: 'join', text: 'Join a party' },
-];
+import ButtonComponent from 'components/ButtonComponent';
+import { buttonComponentType } from '../../../@types/guiz';
+import { battleshipButtonType } from '../../../@types/battleship';
 
 export const giveStartOrder = () => {
   const starter = Math.floor(Math.random()*2);
@@ -21,10 +19,10 @@ export const giveStartOrder = () => {
 
 const Battleships = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string>('create');
+  const [selected, setSelected] = useState<battleshipButtonType>(battleshipButtonType.CREATE);
   const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>([]);
 
-  const handleOpenModal = (type: string) => {
+  const handleOpenModal = (type: battleshipButtonType) => {
     setOpen(true);
     setSelected(type);
   };
@@ -57,36 +55,26 @@ const Battleships = () => {
       <h1 className="text-6xl text-center mb-14">⛴️ Battleship ⛴️</h1>
 
       <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
-        {choices.map((item, index) => (
-          <div key={index}>
-            <div
-              id="toclick"
-              className="rounded-md p-3 text-xl text-center my-auto cursor-pointer relative"
-              style={{
-                top: 35,
-                left: -10,
-                backgroundColor: '#568eb8',
-                color: 'white',
-                userSelect: 'none',
-              }}
-              onClick={() => handleOpenModal(item.type)}
-            >
-              {item.text}
-            </div>
-            <div
-              className="rounded-md p-3 text-xl text-center my-auto cursor-pointer"
-              style={{ backgroundColor: '#436f91', color: '#436f91' }}
-            >
-              {item.text}
-            </div>
-          </div>
-        ))}
+        <ButtonComponent
+          index='Create a party'
+          text='Create a party'
+          type={buttonComponentType.BLUE}
+          clickOn={() => handleOpenModal(battleshipButtonType.CREATE)}
+        />
+        <ButtonComponent
+          index='Join a party'
+          text='Join a party'
+          type={buttonComponentType.BLUE}
+          clickOn={() => handleOpenModal(battleshipButtonType.JOIN)}
+        />
       </div>
       <div>
         <h2 className="text-center">Scoreboard :</h2>
         <Scoreboard data={dataScoreboard} />
       </div>
-      <ModalParty open={open} setOpen={setOpen} selected={selected} />
+      {open ?
+        <ModalParty setOpen={setOpen} selected={selected} />
+      : <></>}
     </div>
   );
 };
