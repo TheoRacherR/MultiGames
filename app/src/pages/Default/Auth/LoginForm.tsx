@@ -8,6 +8,7 @@ import {
   mailRegex,
 } from "../../../utils/Default/Auth";
 import ContainerUserInfos from "components/ContainerUserInfos";
+import { userStatus } from "../../../@types/user";
 
 const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   const navigate = useNavigate();
@@ -33,7 +34,15 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
         // TODO Alerte de connexion
         const usrInfos = await getUserInfos();
         if (usrInfos) {
-          createEntitesAtLogin(usrInfos.id);
+          if(usrInfos.status === userStatus.BANNED) {
+            // TODO Alerte d'erreur user banned
+            setValuesLogin({mail: '', password: ''})
+            console.log('user banned')
+            return;
+          }
+          else {
+            createEntitesAtLogin(usrInfos.id);
+          }
         }
         return navigate("/");
       } catch (e) {
@@ -106,7 +115,7 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
 
         {/* errors */}
         {error.credentials ? (
-          <div style={{ color: "red" }}>Credentials Error</div>
+          <div style={{ color: "red" }}>Email or Password wrong</div>
         ) : error.not_email ? (
           <div style={{ color: "red" }}>Email Error</div>
         ) : (
