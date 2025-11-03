@@ -1,4 +1,4 @@
-import { country, userRole } from 'src/@types/tables/user';
+import { country, userRole, userStatus } from 'src/@types/tables/user';
 import { Battleship } from 'src/tables/battleship/entities/battleship.entity';
 import { BattleshipElo } from 'src/tables/battleship_elo/entities/battleship_elo.entity';
 import { Minesweeper } from 'src/tables/minesweeper/entities/minesweeper.entity';
@@ -48,6 +48,13 @@ export class User {
     default: userRole.USER,
   })
   role: userRole;
+
+  @Column({
+    type: 'enum',
+    enum: userStatus,
+    default: userStatus.TO_ACTIVE,
+  })
+  status: userStatus;
 
   @CreateDateColumn()
   created_at: Date;

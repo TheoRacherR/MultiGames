@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { countryGuess, finalScoreInterface, gameQuiz, modeQuiz } from '../../../../../@types/guiz'
 import Map from './Map';
 import { countryList } from "../CountryList";
@@ -7,7 +7,7 @@ import CountryList from './CountryList/CountryList';
 import CountryModalEndGame from './CountryModalEndGame';
 import { resetCountriesFound } from '../../../../../utils/Quiz/FunctionsForCountry';
 import { getUserInfos } from 'utils/Default/Auth';
-import { country, UserInfos, userRole } from '../../../../../@types/user';
+import { country, UserInfos, userRole, userStatus } from '../../../../../@types/user';
 import axios from 'axios';
 
 
@@ -38,6 +38,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
     lastname: "",
     pseudo: "",
     role: userRole.USER,
+    status: userStatus.TO_ACTIVE,
     country: country.FRANCE,
   });
   const [startTimer, setStartTimer] = useState<boolean>(false);

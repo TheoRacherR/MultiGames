@@ -15,10 +15,12 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import {
   UserFormated,
   userRole,
+  userStatus,
   UserWithPassword,
 } from 'src/@types/tables/user';
 import { UpdateUserRoleDto } from './dto/update-role-user';
 import { UpdateUserPsswdDto } from './dto/update-psswd-user';
+import { UpdateUserStatusDto } from './dto/update-status-user';
 
 @Controller('user')
 export class UserController {
@@ -70,14 +72,48 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateUserRoleDto: UpdateUserRoleDto,
   ): Promise<{ message: string }> {
-    const userFound = await this.userService.findOne(id);
+    const userFound = await this.userService.findOne(updateUserRoleDto.userID);
     if (userFound) {
       if (userFound.role === userRole.ADMIN) {
         return await this.userService.updateRole(id, updateUserRoleDto);
       } else
-        throw new HttpException(`User ${id} not admin`, HttpStatus.FORBIDDEN);
+        throw new HttpException(
+          `User ${updateUserRoleDto.userID} not admin`,
+          HttpStatus.FORBIDDEN,
+        );
     } else
-      throw new HttpException(`User ${id} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `User ${updateUserRoleDto.userID} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+  }
+
+  @Patch('status/:id')
+  async updateStatus(
+    @Param('id') id: string,
+    @Body() updateUserStatusDto: UpdateUserStatusDto,
+  ): Promise<{ message: string }> {
+    const userFound = await this.userService.findOne(
+      updateUserStatusDto.userID,
+    );
+    if (userFound) {
+      if (
+        userFound.role === userRole.ADMIN ||
+        (id === updateUserStatusDto.userID &&
+          userFound.status === userStatus.ACTIVE &&
+          updateUserStatusDto.status === userStatus.DESACTIVATE)
+      ) {
+        return await this.userService.updateStatus(id, updateUserStatusDto);
+      } else
+        throw new HttpException(
+          `User ${updateUserStatusDto.userID} not admin or user ${updateUserStatusDto.userID} cannot desactivate his own account`,
+          HttpStatus.FORBIDDEN,
+        );
+    } else
+      throw new HttpException(
+        `User ${updateUserStatusDto.userID} not found`,
+        HttpStatus.NOT_FOUND,
+      );
   }
 
   @Delete(':id')

@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserPsswdDto } from './dto/update-psswd-user';
 import { UserFormated, UserWithPassword } from 'src/@types/tables/user';
+import { UpdateUserStatusDto } from './dto/update-status-user';
 
 @Injectable()
 export class UserService {
@@ -58,9 +59,21 @@ export class UserService {
     id: string,
     updateUserRoleDto: UpdateUserRoleDto,
   ): Promise<{ message: string }> {
-    await this.userRepository.update(id, updateUserRoleDto);
+    await this.userRepository.update(id, { role: updateUserRoleDto.role });
     return {
       message: `User role of user ${id} updated to '${updateUserRoleDto.role}'`,
+    };
+  }
+
+  async updateStatus(
+    id: string,
+    updateUserStatusDto: UpdateUserStatusDto,
+  ): Promise<{ message: string }> {
+    await this.userRepository.update(id, {
+      status: updateUserStatusDto.status,
+    });
+    return {
+      message: `User status of user ${id} updated to '${updateUserStatusDto.status}'`,
     };
   }
 

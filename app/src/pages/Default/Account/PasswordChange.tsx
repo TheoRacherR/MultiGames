@@ -141,7 +141,7 @@ const PasswordChange = () => {
         variant="contained"
         disabled={userPassword.password !== userPassword.confirmPassword || userPassword.password.length === 0 || userPassword.confirmPassword.length === 0}
       >
-        {"button_submit"}
+        Change password
       </Button>
     </div>
   )

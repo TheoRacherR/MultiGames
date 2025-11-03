@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axiosConfig";
 import { useNavigate } from "react-router-dom";
-import { UserProfile } from "../../../../@types/user";
+import { UserProfile } from "../../../@types/user";
 import { TextField } from "@mui/material";
-import { countryObject } from "../../../../utils/Default/Default";
+import { countryObject } from "../../../utils/Default/Default";
 
 const UserInfos = ({ id }: { id: string }) => {
   const navigate = useNavigate();
@@ -67,10 +67,18 @@ const UserInfos = ({ id }: { id: string }) => {
             <TextField
               disabled
               type="text"
-              style={{ width: "50%", margin: 0 }}
+              style={{ width: "25%", margin: 0 }}
               placeholder={"Role"}
               label={"Role"}
               value={userInfo.role}
+            />
+            <TextField
+              disabled
+              type="text"
+              style={{ width: "25%", margin: 0 }}
+              placeholder={"Status"}
+              label={"Status"}
+              value={userInfo.status}
             />
             <TextField
               disabled

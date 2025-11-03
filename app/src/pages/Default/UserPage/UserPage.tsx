@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import UserInfos from "./Games/UserInfos";
+import UserInfos from "./UserInfos";
 import WordlePlayed from "./Games/WordlePlayed";
 import BattleshipPlayed from "./Games/BattleshipPlayed";
 import MinesweeperPlayed from "./Games/MinesweeperPlayed";

@@ -9,6 +9,13 @@ export enum userRole {
   ADMIN = 'admin',
 }
 
+export enum userStatus {
+  ACTIVE = 'active', //active
+  TO_ACTIVE = 'to active', //waiting to be active by email activation
+  BANNED = 'banned', //banned by admin
+  DESACTIVATE = 'desactivate',
+}
+
 export interface UserInfos {
   id: string;
   email: string;
@@ -16,6 +23,7 @@ export interface UserInfos {
   lastname: string;
   pseudo: string;
   role: userRole;
+  status: userStatus;
   country: country;
 }
 
@@ -27,6 +35,7 @@ export interface UserFormated {
   pseudo: string;
   country: country;
   role: userRole;
+  status: userStatus;
   created_at: Date;
 }
 export interface UserProfile {
@@ -37,6 +46,7 @@ export interface UserProfile {
   pseudo: string;
   country: country;
   role: userRole;
+  status: userStatus;
   created_at: Date;
   updated_at: Date;
 }

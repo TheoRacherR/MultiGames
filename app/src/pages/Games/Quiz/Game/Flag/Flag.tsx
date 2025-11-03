@@ -10,7 +10,7 @@ import { countryList } from "../CountryList";
 import Timer from "../Timer/Timer";
 import axios from "axiosConfig";
 import { getUserInfos } from "../../../../../utils/Default/Auth";
-import { country, UserInfos, userRole } from "../../../../../@types/user";
+import { country, UserInfos, userRole, userStatus } from "../../../../../@types/user";
 
 const Flag = ({ mode }: { mode: modeQuiz }) => {
   const refInput = useRef<HTMLInputElement>(null);
@@ -35,6 +35,7 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
     lastname: "",
     pseudo: "",
     role: userRole.USER,
+    status: userStatus.TO_ACTIVE,
     country: country.FRANCE,
   });
 

@@ -60,6 +60,7 @@ export const getUserInfos = async (): Promise<UserInfos> => {
           email: infos.data.email,
           role: infos.data.role,
           pseudo: infos.data.pseudo,
+          status: infos.data.status,
           country: infos.data.country,
         };
       }

@@ -1,11 +1,8 @@
 import { MenuItem, Select, TextField, Button } from "@mui/material";
-import { country, UserInfos, userRole } from "../../../@types/user";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { UserInfos } from "../../../@types/user";
+import { useState } from "react";
 import {
-  getUserInfos,
   mailRegex,
-  verifyRole,
 } from "../../../utils/Default/Auth";
 import axios from "axiosConfig";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
@@ -13,52 +10,10 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import InputAdornment from "@mui/material/InputAdornment";
 import { countryList, countryObject } from "../../../utils/Default/Default";
 
-const UserInfosChange = () => {
-  const [userInfos, setUserInfos] = useState<UserInfos>({
-    id: "",
-    email: "",
-    firstname: "",
-    lastname: "",
-    pseudo: "",
-    role: userRole.USER,
-    country: country.FRANCE,
-  });
-  const [userInfosInit, setUserInfosInit] = useState<UserInfos>({
-    id: "",
-    email: "",
-    firstname: "",
-    lastname: "",
-    pseudo: "",
-    role: userRole.USER,
-    country: country.FRANCE,
-  });
+const UserInfosChange = ({userInfos, setUserInfos, userInfosInit}: {userInfos: UserInfos, setUserInfos: React.Dispatch<React.SetStateAction<UserInfos>>, userInfosInit: UserInfos}) => {
   const [errors, setErrors] = useState<{ mailFormat: boolean }>({
     mailFormat: false,
   });
-
-  const navigate = useNavigate();
-
-  const getLogInfos = async () => {
-    console.log("test");
-    try {
-      const role = await verifyRole();
-      if (role === "not logged") return navigate("/auth");
-      // TODO Alerte d'erreur pas connecté
-      else {
-        const userInfosResponse = await getUserInfos();
-        if (!userInfosResponse) return navigate("/auth");
-        setUserInfos(userInfosResponse);
-        setUserInfosInit(userInfosResponse);
-      }
-    } catch (e) {
-      return navigate("/auth");
-      // TODO Alerte d'erreur de récupération des infos du user
-    }
-  };
-
-  useEffect(() => {
-    getLogInfos();
-  }, []);
 
   const handleUpdateUserInfos = async () => {
     if (!mailRegex.test(userInfos.email)) {
@@ -186,7 +141,7 @@ const UserInfosChange = () => {
         variant="contained"
         disabled={JSON.stringify(userInfos) === JSON.stringify(userInfosInit)}
       >
-        Submit
+        Submit changes
       </Button>
     </div>
   );
