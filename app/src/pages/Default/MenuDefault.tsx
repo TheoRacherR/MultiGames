@@ -26,6 +26,10 @@ const links = [
     name: 'Wordle',
     path: '/wordle'
   },
+  {
+    name: 'TimeGmae',
+    path: '/timegame'
+  },
 ]
 
 const MenuDefault = () => {
@@ -79,6 +83,8 @@ const MenuDefault = () => {
         return '❓';
       case '/wordle':
         return '🟩';
+      case '/timegame':
+        return '⏳';
       default:
         return '';
     }
