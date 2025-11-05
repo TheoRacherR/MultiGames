@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./MainBattleship.css";
 import Scoreboard from "components/Scoreboard";
 import ModalParty from "./ModalParty";
 import axios from "axiosConfig";

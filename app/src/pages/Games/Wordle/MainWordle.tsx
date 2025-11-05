@@ -1,4 +1,3 @@
-import "./MainWordle.css";
 import Scoreboard from "components/Scoreboard";
 import { useNavigate } from "react-router-dom";
 import axios from "axiosConfig";
