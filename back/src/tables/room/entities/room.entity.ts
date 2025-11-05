@@ -1,3 +1,4 @@
+import { roomType } from 'src/@types/tables/room';
 import { User } from 'src/tables/user/entities/user.entity';
 import {
   PrimaryGeneratedColumn,
@@ -18,6 +19,13 @@ export class Room {
 
   @Column()
   max_size: number;
+
+  @Column({
+    type: 'enum',
+    enum: roomType,
+    default: roomType.OTHER,
+  })
+  type: roomType;
 
   @CreateDateColumn()
   created_at: Date;
