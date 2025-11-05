@@ -1,4 +1,3 @@
-import "./MainMinesweeper.css";
 import Scoreboard from "components/Scoreboard";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
