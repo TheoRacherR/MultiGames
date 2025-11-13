@@ -316,17 +316,78 @@ const Wordle = () => {
   }, []);
 
   return (
-    <div className="w-4/5 mx-auto p-10">
+    <>
       {wordDay.current.word.length > 0 ? (
         <>
-          <Board word={wordDay.current.word} cases={cases} />
-          <Keyboard handleKeyDown={handleKeyDown} />
-          <ModalEndGame open={open} setOpen={setOpen} finalScore={finalScore} />
+          <div className="min-h-screen bg-[var(--color-primary)] text-white flex items-center justify-center p-8">
+
+            <div className="w-full max-w-4xl">
+
+              <main className="bg-white text-[#5533EA] rounded-2xl shadow-xl p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold uppercase">WORDLE</h2>
+                  <div className="text-sm text-[#6B5BEA]">Tu as 6 essais pour deviner un mot de 5 lettres</div>
+                </div>
+
+                <section id="board" className="mx-auto mb-6" aria-label="Grille Wordle" style={{width:'max-content'}}>
+                </section>
+
+                <div id="message" className="h-8 text-center text-sm font-medium text-[#6B5BEA] mb-4" role="status" aria-live="polite"></div>
+
+                <div className="keyboard grid gap-2 mt-4">
+                  <div className="flex justify-center gap-2">
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">Q</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">W</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">E</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">R</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">T</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">Y</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">U</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">I</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">O</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">P</button>
+                  </div>
+                  <div className="flex justify-center gap-2">
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">A</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">S</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">D</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">F</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">G</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">H</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">J</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">K</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">L</button>
+                  </div>
+                  <div className="flex justify-center gap-2">
+                    <button id="enter" className="inline-block px-4 py-2 rounded-md font-semibold bg-[#6C4EF6] text-white">ENTRER</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">Z</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">X</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">C</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">V</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">B</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">N</button>
+                    <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">M</button>
+                    <button id="backspace" className="inline-block px-4 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">⌫</button>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-center justify-between">
+                  <div className="text-sm text-[#6B5BEA]">Mot du jour (démo) : <span id="hint" className="font-semibold">5 lettres</span></div>
+                  <div className="flex gap-2">
+                    <button id="newGame" className="px-3 py-2 rounded-md bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">Nouvelle partie</button>
+                  </div>
+                </div>
+              </main>
+            </div>
+            </div>
+          {/* <Board word={wordDay.current.word} cases={cases} /> */}
+          {/* <Keyboard handleKeyDown={handleKeyDown} /> */}
+          {/* <ModalEndGame open={open} setOpen={setOpen} finalScore={finalScore} /> */}
         </>
       ) : (
         <></>
       )}
-    </div>
+    </>
   );
 };
 

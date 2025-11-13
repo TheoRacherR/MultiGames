@@ -7,7 +7,7 @@ const WrapperTimeGame = () => {
   return (
     <Routes>
       <Route path='' element={<MainTimeGame/>} />
-      <Route path='/game' element={<TimeGame/>} />
+      <Route path='/room/:id' element={<TimeGame/>} />
     </Routes>
   )
 }
