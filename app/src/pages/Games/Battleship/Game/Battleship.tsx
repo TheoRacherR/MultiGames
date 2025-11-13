@@ -214,7 +214,7 @@ const Battleship = () => {
 
   return (
     <>
-      <div className='mx-auto p-10 flex'>
+      <div className='mx-auto flex'>
         <PlayerBoard startTheGame={startTheGame} gameStarted={gameStarted} cases={playerCases} setCases={setPlayerCases} />
 
         {gameStarted ? 
@@ -226,7 +226,7 @@ const Battleship = () => {
         }
 
       </div>
-      <ModalGameFinished open={openModalEnGame} setOpen={setOpenModalEnGame} won={gameEnded.didIWon} />
+      {/* <ModalGameFinished open={openModalEnGame} setOpen={setOpenModalEnGame} won={gameEnded.didIWon} /> */}
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import { buttonComponentType } from '../../../@types/guiz';
+import { buttonComponentType } from '../../../@types/default';
 import ButtonComponent from 'components/ButtonComponent';
 import ModalEndGame from 'components/ModalEndGame';
 import React, { useState } from 'react'
@@ -38,59 +38,59 @@ const ModalParty = ({ setOpen, selected }: { setOpen:React.Dispatch<React.SetSta
   return (
     <ModalEndGame
     title={selected === timegameButtonType.CREATE ? 'Create a party' : 'Join a party'}
-    content={
-      <>
+      content={
+        <>
       {
         selected === timegameButtonType.CREATE ?
-          <>
-            <TextField
-              id="key"
-              variant="outlined"
+            <>
+              <TextField
+                id="key"
+                variant="outlined"
               label='Set a password'
               type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </>
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </>
         :
-          <>
-            <TextField 
+            <>
+              <TextField
               id='room_id'
               variant='outlined'
               label='Room id'
               className='mr-3'
               type='number'
-              value={roomId}
-              onChange={(e) => setRoomId(e.target.value)}
-            />
-            <TextField
+                value={roomId}
+                onChange={(e) => setRoomId(e.target.value)}
+              />
+              <TextField
               id='password'
               variant='outlined'
               label='Password'
               type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </>
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </>
         }
-      </>
-    }
-    buttons={
-      <>
-        <ButtonComponent
-          index="cancel"
-          text="Cancel"
-          type={buttonComponentType.RED}
-          clickOn={() => closeModal()}
-        />
-        <ButtonComponent
-          index="Submit"
-          text="Submit"
-          type={buttonComponentType.BLUE}
-          clickOn={() => handleSubmit()}
-        />
-      </>
-    }
+        </>
+      }
+      buttons={
+        <>
+          <ButtonComponent
+            index="cancel"
+            text="Cancel"
+            type={buttonComponentType.ERROR}
+            clickOn={() => closeModal()}
+          />
+          <ButtonComponent
+            index="Submit"
+            text="Submit"
+            type={buttonComponentType.INFO}
+            clickOn={() => handleSubmit()}
+          />
+        </>
+      }
     />
   )
 }

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { countryGuess } from '../../../../../../@types/guiz'
+import { countryGuess } from '../../../../../../@types/quiz'
 
 const CountryListBloc = ({title, countryList}: {title: string, countryList: countryGuess[]}) => {
   useEffect(() => {

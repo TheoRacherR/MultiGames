@@ -4,7 +4,7 @@ import { getUserInfos } from '../../../../utils/Default/Auth';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonComponent from 'components/ButtonComponent';
-import { buttonComponentType } from '../../../../@types/guiz';
+import { buttonComponentType } from '../../../../@types/default';
 
 const MinesweeperModalEndGame = (
   { setOpen, finalScore, resetParty}: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, finalScore: {won:boolean, score:number} | undefined, resetParty: Function}
@@ -54,7 +54,7 @@ const MinesweeperModalEndGame = (
                       <ButtonComponent
                         index="login_button"
                         text="Login"
-                        type={buttonComponentType.GREEN}
+                        type={buttonComponentType.SUCCESS}
                         clickOn={() => navigate("/auth")}
                       />
                     </>
@@ -70,13 +70,13 @@ const MinesweeperModalEndGame = (
             <ButtonComponent
               index="go_to_menu"
               text="Home"
-              type={buttonComponentType.BLUE}
+              type={buttonComponentType.INFO}
               clickOn={() => gotoMenu()}
             />
             <ButtonComponent
               index="replay_button"
               text="Replay"
-              type={buttonComponentType.ORANGE}
+              type={buttonComponentType.WARNING}
               clickOn={() => replayTheGame()}
             />
           </>

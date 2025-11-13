@@ -10,6 +10,7 @@ import WrapperQuiz from "pages/Games/Quiz/WrapperQuiz";
 import WrapperMinesweeper from "pages/Games/Minesweeper/WrapperMinesweeper";
 import WrapperBattleship from "pages/Games/Battleship/WrapperBattleship";
 import WrapperTimeGame from "pages/Games/TimeGame/WrapperTimeGame";
+import GamesList from "pages/GamesList";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
 
         {/* Games */}
+        <Route path="/games" element={<GamesList />} />
         <Route path="/minesweeper/*" element={<WrapperMinesweeper />} />
         <Route path="/battleship/*" element={<WrapperBattleship />} />
         <Route path="/wordle/*" element={<WrapperWordle />} />

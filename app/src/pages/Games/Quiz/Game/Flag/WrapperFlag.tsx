@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Quiz from '../Quiz'
-import { gameQuiz, modeQuiz } from '../../../../../@types/guiz'
+import { gameQuiz, modeQuiz } from '../../../../../@types/quiz'
 
 const WrapperFlag = () => {
   return (

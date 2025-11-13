@@ -4,7 +4,7 @@ import { getUserInfos } from '../../../../utils/Default/Auth';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonComponent from 'components/ButtonComponent';
-import { buttonComponentType } from '../../../../@types/guiz';
+import { buttonComponentType } from '../../../../@types/default';
 
 const WordleModalEndGame = (
   { open, setOpen, finalScore}: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>, finalScore: {nbTry: number}}
@@ -46,7 +46,7 @@ const WordleModalEndGame = (
               <p>{ `You're not connected, you can login to save your score` }<ButtonComponent
                   index="login_button"
                   text="Login"
-                  type={buttonComponentType.GREEN}
+                  type={buttonComponentType.SUCCESS}
                   clickOn={() => navigate("/auth")}
                 /></p>
             }
@@ -56,7 +56,7 @@ const WordleModalEndGame = (
           <ButtonComponent
             index="home_button"
             text="Home"
-            type={buttonComponentType.BLUE}
+            type={buttonComponentType.INFO}
             clickOn={() => gotoMenu()}
           />
         }

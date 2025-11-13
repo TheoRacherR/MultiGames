@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import Scoreboard from "components/Scoreboard";
 import {
-  buttonComponentType,
   gameList,
   gameQuiz,
   modeFlagList,
   modeCountryList,
   modeQuiz,
-} from "../../../@types/guiz";
+} from "../../../@types/quiz";
 import ButtonComponent from "components/ButtonComponent";
 import { useNavigate } from "react-router-dom";
 import axios from "axiosConfig";
 import { FormatedScoreboard } from "../../../@types/games";
+import TitleScoreboard from "components/TitleScoreboard";
+import TitleGame from "components/TitleGame";
+import InputComponent from "components/InputComponent";
 
 const MainQuiz = () => {
   const navigate = useNavigate();
@@ -91,15 +93,18 @@ const MainQuiz = () => {
 
   const getScoreboardInfos = async () => {
     try {
+      console.log(game);
       const req = await axios.post("/quiz/scoreboard", {
         type: game,
         length: 5,
       });
       if (req.status === 201) {
+        console.log(req.data);
         setDataScoreboard(req.data);
         return;
       } else {
         // TODO Alerte error
+        console.log("err");
       }
     } catch (e) {
       console.log(e);
@@ -113,54 +118,63 @@ const MainQuiz = () => {
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <h1 className="text-6xl text-center mb-14">❓ Quiz ❓</h1>
+      <TitleGame title='Quiz'/>
 
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
-        <select
-          className="bg-slate-200 min-w-20 pl-2 rounded-md"
-          onChange={(e) => handleChangeInput(e, "mode")}
+      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-center">
+        <InputComponent
+          change={(e) => handleChangeInput(e, "mode")}
+          cl="rounded-l-[10px]"
         >
-          {gameList.map((item, index) => (
-            <option key={`option_game_${index}`} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-        <select
-          className="bg-slate-200 min-w-20 pl-2 rounded-md"
-          onChange={(e) => handleChangeInput(e, "difficulty")}
+          <>
+            {gameList.map((item, index) => (
+              <option key={`option_game_${index}`} value={item}>
+                {item}
+              </option>
+            ))}
+          </>
+        </InputComponent>
+        
+
+        <div className="h-auto w-[1px] bg-black"></div>
+
+        <InputComponent
+          change={(e) => handleChangeInput(e, "difficulty")}
+          cl="rounded-none"
         >
-          {game === gameQuiz.FLAG
-            ? modeFlagList.map((item: modeQuiz, index: number) => (
-                <option key={`option_mode_${index}`} value={item}>
-                  {item}
-                </option>
-              ))
-            : modeCountryList.map((item: modeQuiz, index: number) => (
-                <option key={`option_mode_${index}`} value={item}>
-                  {item}
-                </option>
-              ))}
-        </select>
-        <ButtonComponent
-          index={"index_quiz_button_create_party"}
-          text={"Create a party"}
-          type={buttonComponentType.GREEN}
-          clickOn={() =>
-            navigate(
-              `${game === gameQuiz.FLAG ? "flag" : "country"}/${
-                mode === modeQuiz.NORTH_AMERICA
-                  ? "north_america"
-                  : mode === modeQuiz.SOUTH_AMERICA
-                  ? "south_america"
-                  : mode.toLowerCase()
-              }`
-            )
-          }
-        />
+          <>
+            {game === gameQuiz.FLAG
+              ? modeFlagList.map((item: modeQuiz, index: number) => (
+                  <option key={`option_mode_${index}`} value={item}>
+                    {item}
+                  </option>
+                ))
+              : modeCountryList.map((item: modeQuiz, index: number) => (
+                  <option key={`option_mode_${index}`} value={item}>
+                    {item}
+                  </option>
+            ))}
+          </>
+        </InputComponent>
+
+        <div className="h-auto w-[1px] bg-black"></div>
+
+        <button
+          className={"btn-outline btn-medium"}
+          type="submit"
+          style={{
+            borderRadius: "0px 10px 10px 0px",
+            borderWidth: "0px",
+            backgroundColor: "var(--color-primary)",
+            color: "var(--color-text-primary)",
+            borderColor: "var(--color-text-primary)",
+          }}
+        >
+          {"Create a party"}
+        </button>
       </div>
+
       <div>
-        <h2 className="text-center">Scoreboard :</h2>
+        <TitleScoreboard />
         <Scoreboard data={dataScoreboard} />
       </div>
     </div>

@@ -5,7 +5,7 @@ import {
   countryGuess,
   modeQuiz,
   gameQuiz,
-} from "../../../../../@types/guiz";
+} from "../../../../../@types/quiz";
 import { countryList } from "../CountryList";
 import Timer from "../Timer/Timer";
 import axios from "axiosConfig";
@@ -149,49 +149,55 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
   }, [seconds, minutes, startTimer]);
 
   return (
-    <div className="flex">
-      <div className="flex gap-2 mx-auto p-10 overflow-auto flex-col flex-1">
-        {startTimer ? (
-          flagToGuess.map((item, index) => (
-            <img
-              key={`flag_${index}`}
-              src={item.img}
-              alt={item.alt}
-              className={`max-h-48 border-4 border-solid ${
-                selected === index ? "border-black" : "border-white"
-              } cursor-pointer`}
-              onClick={() => {
-                setSelected(index);
-                refInput.current?.focus();
-              }}
-            />
-          ))
-        ) : (
-          <></>
-        )}
-      </div>
-      <input
-        className="input m-2 flex-1 h-12"
-        value={inputValue}
-        type="text"
-        name="flag"
-        id="flag"
-        placeholder="Type here"
-        ref={refInput}
-        autoFocus
-        onChange={(e) => handleChangeInput(e, flagToGuess[selected].nameList)}
-        disabled={!startTimer}
-      />
-      <Timer
-        endGame={endGame}
-        score={{ left: flagToGuess.length, total: flagToGuessInit.length }}
-        startTimer={startTimer}
-        clickStartTimer={clickStartTimer}
-        clickStopTimer={clickStopTimer}
-        seconds={seconds}
-        minutes={minutes}
-      />
+    <div className="min-h-screen text-white flex flex-col items-center p-10 bg-[var(--color-primary)]" /*bg-gradient-to-b from-[#6C4EF6] to-[#5B44E8]"*/>
+      <div
+      className="bg-white text-[#5533EA] rounded-2xl shadow-xl p-8 w-full max-w-5xl flex flex-col items-center"
+    >
+      <div className="flex justify-between items-center w-full mb-6">
+        <h2 className="text-3xl font-bold uppercase">Quiz - Drapeaux</h2>
 
+        {/* <!-- Timer --> */}
+        <div
+          id="timer"
+          className="text-2xl font-bold bg-[#6C4EF6] text-white px-5 py-2 rounded-lg shadow-md"
+        >
+          30s
+        </div>
+      </div>
+
+      <p className="text-center text-[#6B5BEA] mb-8">
+        Sélectionne un drapeau, puis écris le nom du pays correspondant avant la
+        fin du temps imparti.
+      </p>
+
+      {/* <!-- Flags selection --> */}
+      <div id="flagList" className="grid grid-cols-5 gap-6 mb-10 w-full justify-center">
+        {['🇫🇷', '🇩🇪', '🇯🇵', '🇨🇦', '🇧🇷'].map((item, index) => (
+          <button key={index} className="bg-[#F9F9FF] hover:bg-[#EEE9FF] border border-[#D9D4F8] rounded-xl p-6 text-5xl transition focus:ring-4 focus:ring-[#6C4EF6] focus:outline-none">
+            {item}
+          </button>
+        ))}
+      </div>
+
+      {/* <!-- Answer input --> */}
+      <form id="quizForm" className="flex flex-col sm:flex-row gap-4 items-center w-full justify-center">
+        <input
+          id="answerInput" type="text"
+          placeholder="Écris le nom du pays ici..."
+          className="flex-1 px-4 py-3 rounded-lg border border-[#D9D4F8] bg-[#F9F9FF] text-[#5533EA] placeholder-[#B6AEEB] focus:outline-none focus:ring-4 focus:ring-[#6C4EF6] transition"
+        />
+        <button className="px-6 py-3 rounded-lg font-semibold bg-[#6C4EF6] text-white hover:bg-[#7D61F8] transition"
+        >
+          Valider
+        </button>
+      </form>
+
+      {/* <!-- Feedback message --> */}
+      <div
+        id="feedback"
+        className="mt-6 text-lg font-medium opacity-0 transition-opacity"
+      ></div>
+      </div>
       {finalScore.end ? (
         <FlagModalEndGame
           finalScore={finalScore}

@@ -59,13 +59,6 @@ export const modeCountryList = [
   modeQuiz.OCEANIA,
 ];
 
-export enum buttonComponentType {
-  RED = "red",
-  BLUE = "blue",
-  ORANGE = "orange",
-  GREEN = "green",
-}
-
 export interface countriesSortedInterface {
   type: modeQuiz;
   countries: countryGuess[];

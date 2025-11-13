@@ -1,5 +1,5 @@
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentType } from "../../../../../@types/guiz";
+import { buttonComponentType } from "../../../../../@types/default";
 import { useNavigate } from "react-router-dom";
 
 const Timer = ({
@@ -55,21 +55,21 @@ const Timer = ({
               clickStopTimer();
               endGame();
             }}
-            type={buttonComponentType.RED}
+            type={buttonComponentType.ERROR}
           />
         ) : (
           <ButtonComponent
             index="button_quiz_timer_start"
             text="Start"
             clickOn={() => clickStartTimer()}
-            type={buttonComponentType.GREEN}
+            type={buttonComponentType.SUCCESS}
           />
         )}
         <ButtonComponent
           index="button_quiz_timer_report"
           text="Report"
           clickOn={() => navigate("")}
-          type={buttonComponentType.ORANGE}
+          type={buttonComponentType.WARNING}
         />
       </div>
     </div>

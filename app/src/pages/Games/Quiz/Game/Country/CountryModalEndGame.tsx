@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { buttonComponentType, finalScoreInterface } from '../../../../../@types/guiz';
+import { finalScoreInterface } from '../../../../../@types/quiz';
 import ModalEndGame from 'components/ModalEndGame';
 import ButtonComponent from 'components/ButtonComponent';
 import { UserInfos } from '../../../../../@types/user';
+import { buttonComponentType } from '../../../../../@types/default';
 
 const CountryModalEndGame = (
   {
@@ -51,7 +52,7 @@ const CountryModalEndGame = (
                 <ButtonComponent
                   index="login_button"
                   text="Login"
-                  type={buttonComponentType.GREEN}
+                  type={buttonComponentType.SUCCESS}
                   clickOn={() => navigate("/auth")}
                 />
               </p>
@@ -66,13 +67,13 @@ const CountryModalEndGame = (
             <ButtonComponent
               index="go_to_menu"
               text="Home"
-              type={buttonComponentType.BLUE}
+              type={buttonComponentType.PRIMARY}
               clickOn={() => gotoMenu()}
             />
             <ButtonComponent
               index="replay_button"
               text="Replay"
-              type={buttonComponentType.ORANGE}
+              type={buttonComponentType.WARNING}
               clickOn={() => resetPage()}
             />
           </>

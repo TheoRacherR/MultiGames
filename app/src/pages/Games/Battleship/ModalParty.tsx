@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import { buttonComponentType } from '../../../@types/guiz';
+import { buttonComponentType } from '../../../@types/default';
 import ButtonComponent from 'components/ButtonComponent';
 import ModalEndGame from 'components/ModalEndGame';
 import React, { useState } from 'react'
@@ -80,13 +80,13 @@ const ModalParty = ({ setOpen, selected }: { setOpen:React.Dispatch<React.SetSta
         <ButtonComponent
           index="cancel"
           text="Cancel"
-          type={buttonComponentType.RED}
+          type={buttonComponentType.ERROR}
           clickOn={() => closeModal()}
         />
         <ButtonComponent
           index="Submit"
           text="Submit"
-          type={buttonComponentType.BLUE}
+          type={buttonComponentType.INFO}
           clickOn={() => handleSubmit()}
         />
       </>

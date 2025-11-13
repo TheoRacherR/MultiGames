@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import axios from "axiosConfig";
 import { FormatedScoreboard } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentType } from "../../../@types/guiz";
+import { buttonComponentType } from "../../../@types/default";
+import TitleScoreboard from "components/TitleScoreboard";
+import TitleGame from "components/TitleGame";
 
 const MainMinesweeper = () => {
   const navigate = useNavigate();
@@ -35,18 +37,18 @@ const MainMinesweeper = () => {
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <h1 className="text-6xl text-center mb-14">💣 Minesweeper 💣</h1>
+      <TitleGame title='Minesweeper' />
 
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
+      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-center">
         <ButtonComponent
           index="Create a party"
           text="Create a party"
-          type={buttonComponentType.RED}
+          type={buttonComponentType.PRIMARY}
           clickOn={() => navigate("game")}
         />
       </div>
       <div>
-        <h2 className="text-center">Scoreboard :</h2>
+        <TitleScoreboard />
         <Scoreboard data={dataScoreboard} />
       </div>
     </div>

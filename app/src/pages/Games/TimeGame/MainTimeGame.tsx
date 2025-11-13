@@ -1,4 +1,4 @@
-import { buttonComponentType } from '../../../@types/guiz';
+import { buttonComponentType } from '../../../@types/default';
 import { timegameButtonType } from '../../../@types/timegame';
 import ButtonComponent from 'components/ButtonComponent';
 import { useEffect, useState } from 'react'
@@ -6,6 +6,8 @@ import ModalParty from './ModalParty';
 import Scoreboard from 'components/Scoreboard';
 import axios from '../../../axiosConfig';
 import { FormatedScoreboard } from '../../../@types/games';
+import TitleGame from 'components/TitleGame';
+import TitleScoreboard from 'components/TitleScoreboard';
 
 const MainTimeGame = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -44,26 +46,26 @@ const MainTimeGame = () => {
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <h1 className="text-6xl text-center mb-14">⏳ Time Game ⏳</h1>
+      <TitleGame title='Time Game' />
 
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
+      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-center">
         <ButtonComponent
           index="Create a party"
           text="Create a party"
-          type={buttonComponentType.BLUE}
+          type={buttonComponentType.INFO}
           clickOn={() => handleOpenModal(timegameButtonType.CREATE)}
         />
         <ButtonComponent
           index="Join a party"
           text="Join a party"
-          type={buttonComponentType.BLUE}
+          type={buttonComponentType.INFO}
           clickOn={() => handleOpenModal(timegameButtonType.JOIN)}
         />
       </div>
-      {/* <div>
-        <h2 className="text-center">Scoreboard :</h2>
-        <Scoreboard data={dataScoreboard} />
-      </div> */}
+      <div>
+        <TitleScoreboard />
+        <Scoreboard data={[]} />
+      </div>
       {open ? <ModalParty setOpen={setOpen} selected={selected} /> : <></>}
     </div>
   );

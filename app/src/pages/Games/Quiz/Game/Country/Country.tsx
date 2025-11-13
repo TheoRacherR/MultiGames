@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { countryGuess, finalScoreInterface, gameQuiz, modeQuiz } from '../../../../../@types/guiz'
+import { countryGuess, finalScoreInterface, gameQuiz, modeQuiz } from '../../../../../@types/quiz'
 import Map from './Map';
 import { countryList } from "../CountryList";
 import Timer from '../Timer/Timer';
@@ -9,6 +9,7 @@ import { resetCountriesFound } from '../../../../../utils/Quiz/FunctionsForCount
 import { getUserInfos } from 'utils/Default/Auth';
 import { country, UserInfos, userRole, userStatus } from '../../../../../@types/user';
 import axios from 'axios';
+import world from './world.svg';
 
 
 const Country = ({ mode }: { mode: modeQuiz }) => {
@@ -154,8 +155,9 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
   // }, [countryFound]);
 
   return (
-    <div className='w-screen h-screen bg-white'>
-      <div className='flex'>
+    <div className="min-h-screen bg-[var(--color-primary)] text-white flex flex-col items-center p-10">
+
+      {/* <div className='flex'>
         <Map countryListFound={countryFound} countryListToGuess={countryToGuess} isContent={mode !== modeQuiz.ALL}/>
         <Timer
           endGame={endGame}
@@ -178,17 +180,57 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         autoFocus
         onChange={(e) => handleChangeInput(e, countryToGuess)}
         disabled={!startTimer}
-      />
-      <CountryList
+      /> */}
+      <main
+        className="bg-white text-[#5533EA] rounded-2xl shadow-xl p-8 w-full max-w-6xl flex flex-col items-center"
+      >
+        <h2 className="text-3xl font-bold uppercase mb-6">Quiz - Carte du Monde</h2>
+
+        {/* <!-- Timer --> */}
+        <div
+          id="timer"
+          className="text-2xl font-bold text-[#6C4EF6] bg-[#F4F2FF] px-6 py-2 rounded-full mb-6 shadow-inner"
+        >
+          Temps : 02:00
+        </div>
+
+        {/* <!-- Input --> */}
+        <form id="quizForm" className="flex gap-4 items-center mb-8">
+          <input
+            id="countryInput"
+            type="text"
+            placeholder="Écris le nom d’un pays..."
+            className="px-4 py-3 rounded-lg border border-[#D9D4F8] bg-[#F9F9FF] text-[#5533EA] placeholder-[#B6AEEB] focus:outline-none focus:ring-4 focus:ring-[#6C4EF6] transition"
+          />
+          <button
+            type="submit"
+            className="px-6 py-3 rounded-lg font-semibold bg-[#6C4EF6] text-white hover:bg-[#7D61F8] transition"
+          >
+            Valider
+          </button>
+        </form>
+
+        {/* <!-- Carte du monde --> */}
+        <div className="bg-[#F9F9FF] p-6 rounded-xl border border-[#D9D4F8] overflow-hidden">
+          <Map countryListFound={countryFound} countryListToGuess={countryToGuess} isContent={mode !== modeQuiz.ALL}/>
+        </div>
+
+        {/* <!-- Score --> */}
+        <div id="score" className="mt-8 text-lg font-semibold text-[#5533EA]">
+          Pays trouvés : 0 / 14
+        </div>
+      </main>
+      {/* <CountryList
         countryListFound={countryFound}
         countryListToGuess={countryToGuess}
-      />
-      <CountryModalEndGame
+      /> */}
+
+      {/* <CountryModalEndGame
         finalScore={finalScore}
         setFinalScore={setFinalScore}
         resetPage={resetPage}
         userInfos={userInfos}
-      />
+      /> */}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { countryGuess } from '../../../../../@types/guiz'
+import { countryGuess } from '../../../../../@types/quiz'
 
 const Map = ({countryListFound, countryListToGuess, isContent}: {countryListFound: countryGuess[], countryListToGuess: countryGuess[], isContent: boolean}) => {
   const refTotalMap: any = useRef(null);

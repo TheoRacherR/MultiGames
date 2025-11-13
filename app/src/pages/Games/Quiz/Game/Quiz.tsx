@@ -1,4 +1,4 @@
-import { gameQuiz, modeQuiz } from '../../../../@types/guiz';
+import { gameQuiz, modeQuiz } from '../../../../@types/quiz';
 import { caseCurrentState } from '../../../../@types/wordle';
 import Country from './Country/Country';
 import Flag from './Flag/Flag';
@@ -10,15 +10,14 @@ export interface casesInterface {
 }
 
 const Quiz = ({game, mode}: {game: gameQuiz, mode: modeQuiz}) => {
-  
 
   return (
     <div>
       {game === gameQuiz.FLAG
-        ? <Flag mode={mode}/>
+        ? <Flag mode={mode}/> 
         : <Country mode={mode}/>
-      }
-      
+    }
+
     </div>
   )
 }

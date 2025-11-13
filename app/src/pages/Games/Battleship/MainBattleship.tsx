@@ -4,8 +4,10 @@ import ModalParty from "./ModalParty";
 import axios from "axiosConfig";
 import { FormatedScoreboard } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentType } from "../../../@types/guiz";
+import { buttonComponentType } from "../../../@types/default";
 import { battleshipButtonType } from "../../../@types/battleship";
+import TitleScoreboard from "components/TitleScoreboard";
+import TitleGame from "components/TitleGame";
 
 export const giveStartOrder = () => {
   const starter = Math.floor(Math.random() * 2);
@@ -53,24 +55,24 @@ const Battleships = () => {
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <h1 className="text-6xl text-center mb-14">⛴️ Battleship ⛴️</h1>
+      <TitleGame title='Battleship' />
 
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
+      <div className="w-1/2 mx-auto mb-28 flex justify-around">
         <ButtonComponent
           index="Create a party"
           text="Create a party"
-          type={buttonComponentType.BLUE}
+          type={buttonComponentType.PRIMARY}
           clickOn={() => handleOpenModal(battleshipButtonType.CREATE)}
         />
         <ButtonComponent
           index="Join a party"
           text="Join a party"
-          type={buttonComponentType.BLUE}
+          type={buttonComponentType.PRIMARY}
           clickOn={() => handleOpenModal(battleshipButtonType.JOIN)}
         />
       </div>
       <div>
-        <h2 className="text-center">Scoreboard :</h2>
+        <TitleScoreboard />
         <Scoreboard data={dataScoreboard} />
       </div>
       {open ? <ModalParty setOpen={setOpen} selected={selected} /> : <></>}

@@ -1,4 +1,4 @@
-import { buttonComponentType } from '../../../../@types/guiz';
+import { buttonComponentType } from '../../../../@types/default';
 import ButtonComponent from 'components/ButtonComponent';
 import ModalEndGame from 'components/ModalEndGame';
 import { Dispatch, SetStateAction } from 'react'
@@ -18,7 +18,7 @@ const ModalGameFinished = ({ open, setOpen, won }: { open:boolean, setOpen: Disp
           <ButtonComponent
             index='battleship_page_button'
             text='Go back to the homepage'
-            type={buttonComponentType.ORANGE}
+            type={buttonComponentType.WARNING}
             clickOn={() => {return navigate('/battleship')}}
           />
         </>

@@ -1,19 +1,21 @@
-import { buttonComponentType } from "../@types/guiz";
+import { buttonComponentType } from "../@types/default";
 
 const ButtonComponent = ({
   index,
   clickOn,
   text,
   type,
+  clName
 }: {
   index: string;
   clickOn: Function;
   text: string;
   type: buttonComponentType;
+  clName?: string;
 }) => {
   return (
     <div key={index}>
-      <button onClick={() => clickOn()} className={`btn btn-${type}`}>
+      <button onClick={() => clickOn()} className={`btn-inline btn-medium btn-${type} ${clName}`}>
         {text}
       </button>
     </div>
