@@ -195,7 +195,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         </div>
 
         {/* <!-- Input --> */}
-        <form id="quizForm" className="flex gap-4 items-center mb-8">
+        <div className="flex gap-4 items-center mb-8">
           <input
             id="countryInput"
             type="text"
@@ -208,7 +208,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
           >
             Valider
           </button>
-        </form>
+        </div>
 
         {/* <!-- Carte du monde --> */}
         <div className="bg-[#F9F9FF] p-6 rounded-xl border border-[#D9D4F8] overflow-hidden">
@@ -217,7 +217,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
 
         {/* <!-- Score --> */}
         <div id="score" className="mt-8 text-lg font-semibold text-[#5533EA]">
-          Pays trouvés : 0 / 14
+          Pays trouvés : {countryFound.length} / {countryFound.length + countryToGuess.length}
         </div>
       </main>
       {/* <CountryList
