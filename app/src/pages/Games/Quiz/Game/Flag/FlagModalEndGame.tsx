@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import {
-  finalScoreInterface,
-} from "../../../../../@types/quiz";
-import { buttonComponentType } from "../../../../../@types/default";
+import { finalScoreInterface } from "../../../../../@types/quiz";
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../../@types/default";
 import { useEffect } from "react";
 import { UserInfos } from "../../../../../@types/user";
 import ModalEndGame from "components/ModalEndGame";
@@ -74,9 +72,10 @@ const FlagModalEndGame = ({
               <p>
                 {`You're not connected, you can login to save your score`}
                 <ButtonComponent
-                  index="login_button"
                   text="Login"
-                  type={buttonComponentType.SUCCESS}
+                  color={buttonComponentColor.SUCCESS}
+                  type={buttonComponentType.INLINE}
+                  size={buttonComponentSize.MEDIUM}
                   clickOn={() => navigate("/auth")}
                 />
               </p>
@@ -88,15 +87,17 @@ const FlagModalEndGame = ({
         buttons={
           <>
             <ButtonComponent
-              index="go_to_menu"
               text="Home"
-              type={buttonComponentType.INFO}
+              color={buttonComponentColor.INFO}
+              type={buttonComponentType.INLINE}
+              size={buttonComponentSize.MEDIUM}
               clickOn={() => gotoMenu()}
             />
             <ButtonComponent
-              index="replay_button"
               text="Replay"
-              type={buttonComponentType.WARNING}
+              color={buttonComponentColor.WARNING}
+              type={buttonComponentType.INLINE}
+              size={buttonComponentSize.MEDIUM}
               clickOn={() => replayTheGame()}
             />
           </>

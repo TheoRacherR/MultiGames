@@ -1,21 +1,26 @@
-import { buttonComponentType } from "../@types/default";
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../@types/default";
 
 const ButtonComponent = ({
-  index,
   clickOn,
   text,
+  color,
   type,
-  clName
+  size,
+  clName,
 }: {
-  index: string;
   clickOn: Function;
   text: string;
+  color: buttonComponentColor;
   type: buttonComponentType;
+  size: buttonComponentSize;
   clName?: string;
 }) => {
   return (
-    <div key={index}>
-      <button onClick={() => clickOn()} className={`btn-inline btn-medium btn-${type} ${clName}`}>
+    <div>
+      <button
+        onClick={() => clickOn()}
+        className={`btn-${type} btn-${size} btn-${color} ${clName}`}
+      >
         {text}
       </button>
     </div>

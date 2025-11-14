@@ -1,13 +1,13 @@
-import { buttonComponentType } from '../../../@types/default';
-import { timegameButtonType } from '../../../@types/timegame';
-import ButtonComponent from 'components/ButtonComponent';
-import { useEffect, useState } from 'react'
-import ModalParty from './ModalParty';
-import Scoreboard from 'components/Scoreboard';
-import axios from '../../../axiosConfig';
-import { FormatedScoreboard } from '../../../@types/games';
-import TitleGame from 'components/TitleGame';
-import TitleScoreboard from 'components/TitleScoreboard';
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
+import { timegameButtonType } from "../../../@types/timegame";
+import ButtonComponent from "components/ButtonComponent";
+import { useEffect, useState } from "react";
+import ModalParty from "./ModalParty";
+import Scoreboard from "components/Scoreboard";
+import axios from "../../../axiosConfig";
+import { FormatedScoreboard } from "../../../@types/games";
+import TitleGame from "components/TitleGame";
+import TitleScoreboard from "components/TitleScoreboard";
 
 const MainTimeGame = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -46,19 +46,21 @@ const MainTimeGame = () => {
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <TitleGame title='Time Game' />
+      <TitleGame title="Time Game" />
 
       <div className="w-2/3 h-500px mx-auto mb-28 flex justify-center">
         <ButtonComponent
-          index="Create a party"
           text="Create a party"
-          type={buttonComponentType.INFO}
+          color={buttonComponentColor.INFO}
+          type={buttonComponentType.INLINE}
+          size={buttonComponentSize.MEDIUM}
           clickOn={() => handleOpenModal(timegameButtonType.CREATE)}
         />
         <ButtonComponent
-          index="Join a party"
           text="Join a party"
-          type={buttonComponentType.INFO}
+          color={buttonComponentColor.INFO}
+          type={buttonComponentType.INLINE}
+          size={buttonComponentSize.MEDIUM}
           clickOn={() => handleOpenModal(timegameButtonType.JOIN)}
         />
       </div>
@@ -69,6 +71,6 @@ const MainTimeGame = () => {
       {open ? <ModalParty setOpen={setOpen} selected={selected} /> : <></>}
     </div>
   );
-}
+};
 
-export default MainTimeGame
+export default MainTimeGame;

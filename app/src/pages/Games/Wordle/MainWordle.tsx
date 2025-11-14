@@ -4,7 +4,7 @@ import axios from "axiosConfig";
 import { useEffect, useState } from "react";
 import { FormatedScoreboard } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentType } from "../../../@types/default";
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
 import TitleGame from "components/TitleGame";
 import TitleScoreboard from "components/TitleScoreboard";
 
@@ -37,18 +37,19 @@ const MainWordle = () => {
 
   return (
     <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <TitleGame title='Wordle' />
+      <TitleGame title="Wordle" />
 
       <div className="w-2/3 h-500px mx-auto mb-28 flex justify-center">
         <ButtonComponent
-          index="play"
           text="Play"
-          type={buttonComponentType.ERROR}
+          color={buttonComponentColor.ERROR}
+          type={buttonComponentType.INLINE}
+          size={buttonComponentSize.MEDIUM}
           clickOn={() => navigate("game")}
         />
       </div>
       <div>
-        <TitleScoreboard/>
+        <TitleScoreboard />
         <Scoreboard data={dataScoreboard} />
       </div>
     </div>

@@ -1,5 +1,5 @@
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentType } from "../../../../../@types/default";
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../../@types/default";
 import { useNavigate } from "react-router-dom";
 
 const Timer = ({
@@ -49,27 +49,30 @@ const Timer = ({
       <div className="flex justify-around">
         {startTimer ? (
           <ButtonComponent
-            index="button_quiz_timer_give_up"
             text="Give Up"
             clickOn={() => {
               clickStopTimer();
               endGame();
             }}
-            type={buttonComponentType.ERROR}
+            color={buttonComponentColor.ERROR}
+            type={buttonComponentType.INLINE}
+            size={buttonComponentSize.MEDIUM}
           />
         ) : (
           <ButtonComponent
-            index="button_quiz_timer_start"
             text="Start"
             clickOn={() => clickStartTimer()}
-            type={buttonComponentType.SUCCESS}
+            color={buttonComponentColor.SUCCESS}
+            type={buttonComponentType.INLINE}
+            size={buttonComponentSize.MEDIUM}
           />
         )}
         <ButtonComponent
-          index="button_quiz_timer_report"
           text="Report"
           clickOn={() => navigate("")}
-          type={buttonComponentType.WARNING}
+          color={buttonComponentColor.WARNING}
+          type={buttonComponentType.INLINE}
+          size={buttonComponentSize.MEDIUM}
         />
       </div>
     </div>

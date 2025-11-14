@@ -35,6 +35,8 @@
   --btn-info-hover: #1E88E5;
   --btn-neutral: #E0E0E0;
   --btn-neutral-hover: #D5D5D5;
+  --btn-none: #FFFFFF;
+  --btn-none-hover: #FFFFFF;
 
   --btn-text-dark: #5533EA;
   --btn-text-light: #FFFFFF;
@@ -115,9 +117,10 @@
 }
 
 .btn-medium {
-  width: 150px;
-  height: 50px;
-  border-radius: 17px;
+  height: 42px;
+  padding: 0rem 1rem;
+  font-weight: 600;
+  border-radius: 8px;
   border-width: 3px;
   font-size: medium;
 }
@@ -174,10 +177,17 @@
 }
 .btn-neutral {
   background-color: var(--btn-neutral);
-  color: var(--color-text-primary);
+  color: var(--color-text-dark);
 }
 .btn-neutral:hover {
   background-color: var(--btn-neutral-hover);
+}
+.btn-none {
+  background-color: var(--btn-none);
+  color: var(--color-text-dark);
+}
+.btn-none:hover {
+  background-color: var(--btn-none-hover);
 }
 
 

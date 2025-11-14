@@ -1,98 +1,108 @@
-import { TextField } from '@mui/material';
-import { buttonComponentType } from '../../../@types/default';
-import ButtonComponent from 'components/ButtonComponent';
-import ModalEndGame from 'components/ModalEndGame';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { timegameButtonType } from '../../../@types/timegame';
+import { TextField } from "@mui/material";
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
+import ButtonComponent from "components/ButtonComponent";
+import ModalEndGame from "components/ModalEndGame";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { timegameButtonType } from "../../../@types/timegame";
 
-const ModalParty = ({ setOpen, selected }: { setOpen:React.Dispatch<React.SetStateAction<boolean>>, selected: timegameButtonType }) => {
+const ModalParty = ({
+  setOpen,
+  selected,
+}: {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  selected: timegameButtonType;
+}) => {
   const navigate = useNavigate();
-  const [password, setPassword] = useState<string>('');
-  const [roomId, setRoomId] = useState<string>('');
+  const [password, setPassword] = useState<string>("");
+  const [roomId, setRoomId] = useState<string>("");
 
   const handleSubmit = () => {
-    if(selected === timegameButtonType.CREATE) {
-      if(password.length > 0){
+    if (selected === timegameButtonType.CREATE) {
+      if (password.length > 0) {
         // axios post room
         const roomID = 1;
-        return navigate(`room/${roomID}`)
+        return navigate(`room/${roomID}`);
       }
-    }
-    else {
-      if(password.length > 0 || roomId.length > 0) {
+    } else {
+      if (password.length > 0 || roomId.length > 0) {
         // socket io to join a room
         // password
       }
     }
     // return naviagte
     closeModal();
-  }
+  };
 
   const closeModal = () => {
     setOpen(false);
-    setPassword('')
-    setRoomId('')
-  }
+    setPassword("");
+    setRoomId("");
+  };
 
   return (
     <ModalEndGame
-    title={selected === timegameButtonType.CREATE ? 'Create a party' : 'Join a party'}
+      title={
+        selected === timegameButtonType.CREATE
+          ? "Create a party"
+          : "Join a party"
+      }
       content={
         <>
-      {
-        selected === timegameButtonType.CREATE ?
+          {selected === timegameButtonType.CREATE ? (
             <>
               <TextField
                 id="key"
                 variant="outlined"
-              label='Set a password'
-              type='password'
+                label="Set a password"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </>
-        :
+          ) : (
             <>
               <TextField
-              id='room_id'
-              variant='outlined'
-              label='Room id'
-              className='mr-3'
-              type='number'
+                id="room_id"
+                variant="outlined"
+                label="Room id"
+                className="mr-3"
+                type="number"
                 value={roomId}
                 onChange={(e) => setRoomId(e.target.value)}
               />
               <TextField
-              id='password'
-              variant='outlined'
-              label='Password'
-              type='password'
+                id="password"
+                variant="outlined"
+                label="Password"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </>
-        }
+          )}
         </>
       }
       buttons={
         <>
           <ButtonComponent
-            index="cancel"
             text="Cancel"
-            type={buttonComponentType.ERROR}
+            color={buttonComponentColor.ERROR}
+            type={buttonComponentType.INLINE}
+            size={buttonComponentSize.MEDIUM}
             clickOn={() => closeModal()}
           />
           <ButtonComponent
-            index="Submit"
             text="Submit"
-            type={buttonComponentType.INFO}
+            color={buttonComponentColor.INFO}
+            type={buttonComponentType.INLINE}
+            size={buttonComponentSize.MEDIUM}
             clickOn={() => handleSubmit()}
           />
         </>
       }
     />
-  )
-}
+  );
+};
 
-export default ModalParty
+export default ModalParty;
