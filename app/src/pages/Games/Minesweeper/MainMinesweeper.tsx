@@ -7,6 +7,14 @@ import ButtonComponent from "components/ButtonComponent";
 import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
 import TitleScoreboard from "components/TitleScoreboard";
 import TitleGame from "components/TitleGame";
+import Ranking from "components/Game/Presentation/Ranking";
+import Preview from "components/Game/Presentation/Preview";
+import InfoBlock from "components/Game/Presentation/InfoBlock";
+import Informations from "components/Game/Presentation/Informations";
+import Surface from "components/Game/Presentation/Surface";
+
+import imgPreview from "assets/preview_minesweeper.png";
+
 
 const MainMinesweeper = () => {
   const navigate = useNavigate();
@@ -36,23 +44,38 @@ const MainMinesweeper = () => {
   }, []);
 
   return (
-    <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <TitleGame title="Minesweeper" />
-
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-center">
-        <ButtonComponent
-          text="Create a party"
-          color={buttonComponentColor.PRIMARY}
-          type={buttonComponentType.INLINE}
-          size={buttonComponentSize.MEDIUM}
-          clickOn={() => navigate("game")}
+    <Surface>
+      <>
+        <Informations
+          title="Démineur"
+          description="Avance avec prudence et explore un terrain piégé. Analyse chaque indice, ouvre les bonnes cases et marque les bombes avant qu’il ne soit trop tard. Chaque coup compte — garde ton sang-froid et triomphe du champ de mines !"
+          buttonPlay={
+            <>
+              <ButtonComponent
+                text="Jouer"
+                color={buttonComponentColor.NONE}
+                type={buttonComponentType.INLINE}
+                size={buttonComponentSize.MEDIUM}
+                clickOn={() => navigate("game")}
+              />
+            </>
+          }
+          estimatedTime="5–10 min"
+          infoBlocks={
+            <>
+              <InfoBlock title="Modes" desc="Solo • 1v1 (bientôt) • Classements" />
+              <InfoBlock title="Difficultés" desc="Facile, Moyen, Difficile — choisis ta tactique" />
+            </>
+          }
         />
-      </div>
-      <div>
-        <TitleScoreboard />
-        <Scoreboard data={dataScoreboard} />
-      </div>
-    </div>
+
+        <div className="space-y-4">
+          <Preview link={imgPreview} alt="preview battleship" />
+
+          <Ranking data={dataScoreboard}/>
+        </div>
+      </>
+    </Surface>
   );
 };
 

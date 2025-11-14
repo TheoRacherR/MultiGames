@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Scoreboard from "components/Scoreboard";
 import {
   gameList,
   gameQuiz,
@@ -7,13 +6,18 @@ import {
   modeCountryList,
   modeQuiz,
 } from "../../../@types/quiz";
-import ButtonComponent from "components/ButtonComponent";
 import { useNavigate } from "react-router-dom";
 import axios from "axiosConfig";
 import { FormatedScoreboard } from "../../../@types/games";
-import TitleScoreboard from "components/TitleScoreboard";
-import TitleGame from "components/TitleGame";
 import InputComponent from "components/InputComponent";
+import Surface from "components/Game/Presentation/Surface";
+import Informations from "components/Game/Presentation/Informations";
+import InfoBlock from "components/Game/Presentation/InfoBlock";
+import Preview from "components/Game/Presentation/Preview";
+import Ranking from "components/Game/Presentation/Ranking";
+
+import imgPreviewCountry from "assets/preview_quiz_country.png"
+import imgPreviewFlag from "assets/preview_quiz_flag.png"
 
 const MainQuiz = () => {
   const navigate = useNavigate();
@@ -117,67 +121,87 @@ const MainQuiz = () => {
   }, [game]);
 
   return (
-    <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <TitleGame title='Quiz'/>
+    <Surface>
+      <>
+        <Informations
+          title={game === gameQuiz.FLAG ? "Quiz : Drapeaux" : "Quiz : Pays"}
+          description={
+            game === gameQuiz.FLAG 
+            ? "Tour du monde express ! Observe les drapeaux, fouille ta mémoire et devine la nation qui se cache derrière chaque couleur. Plus tu vas vite, plus tu brilles — embarque pour un défi géographique haut en couleurs !"
+            : "La planète entière s’offre à toi. Parcours chaque continent, identifie les pays et révèle-les sur la carte en trouvant leur nom. Un défi parfait pour prouver que tu es un véritable maître de la géographie mondiale !"
+          }
+          buttonPlay={
+            <>
+              <div className="h-500px mx-auto mb-6 flex justify-center">
+                <InputComponent
+                  change={(e) => handleChangeInput(e, "mode")}
+                  cl="rounded-l-[10px]"
+                >
+                  <>
+                    {gameList.map((item, index) => (
+                      <option key={`option_game_${index}`} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </>
+                </InputComponent>
 
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-center">
-        <InputComponent
-          change={(e) => handleChangeInput(e, "mode")}
-          cl="rounded-l-[10px]"
-        >
-          <>
-            {gameList.map((item, index) => (
-              <option key={`option_game_${index}`} value={item}>
-                {item}
-              </option>
-            ))}
-          </>
-        </InputComponent>
-        
+                <div className="h-auto w-[1px] bg-black"></div>
 
-        <div className="h-auto w-[1px] bg-black"></div>
+                <InputComponent
+                  change={(e) => handleChangeInput(e, "difficulty")}
+                  cl="rounded-none"
+                >
+                  <>
+                    {game === gameQuiz.FLAG
+                      ? modeFlagList.map((item: modeQuiz, index: number) => (
+                          <option key={`option_mode_${index}`} value={item}>
+                            {item}
+                          </option>
+                        ))
+                      : modeCountryList.map((item: modeQuiz, index: number) => (
+                          <option key={`option_mode_${index}`} value={item}>
+                            {item}
+                          </option>
+                    ))}
+                  </>
+                </InputComponent>
 
-        <InputComponent
-          change={(e) => handleChangeInput(e, "difficulty")}
-          cl="rounded-none"
-        >
-          <>
-            {game === gameQuiz.FLAG
-              ? modeFlagList.map((item: modeQuiz, index: number) => (
-                  <option key={`option_mode_${index}`} value={item}>
-                    {item}
-                  </option>
-                ))
-              : modeCountryList.map((item: modeQuiz, index: number) => (
-                  <option key={`option_mode_${index}`} value={item}>
-                    {item}
-                  </option>
-            ))}
-          </>
-        </InputComponent>
+                {/* <div className="h-auto w-[1px] bg-black"></div> */}
 
-        <div className="h-auto w-[1px] bg-black"></div>
+                <button
+                  className={"btn-outline btn-medium"}
+                  type="submit"
+                  style={{
+                    borderRadius: "0px 10px 10px 0px",
+                    borderWidth: "1px",
+                    backgroundColor: "var(--color-primary)",
+                    color: "var(--color-text-primary)",
+                    borderColor: "var(--color-text-primary)",
+                    height: 50
+                  }}
+                >
+                  {"Create a party"}
+                </button>
+              </div>
+            </>
+          }
+          estimatedTime="5–10 min"
+          infoBlocks={
+            <>
+              <InfoBlock title="Modes" desc="Solo • 1v1 (bientôt) • Classements" />
+              <InfoBlock title="Difficultés" desc="Facile, Moyen, Difficile — choisis ta tactique" />
+            </>
+          }
+        />
 
-        <button
-          className={"btn-outline btn-medium"}
-          type="submit"
-          style={{
-            borderRadius: "0px 10px 10px 0px",
-            borderWidth: "0px",
-            backgroundColor: "var(--color-primary)",
-            color: "var(--color-text-primary)",
-            borderColor: "var(--color-text-primary)",
-          }}
-        >
-          {"Create a party"}
-        </button>
-      </div>
+        <div className="space-y-4">
+          <Preview link={game === gameQuiz.FLAG ? imgPreviewFlag : imgPreviewCountry} alt="preview battleship" />
 
-      <div>
-        <TitleScoreboard />
-        <Scoreboard data={dataScoreboard} />
-      </div>
-    </div>
+          <Ranking data={dataScoreboard}/>
+        </div>
+      </>
+    </Surface>
   );
 };
 

@@ -7,6 +7,13 @@ import ButtonComponent from "components/ButtonComponent";
 import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
 import TitleGame from "components/TitleGame";
 import TitleScoreboard from "components/TitleScoreboard";
+import Surface from "components/Game/Presentation/Surface";
+import Informations from "components/Game/Presentation/Informations";
+import InfoBlock from "components/Game/Presentation/InfoBlock";
+import Preview from "components/Game/Presentation/Preview";
+import Ranking from "components/Game/Presentation/Ranking";
+
+import imgPreview from "assets/preview_wordle.png"
 
 const MainWordle = () => {
   const navigate = useNavigate();
@@ -36,23 +43,38 @@ const MainWordle = () => {
   }, []);
 
   return (
-    <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <TitleGame title="Wordle" />
-
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-center">
-        <ButtonComponent
-          text="Play"
-          color={buttonComponentColor.ERROR}
-          type={buttonComponentType.INLINE}
-          size={buttonComponentSize.MEDIUM}
-          clickOn={() => navigate("game")}
+    <Surface>
+      <>
+        <Informations
+          title="Wordle"
+          description="Un mot secret t’attend. Teste tes hypothèses, décortique chaque réponse et avance lettre après lettre vers la solution. Entre flair et logique, sauras-tu deviner le mot du jour avant de manquer d’essais ? À toi de jouer !"
+          buttonPlay={
+            <>
+              <ButtonComponent
+                text="Jouer"
+                color={buttonComponentColor.NONE}
+                type={buttonComponentType.INLINE}
+                size={buttonComponentSize.MEDIUM}
+                clickOn={() => navigate("game")}
+              />
+            </>
+          }
+          estimatedTime="5–10 min"
+          infoBlocks={
+            <>
+              <InfoBlock title="Modes" desc="Solo • 1v1 (bientôt) • Classements" />
+              <InfoBlock title="Difficultés" desc="Facile, Moyen, Difficile — choisis ta tactique" />
+            </>
+          }
         />
-      </div>
-      <div>
-        <TitleScoreboard />
-        <Scoreboard data={dataScoreboard} />
-      </div>
-    </div>
+
+        <div className="space-y-4">
+          <Preview link={imgPreview} alt="preview battleship" />
+
+          <Ranking data={dataScoreboard}/>
+        </div>
+      </>
+    </Surface>
   );
 };
 
