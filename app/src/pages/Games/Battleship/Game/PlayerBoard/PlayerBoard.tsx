@@ -1,12 +1,8 @@
 import { Dispatch, useEffect, useState } from 'react';
-import ShipsBoard from './ShipsBoard';
-import { Button } from '@mui/material';
-import { alphabet, lengthOfTheBoard, numbers, orientationCase, ship, shipCase } from '../Battleship';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
+import { lengthOfTheBoard } from '../Battleship';
 import Board from './Board';
 import InformationBoard from './InformationBoard';
+import { orientationCase, ship, shipCase } from '../../../../../@types/battleship'
 
 const PlayerBoard = ({ startTheGame, gameStarted, cases, setCases }: { startTheGame: Function, gameStarted: boolean, cases: shipCase[], setCases: Dispatch<React.SetStateAction<shipCase[]>> }) => {
   const [listOfShips, setListOfShips] = useState<ship[]>([

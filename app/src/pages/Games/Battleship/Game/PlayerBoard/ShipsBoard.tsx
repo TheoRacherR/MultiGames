@@ -1,4 +1,4 @@
-import { orientationCase, ship, shipCase } from '../Battleship';
+import { orientationCase, ship, shipCase } from '../../../../../@types/battleship';
 
 const ShipsBoard = ({
   listOfShips,

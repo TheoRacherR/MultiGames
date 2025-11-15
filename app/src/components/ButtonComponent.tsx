@@ -7,6 +7,7 @@ const ButtonComponent = ({
   type,
   size,
   clName,
+  disabled,
 }: {
   clickOn: Function;
   text: string;
@@ -14,16 +15,18 @@ const ButtonComponent = ({
   type: buttonComponentType;
   size: buttonComponentSize;
   clName?: string;
+  disabled?: boolean;
 }) => {
   return (
-    <div>
+    // <div>
       <button
         onClick={() => clickOn()}
-        className={`btn-${type} btn-${size} btn-${color} ${clName}`}
+        className={`btn-${type} btn-${size} btn-${disabled ? 'disabled' : color} ${clName}`}
+        disabled={disabled}
       >
         {text}
       </button>
-    </div>
+    // </div>
   );
 };
 

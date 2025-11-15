@@ -1,55 +1,12 @@
 import PlayerBoard from './PlayerBoard/PlayerBoard';
 import OpponentBoard from './OpponentBoard';
 import { useState } from 'react';
-import ModalGameFinished from './ModalGameFinished';
 import { giveStartOrder } from '../MainBattleship';
+import { opponentShipCase, orientationCase, shipCase, shipPlacment, shipPlacmentCase } from '../../../../@types/battleship';
 
 export const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 export const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 export const lengthOfTheBoard = 10;
-
-export interface ship {
-  name: string;
-  id: number;
-  length: number;
-  color: string;
-}
-
-export enum orientationCase {
-  HORIZONTAL= 'horizontal',
-  VERTICAL= 'vertical',
-  UNSET= 'unset'
-}
-export interface shipCase {
-  id: number;
-  hasShip: boolean;
-  ship: ship | null;
-  shipCaseId: number;
-  orientation: orientationCase;
-  bombed: boolean;
-}
-
-export interface opponentShipCase {
-  id: number,
-  hasBeenBombed: boolean,
-  whatRoundHasItBeenBombed: number,
-  isTheShipDestroyed: boolean,
-  coordinationNumber: string,
-  coordinationAlphabet: string
-}
-
-export interface shipPlacment {
-  ship: ship;
-  destroyed: boolean;
-  cases: shipPlacmentCase[];
-}
-
-export interface shipPlacmentCase {
-  caseNumber: number; //0 = tête du bateau etc...
-  bombed: boolean;
-  idCaseInBoard: number; //de 0 à 99
-}
-
 
 const Battleship = () => {
   // Player

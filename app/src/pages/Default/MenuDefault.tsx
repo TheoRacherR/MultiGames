@@ -6,33 +6,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import { UserInfos } from '../../@types/user';
 import logo from 'assets/logo_medium_white.png';
 
-const links = [
-  {
-    name: 'Home',
-    path: '/'
-  },
-  {
-    name: 'Minesweeper',
-    path: '/minesweeper'
-  },
-  {
-    name: 'Battleship',
-    path: '/battleship'
-  },
-  {
-    name: 'Quiz',
-    path: '/quiz'
-  },
-  {
-    name: 'Wordle',
-    path: '/wordle'
-  },
-  {
-    name: 'TimeGmae',
-    path: '/timegame'
-  },
-]
-
 const MenuDefault = () => {
   const location = useLocation();
   
@@ -73,18 +46,18 @@ const MenuDefault = () => {
   };
 
   const menuIcon = (): string => {
-    switch (location.pathname) {
-      case '/':
-        return 'Home';
-      case '/battleship':
-        return 'Battleship';
-      case '/minesweeper':
-        return 'Minesweeper';
-      case '/quiz':
-        return 'Quiz';
-      case '/wordle':
-        return 'Wordle';
-      case '/timegame':
+    switch (location.pathname.split('/')[1].toLowerCase()) {
+      case '':
+        return 'home';
+      case 'battleship'.toLowerCase():
+        return 'battleship';
+      case 'minesweeper'.toLowerCase():
+        return 'minesweeper';
+      case 'quiz'.toLowerCase():
+        return 'quiz';
+      case 'wordle'.toLowerCase():
+        return 'wordle';
+      case 'timegame'.toLowerCase():
         return 'Timegame';
       default:
         return '';
@@ -95,7 +68,9 @@ const MenuDefault = () => {
     <menu className={`flex justify-between h-[45px] bg-[--color-primary] text-[--color-text-primary]`} style={{color: 'var(--color-text-primary)'}}>
         <div className='my-auto mx-5 text-xl flex gap-2'>
           <img src={logo} alt="logo" className='w-4 h-4 m-auto cursor-pointer' onClick={() => {return navigate('/')}}/>
-          <div className='font-bold'>{menuIcon().toUpperCase()}</div>
+          <div className='font-bold my-auto text-xl'>
+            <Link to={`/${menuIcon() === 'home'.toLowerCase() ? '' : menuIcon()}`}>{menuIcon().toUpperCase()}</Link>
+          </div>
         </div>
 
         <div className='flex gap-2'>

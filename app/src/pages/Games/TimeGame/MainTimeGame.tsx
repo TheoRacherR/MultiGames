@@ -1,13 +1,9 @@
 import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
 import { timegameButtonType } from "../../../@types/timegame";
 import ButtonComponent from "components/ButtonComponent";
-import { useEffect, useState } from "react";
-import ModalParty from "./ModalParty";
-import Scoreboard from "components/Scoreboard";
+import { useState } from "react";
 import axios from "../../../axiosConfig";
-import { FormatedScoreboard } from "../../../@types/games";
-import TitleGame from "components/TitleGame";
-import TitleScoreboard from "components/TitleScoreboard";
+import { gameType } from "../../../@types/games";
 import Surface from "components/Game/Presentation/Surface";
 import Informations from "components/Game/Presentation/Informations";
 import InfoBlock from "components/Game/Presentation/InfoBlock";
@@ -15,6 +11,10 @@ import Preview from "components/Game/Presentation/Preview";
 import Ranking from "components/Game/Presentation/Ranking";
 
 import imgPreview from "assets/preview_timeline.png"
+
+import { games } from "pages/Games";
+
+const gameInfos = games.filter(g => g.type === gameType.TIMEGAME)[0];
 
 const MainTimeGame = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -55,8 +55,8 @@ const MainTimeGame = () => {
     <Surface>
       <>
         <Informations
-          title="Démineur"
-          description="Avance avec prudence et explore un terrain piégé. Analyse chaque indice, ouvre les bonnes cases et marque les bombes avant qu’il ne soit trop tard. Chaque coup compte — garde ton sang-froid et triomphe du champ de mines !"
+          title={gameInfos.title}
+          description={gameInfos.description}
           buttonPlay={
             <>
               <ButtonComponent
@@ -85,7 +85,7 @@ const MainTimeGame = () => {
         />
 
         <div className="space-y-4">
-          <Preview link={imgPreview} alt="preview battleship" />
+          <Preview link={imgPreview} alt="preview timeline" />
 
           {/* <Ranking data={dataScoreboard}/> */}
         </div>

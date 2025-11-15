@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import Scoreboard from "components/Scoreboard";
-import ModalParty from "./ModalParty";
 import axios from "axiosConfig";
-import { FormatedScoreboard } from "../../../@types/games";
+import { FormatedScoreboard, gameType } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
 import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
 import { battleshipButtonType } from "../../../@types/battleship";
-import TitleScoreboard from "components/TitleScoreboard";
-import TitleGame from "components/TitleGame";
 import Informations from "components/Game/Presentation/Informations";
 import Surface from "components/Game/Presentation/Surface";
 import InfoBlock from "components/Game/Presentation/InfoBlock";
@@ -15,6 +11,9 @@ import Preview from "components/Game/Presentation/Preview";
 import Ranking from "components/Game/Presentation/Ranking";
 
 import imgPreview from "assets/preview_battleship.png";
+import { games } from "pages/Games";
+
+const gameInfos = games.filter(g => g.type === gameType.WORDLE)[0];
 
 export const giveStartOrder = () => {
   const starter = Math.floor(Math.random() * 2);
@@ -64,8 +63,8 @@ const Battleships = () => {
     <Surface>
       <>
         <Informations
-          title="Bataille navale"
-          description="Défie l'océan et débusque les navires ennemis. Place tes bateaux, anticipe les frappes et remporte la victoire. Mode solo ou en ligne à venir. Prends la mer — bonne chance, Capitaine !"
+          title={gameInfos.title}
+          description={gameInfos.description}
           buttonPlay={
             <>
               <ButtonComponent

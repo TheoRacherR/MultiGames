@@ -2,7 +2,7 @@ import Scoreboard from "components/Scoreboard";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axiosConfig";
-import { FormatedScoreboard } from "../../../@types/games";
+import { FormatedScoreboard, gameType } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
 import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
 import TitleScoreboard from "components/TitleScoreboard";
@@ -15,6 +15,9 @@ import Surface from "components/Game/Presentation/Surface";
 
 import imgPreview from "assets/preview_minesweeper.png";
 
+import { games } from "pages/Games";
+
+const gameInfos = games.filter(g => g.type === gameType.WORDLE)[0];
 
 const MainMinesweeper = () => {
   const navigate = useNavigate();
@@ -47,8 +50,8 @@ const MainMinesweeper = () => {
     <Surface>
       <>
         <Informations
-          title="Démineur"
-          description="Avance avec prudence et explore un terrain piégé. Analyse chaque indice, ouvre les bonnes cases et marque les bombes avant qu’il ne soit trop tard. Chaque coup compte — garde ton sang-froid et triomphe du champ de mines !"
+          title={gameInfos.title}
+          description={gameInfos.description}
           buttonPlay={
             <>
               <ButtonComponent
@@ -70,7 +73,7 @@ const MainMinesweeper = () => {
         />
 
         <div className="space-y-4">
-          <Preview link={imgPreview} alt="preview battleship" />
+          <Preview link={imgPreview} alt="preview minesweeper" />
 
           <Ranking data={dataScoreboard}/>
         </div>

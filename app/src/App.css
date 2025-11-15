@@ -37,6 +37,7 @@
   --btn-neutral-hover: #D5D5D5;
   --btn-none: #FFFFFF;
   --btn-none-hover: #FFFFFF;
+  --btn-disabled: #cfcfcf;
 
   --btn-text-dark: #5533EA;
   --btn-text-light: #FFFFFF;
@@ -188,6 +189,10 @@
 }
 .btn-none:hover {
   background-color: var(--btn-none-hover);
+}
+.btn-disabled {
+  background-color: var(--btn-disabled);
+  color: var(--btn-text-light);
 }
 
 

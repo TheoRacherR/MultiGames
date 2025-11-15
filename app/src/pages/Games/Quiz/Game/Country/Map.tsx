@@ -7,7 +7,7 @@ const Map = ({countryListFound, countryListToGuess, isContent}: {countryListFoun
     console.log(refTotalMap.current)
   }, [refTotalMap])
   return (
-    <div>
+    // <div>
       <svg key='svg' className='bg-blue-400' style={{width: 770, height: 530}}>
       {/* <svg key='svg' className='bg-blue-400' style={{width: refTotalMap && refTotalMap.current ? refTotalMap.current.width : 3000, height: refTotalMap && refTotalMap.current ? refTotalMap.current.height : 1000}}> */}
         <g ref={refTotalMap} style={{transform: "scale(.38) translate(0px, 240px)"}}>
@@ -26,7 +26,7 @@ const Map = ({countryListFound, countryListToGuess, isContent}: {countryListFoun
           )) : <></>}
         </g>
       </svg>
-    </div>
+    // </div>
   )
 }
 

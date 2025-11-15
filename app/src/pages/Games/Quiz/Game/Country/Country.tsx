@@ -2,21 +2,18 @@ import { useEffect, useRef, useState } from 'react'
 import { countryGuess, finalScoreInterface, gameQuiz, modeQuiz } from '../../../../../@types/quiz'
 import Map from './Map';
 import { countryList } from "../CountryList";
-import Timer from '../Timer/Timer';
 import CountryList from './CountryList/CountryList';
 import CountryModalEndGame from './CountryModalEndGame';
-import { resetCountriesFound } from '../../../../../utils/Quiz/FunctionsForCountry';
+import { resetCountriesFound } from 'utils/Quiz/FunctionsForCountry';
 import { getUserInfos } from 'utils/Default/Auth';
 import { country, UserInfos, userRole, userStatus } from '../../../../../@types/user';
 import axios from 'axios';
-import world from './world.svg';
+import ButtonComponent from 'components/ButtonComponent';
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from '../../../../../@types/default';
+import { timerTotalQuizCountry } from 'utils/Quiz/Rules';
 
 
 const Country = ({ mode }: { mode: modeQuiz }) => {
-  const timerTotal = {
-    minutes: 0,
-    seconds: 15
-  }
   const refInput = useRef<HTMLInputElement>(null);
   const [countryFound, setCountryFound] = useState<any[]>([]);
   const [countryToGuess, setCountryToGuess] = useState<countryGuess[]>([]);
@@ -43,10 +40,13 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
     country: country.FRANCE,
   });
   const [startTimer, setStartTimer] = useState<boolean>(false);
-  const [minutes, setMinutes] = useState(timerTotal.minutes);
-  const [seconds, setSeconds] = useState(timerTotal.seconds);
+  const [minutes, setMinutes] = useState(timerTotalQuizCountry.minutes);
+  const [seconds, setSeconds] = useState(timerTotalQuizCountry.seconds);
 
   const handleChangeInput = (text: any, countryListToGuess: countryGuess[]) => {
+    if(!startTimer){
+      setStartTimer(true);
+    }
     const inputText = text.target.value.toLowerCase().trim();
     const countryFoundTempList = countryListToGuess.filter(cg => cg.nameList.some(n => n.toLowerCase() === inputText));
     if(countryFoundTempList.length > 0){
@@ -69,10 +69,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
     };
   };
 
-  const clickStartTimer = () => {
-    setStartTimer(true);
-  };
-
+  // TODO btn abandon
   const clickStopTimer = () => {
     setStartTimer(false);
   };
@@ -81,8 +78,8 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
     setFinalScore({
       end: true,
       finalTimer: {
-        seconds: timerTotal.seconds - seconds,
-        minutes: timerTotal.minutes - minutes,
+        seconds: timerTotalQuizCountry.seconds - seconds,
+        minutes: timerTotalQuizCountry.minutes - minutes,
       },
       listFound: countryFound,
       listLeftToFind: countryToGuess,
@@ -142,33 +139,22 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
       listLeftToFind: [],
       listFound: [],
     });
-    setMinutes(timerTotal.minutes);
-    setSeconds(timerTotal.seconds);
+    setMinutes(timerTotalQuizCountry.minutes);
+    setSeconds(timerTotalQuizCountry.seconds);
     setStartTimer(false);
     if(refInput.current){
       refInput.current.focus();
     }
   }
 
-  // useEffect(() => {
-  //   console.log(countryFound)
-  // }, [countryFound]);
+  useEffect(() => {
+    resetPage();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[var(--color-primary)] text-white flex flex-col items-center p-10">
 
-      {/* <div className='flex'>
-        <Map countryListFound={countryFound} countryListToGuess={countryToGuess} isContent={mode !== modeQuiz.ALL}/>
-        <Timer
-          endGame={endGame}
-          score={{ left: countryToGuess.length, total: countryToGuessInit.length }}
-          startTimer={startTimer}
-          clickStartTimer={clickStartTimer}
-          clickStopTimer={clickStopTimer}
-          seconds={seconds}
-          minutes={minutes}
-        />
-      </div>
+      {/* 
       <input
         className="input m-2 flex-1 h-12 fixed bottom-0 w-[calc(100%-1rem)] z-50"
         value={inputValue}
@@ -187,27 +173,40 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         <h2 className="text-3xl font-bold uppercase mb-6">Quiz - Carte du Monde</h2>
 
         {/* <!-- Timer --> */}
-        <div
-          id="timer"
-          className="text-2xl font-bold text-[#6C4EF6] bg-[#F4F2FF] px-6 py-2 rounded-full mb-6 shadow-inner"
-        >
-          Temps : 02:00
-        </div>
+        <div className='w-[300px]'>
+          <div className='w-full flex mb-6'>
+            <div
+              id="timer"
+              className="text-2xl font-bold text-[#6C4EF6] bg-[#F4F2FF] px-6 py-2 rounded-full shadow-inner text-center"
+            >
+              Temps : {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+            </div>
+            <ButtonComponent
+              text='Stop'
+              color={buttonComponentColor.ERROR}
+              type={buttonComponentType.INLINE}
+              size={buttonComponentSize.MEDIUM}
+              clickOn={() => {
+                clickStopTimer();
+                endGame();
+              }}
+              clName='m-auto mr-0'
+              disabled={!startTimer}
+            />
+          </div>
 
-        {/* <!-- Input --> */}
-        <div className="flex gap-4 items-center mb-8">
-          <input
-            id="countryInput"
-            type="text"
-            placeholder="Écris le nom d’un pays..."
-            className="px-4 py-3 rounded-lg border border-[#D9D4F8] bg-[#F9F9FF] text-[#5533EA] placeholder-[#B6AEEB] focus:outline-none focus:ring-4 focus:ring-[#6C4EF6] transition"
-          />
-          <button
-            type="submit"
-            className="px-6 py-3 rounded-lg font-semibold bg-[#6C4EF6] text-white hover:bg-[#7D61F8] transition"
-          >
-            Valider
-          </button>
+          {/* <!-- Input --> */}
+          <div className="flex gap-4 items-center mb-8">
+            <input
+              id="countryInput"
+              type="text"
+              placeholder="Écris le nom d’un pays..."
+              className="w-full px-4 py-3 rounded-lg border border-[#D9D4F8] bg-[#F9F9FF] text-[#5533EA] placeholder-[#B6AEEB] focus:outline-none focus:ring-4 focus:ring-[#6C4EF6] transition"
+              value={inputValue}
+              autoFocus
+              onChange={(e) => handleChangeInput(e, countryToGuess)}
+            />
+          </div>
         </div>
 
         {/* <!-- Carte du monde --> */}
@@ -220,17 +219,21 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
           Pays trouvés : {countryFound.length} / {countryFound.length + countryToGuess.length}
         </div>
       </main>
-      {/* <CountryList
+      <CountryList
         countryListFound={countryFound}
         countryListToGuess={countryToGuess}
-      /> */}
+      />
 
-      {/* <CountryModalEndGame
-        finalScore={finalScore}
-        setFinalScore={setFinalScore}
-        resetPage={resetPage}
-        userInfos={userInfos}
-      /> */}
+      {finalScore.end ? 
+        <CountryModalEndGame
+          finalScore={finalScore}
+          setFinalScore={setFinalScore}
+          resetPage={resetPage}
+          userInfos={userInfos}
+        />
+      :
+        <></>
+      }
     </div>
   )
 }

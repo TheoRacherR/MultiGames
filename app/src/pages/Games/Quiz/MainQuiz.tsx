@@ -8,7 +8,7 @@ import {
 } from "../../../@types/quiz";
 import { useNavigate } from "react-router-dom";
 import axios from "axiosConfig";
-import { FormatedScoreboard } from "../../../@types/games";
+import { FormatedScoreboard, gameType } from "../../../@types/games";
 import InputComponent from "components/InputComponent";
 import Surface from "components/Game/Presentation/Surface";
 import Informations from "components/Game/Presentation/Informations";
@@ -19,6 +19,8 @@ import Ranking from "components/Game/Presentation/Ranking";
 import imgPreviewCountry from "assets/preview_quiz_country.png"
 import imgPreviewFlag from "assets/preview_quiz_flag.png"
 
+import { games } from "pages/Games";
+
 const MainQuiz = () => {
   const navigate = useNavigate();
   const [game, setGame] = useState<gameQuiz>(gameQuiz.FLAG);
@@ -27,72 +29,47 @@ const MainQuiz = () => {
     []
   );
 
-  useEffect(() => {
-    console.log(game);
-  }, [game]);
+  // useEffect(() => {
+  //   console.log(game);
+  // }, [game]);
 
-  useEffect(() => {
-    console.log(mode);
-  }, [mode]);
+  // useEffect(() => {
+  //   console.log(mode);
+  // }, [mode]);
 
   const handleChangeInput = (
     e: React.ChangeEvent<HTMLSelectElement>,
     type: string
-  ) => {
-    console.log("first");
+  ): { game: gameQuiz, mode: modeQuiz } => {
     const value = e.target.value;
     if (type === "mode") {
       if (game !== value) {
         switch (value) {
           case "Flag":
-            setGame(gameQuiz.FLAG);
-            break;
+            return { game: gameQuiz.FLAG, mode: modeQuiz.ALL };
           case "Country":
-            setGame(gameQuiz.COUNTRY);
-            break;
+            return { game: gameQuiz.COUNTRY, mode: modeQuiz.ALL };
         }
-      } else return;
+      } else return { game: gameQuiz.FLAG, mode: modeQuiz.ALL };
     } else if (type === "difficulty" && game === gameQuiz.FLAG) {
       switch (value) {
-        case "All":
-          setMode(modeQuiz.ALL);
-          break;
-        case "5":
-          setMode(modeQuiz.FIVE);
-          break;
-        case "10":
-          setMode(modeQuiz.TEN);
-          break;
-        case "20":
-          setMode(modeQuiz.TWENTY);
-          break;
+        case "All": return { game: game, mode: modeQuiz.ALL };
+        case "5": return { game: game, mode: modeQuiz.FIVE };
+        case "10": return { game: game, mode: modeQuiz.TEN };
+        case "20": return { game: game, mode: modeQuiz.TWENTY };
       }
     } else if (type === "difficulty" && game === gameQuiz.COUNTRY) {
-      console.log("change");
       switch (value) {
-        case "All":
-          setMode(modeQuiz.ALL);
-          break;
-        case "North america":
-          setMode(modeQuiz.NORTH_AMERICA);
-          break;
-        case "South america":
-          setMode(modeQuiz.SOUTH_AMERICA);
-          break;
-        case "Europe":
-          setMode(modeQuiz.EUROPE);
-          break;
-        case "Africa":
-          setMode(modeQuiz.AFRICA);
-          break;
-        case "Oceania":
-          setMode(modeQuiz.OCEANIA);
-          break;
-        case "Asia":
-          setMode(modeQuiz.ASIA);
-          break;
+        case "All": return { game: game, mode: modeQuiz.ALL };
+        case "North america": return { game: game, mode: modeQuiz.NORTH_AMERICA };
+        case "South america": return { game: game, mode: modeQuiz.SOUTH_AMERICA };
+        case "Europe": return { game: game, mode: modeQuiz.EUROPE };
+        case "Africa": return { game: game, mode: modeQuiz.AFRICA };
+        case "Oceania": return { game: game, mode: modeQuiz.OCEANIA };
+        case "Asia": return { game: game, mode: modeQuiz.ASIA };
       }
     }
+    return { game: game, mode: mode }
   };
 
   const getScoreboardInfos = async () => {
@@ -124,17 +101,17 @@ const MainQuiz = () => {
     <Surface>
       <>
         <Informations
-          title={game === gameQuiz.FLAG ? "Quiz : Drapeaux" : "Quiz : Pays"}
-          description={
-            game === gameQuiz.FLAG 
-            ? "Tour du monde express ! Observe les drapeaux, fouille ta mémoire et devine la nation qui se cache derrière chaque couleur. Plus tu vas vite, plus tu brilles — embarque pour un défi géographique haut en couleurs !"
-            : "La planète entière s’offre à toi. Parcours chaque continent, identifie les pays et révèle-les sur la carte en trouvant leur nom. Un défi parfait pour prouver que tu es un véritable maître de la géographie mondiale !"
-          }
+          title={game === gameQuiz.FLAG ? games.filter(g => g.type === gameType.QUIZ_FLAG)[0].title : games.filter(g => g.type === gameType.QUIZ_COUNTRY)[0].title}
+          description={game === gameQuiz.FLAG ? games.filter(g => g.type === gameType.QUIZ_FLAG)[0].description : games.filter(g => g.type === gameType.QUIZ_COUNTRY)[0].description}
           buttonPlay={
             <>
               <div className="h-500px mx-auto mb-6 flex justify-center">
                 <InputComponent
-                  change={(e) => handleChangeInput(e, "mode")}
+                  change={(e) => {
+                    const result = handleChangeInput(e, "mode");
+                    setGame(result.game);
+                    setMode(result.mode);
+                  }}
                   cl="rounded-l-[10px]"
                 >
                   <>
@@ -149,18 +126,22 @@ const MainQuiz = () => {
                 <div className="h-auto w-[1px] bg-black"></div>
 
                 <InputComponent
-                  change={(e) => handleChangeInput(e, "difficulty")}
+                  change={(e) => {
+                    const result = handleChangeInput(e, "difficulty");
+                    setGame(result.game);
+                    setMode(result.mode);
+                  }}
                   cl="rounded-none"
                 >
                   <>
                     {game === gameQuiz.FLAG
                       ? modeFlagList.map((item: modeQuiz, index: number) => (
-                          <option key={`option_mode_${index}`} value={item}>
+                          <option key={`option_mode_${index}`} value={item} selected={item === mode}>
                             {item}
                           </option>
                         ))
                       : modeCountryList.map((item: modeQuiz, index: number) => (
-                          <option key={`option_mode_${index}`} value={item}>
+                          <option key={`option_mode_${index}`} value={item} selected={item === mode}>
                             {item}
                           </option>
                     ))}
@@ -180,8 +161,19 @@ const MainQuiz = () => {
                     borderColor: "var(--color-text-primary)",
                     height: 50
                   }}
+                  onClick={() =>
+                    navigate(
+                      `${game === gameQuiz.FLAG ? "flag" : "country"}/${
+                        mode === modeQuiz.NORTH_AMERICA
+                          ? "north_america"
+                          : mode === modeQuiz.SOUTH_AMERICA
+                          ? "south_america"
+                          : mode.toLowerCase()
+                      }`
+                    )
+                  }
                 >
-                  {"Create a party"}
+                  {"Jouer"}
                 </button>
               </div>
             </>
@@ -196,7 +188,7 @@ const MainQuiz = () => {
         />
 
         <div className="space-y-4">
-          <Preview link={game === gameQuiz.FLAG ? imgPreviewFlag : imgPreviewCountry} alt="preview battleship" />
+          <Preview link={game === gameQuiz.FLAG ? imgPreviewFlag : imgPreviewCountry} alt="preview quiz" />
 
           <Ranking data={dataScoreboard}/>
         </div>

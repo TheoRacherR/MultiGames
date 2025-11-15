@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect } from 'react'
-import { alphabet, lengthOfTheBoard, numbers, opponentShipCase } from './Battleship'
-
+import { alphabet, lengthOfTheBoard, numbers } from './Battleship';
+import { opponentShipCase } from '../../../../@types/battleship';
 
 const OpponentBoard = ({ cases, setCases, attackACase }: { cases: opponentShipCase[], setCases: Dispatch<React.SetStateAction<opponentShipCase[]>>, attackACase: Function }) => {
   const initOpponentCases = () => {

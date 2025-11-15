@@ -34,11 +34,7 @@ const CountryModalEndGame = ({
   return (
     <div>
       <ModalEndGame
-        title={
-          finalScore.listLeftToFind.length === 0
-            ? "You won !"
-            : "End of the game"
-        }
+        title={"End of the game"}
         content={
           <>
             <p className="text-2xl">
@@ -73,6 +69,7 @@ const CountryModalEndGame = ({
                   type={buttonComponentType.INLINE}
                   size={buttonComponentSize.MEDIUM}
                   clickOn={() => navigate("/auth")}
+                  clName="ml-4"
                 />
               </p>
             ) : (

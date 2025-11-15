@@ -632,8 +632,8 @@ export const countryList: countryGuess[] = [
     found: false,
   },
   {
-    name: 'Centreafrique',
-    nameList: ["centreafrique", "central africa"],
+    name: 'Centrafrique',
+    nameList: ["centrafrique", "central africa", "centreafrique"],
     img: Central_African_Republic_flag,
     alt: "flag to guess",
     svgPoints: {
@@ -2788,6 +2788,20 @@ export const countryList: countryGuess[] = [
     found: false,
   },
   {
+    name: 'Vatican',
+    nameList: ["vatican city","vatican","saint-siège","saint-siege","saint siège","saint siege","cité du vatican","cite du vatican"],
+    img: Vatican_City_flag,
+    alt: "flag to guess",
+    svgPoints: {
+      maintLocation: "M 1052.139 234.757 L 1052.175 234.757 L 1052.176 234.787 L 1052.151 234.799 L 1052.124 234.786 Z",
+      islands: "",
+    },
+    location: {
+      contient: modeQuiz.EUROPE
+    },
+    found: false,
+  },
+  {
     name: 'Vanuatu',
     nameList: ["vanuatu"],
     img: Vanuatu_flag,
@@ -2929,26 +2943,3 @@ export const countryList: countryGuess[] = [
   },
 ];
 
-// {
-//   name: 'Vatican',
-//   nameList: [
-//     "vatican city",
-//     "vatican",
-//     "saint-siège",
-//     "saint-siege",
-//     "saint siège",
-//     "saint siege",
-//     "cité du vatican",
-//     "cite du vatican",
-//   ],
-//   img: Vatican_City_flag,
-//   alt: "flag to guess",
-//   svgPoints: {
-//     maintLocation: "M514.19 127.555L514.366 127.53L514.24 127.405Z",
-//     islands: "",
-//   },
-//   location: {
-//     contient: modeQuiz.EUROPE
-//   },
-//   found: false,
-// },

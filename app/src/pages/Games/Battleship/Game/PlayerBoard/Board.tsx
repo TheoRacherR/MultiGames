@@ -1,5 +1,4 @@
-import React from 'react'
-import { shipCase } from '../Battleship'
+import { shipCase } from "../../../../../@types/battleship"
 
 const Board = ({cases, style}: {cases: shipCase[], style: any}) => {
   return (
