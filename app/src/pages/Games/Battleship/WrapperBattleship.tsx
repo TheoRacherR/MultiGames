@@ -1,4 +1,3 @@
-import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Battleship from './Game/Battleship'
 import MainBattleships from './MainBattleship'

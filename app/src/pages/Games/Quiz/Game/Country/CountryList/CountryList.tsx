@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { countriesSortedInterface, countryGuess, modeCountryList } from '../../../../../../@types/guiz'
+import { countriesSortedInterface, countryGuess, modeCountryList } from '../../../../../../@types/quiz'
 import CountryListBloc from './CountryListBloc';
 import { reassembleCountries } from '../../../../../../utils/Quiz/FunctionsForCountry';
 

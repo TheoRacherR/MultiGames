@@ -1,11 +1,8 @@
 import { Dispatch, useEffect, useState } from 'react';
-import ShipsBoard from './ShipsBoard';
-import { Button } from '@mui/material';
-import { alphabet, lengthOfTheBoard, numbers, orientationCase, ship, shipCase } from '../Battleship';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
-
+import { lengthOfTheBoard } from '../Battleship';
+import Board from './Board';
+import InformationBoard from './InformationBoard';
+import { orientationCase, ship, shipCase } from '../../../../../@types/battleship'
 
 const PlayerBoard = ({ startTheGame, gameStarted, cases, setCases }: { startTheGame: Function, gameStarted: boolean, cases: shipCase[], setCases: Dispatch<React.SetStateAction<shipCase[]>> }) => {
   const [listOfShips, setListOfShips] = useState<ship[]>([
@@ -38,12 +35,25 @@ const PlayerBoard = ({ startTheGame, gameStarted, cases, setCases }: { startTheG
         bombed: false
       });
     }
-    setCases(arr);
+    return arr;
   }
 
   useEffect(() => {
-    initCases();
+    // setCases(initCases());
+    setCases(placeRandomShips());
   }, []);
+
+  const styleCase = {
+    width: '100%',
+    aspectRatio: '1 / 1',
+    // position: 'relative',
+    paddingTop: '100%',
+    background: 'transparent',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    cursor: 'default',
+    border: '1px solid rgba(85,51,234,0.06)',
+  }
 
   const checkIfShipCanBePlacedHere = (caseIdToDrop: number, shipSelect: ship, caseOfShipSelected: number, step: number): boolean => {
     const idTopCase = caseIdToDrop - (caseOfShipSelected * step);
@@ -208,6 +218,58 @@ const PlayerBoard = ({ startTheGame, gameStarted, cases, setCases }: { startTheG
     setBoardValidated(false);
   }
 
+function placeRandomShips() {
+    // Simple random placement algorithm for demo:
+    // Ships lengths: 5,4,3,3,2
+    const shipLengths = [5, 4, 3, 3, 2]; //TODO temp
+    // clear previous
+    let casesTemp: shipCase[] = initCases();
+    console.log('first')
+
+    function canPlace(r: number, c: number, len: number, vertical: boolean) {
+      for (let i = 0; i < len; i++) {
+        const rr = r + (vertical ? i : 0);
+        const cc = c + (vertical ? 0 : i);
+        if (
+          rr < 0 ||
+          rr >= lengthOfTheBoard ||
+          cc < 0 ||
+          cc >= lengthOfTheBoard
+        )
+          return false;
+        const idx = rr * lengthOfTheBoard + cc;
+        if (casesTemp[idx].hasShip) return false;
+      }
+      return true;
+    }
+
+    function doPlace(r: number, c: number, len: number, vertical: boolean) {
+      for (let i = 0; i < len; i++) {
+        const rr = r + (vertical ? i : 0);
+        const cc = c + (vertical ? 0 : i);
+        const idx = rr * lengthOfTheBoard + cc;
+        casesTemp[idx].hasShip = true;
+      }
+    }
+
+    for (const len of shipLengths) {
+      let placed = false,
+        attempts = 0;
+      while (!placed && attempts < 200) {
+        attempts++;
+        const vertical = Math.random() < 0.5;
+        const row = Math.floor(Math.random() * lengthOfTheBoard);
+        const column = Math.floor(Math.random() * lengthOfTheBoard);
+        if (canPlace(row, column, len, vertical)) {
+          doPlace(row, column, len, vertical);
+          placed = true;
+        }
+      }
+    }
+    console.log(casesTemp)
+    return casesTemp;
+  }
+
   /*
     - Ajouter un bateau sur le board :                                    OK
     - Pas possible de superposer deux bateau :                            OK
@@ -221,89 +283,54 @@ const PlayerBoard = ({ startTheGame, gameStarted, cases, setCases }: { startTheG
   */
 
   return (
-    <div className="w-4/5 flex select-none">
-      {gameStarted ? 
-          <></>
-        : 
-          <div className='w-1/5 bg-red-200'>
-            <ShipsBoard
-              listOfShips={listOfShips}
-              cases={cases}
-              setCases={setCases}
-              setShipSelected={setShipSelected}
-              setCaseShipSelected={setCaseShipSelected}
-              setListOfShips={setListOfShips}
-              caseOnBoardDropped={caseOnBoardDropped}
-            />
-          </div>
-      }
-      <div className="w-3/5 h-full bg-gray-400 pr-5 pb-5">
-        <div>
-          <div className="h-5 w-full pl-5 flex">
-            {numbers.map((item, index) => (
-              <div key={index} className="flex-1 text-center text-white">
-                {item}
-              </div>
-            ))}
-          </div>
-          <div className="flex">
-            <div className="w-5 h-auto text-white text-center flex flex-col">
-              {alphabet.map((item, index) => (
-                <div key={index} className="flex justify-center my-auto">
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-            <div
-              className=" w-full aspect-square flex flex-wrap h-full"
-              id="board"
-            >
-              {cases.map((item, index) => (
-                <div
-                  id={item.id.toString()}
-                  key={index}
-                  draggable={item.hasShip && !gameStarted && !boardValidated}
-                  className="flex border-solid border-black border"
-                  style={{ width: `calc(100% /${lengthOfTheBoard})`, aspectRatio: 1, backgroundColor: `${
-                    item.bombed && item.hasShip ? 'black'
-                    : item.bombed ? 'grey' 
-                      : item.ship ? item.ship.color
-                        : '#3B81F6'
-                  }` }}
-                  onDragStart={() => {
-                    setCaseShipSelected(item.shipCaseId)
-                    setCaseOnBoardDropped(index)
-                  }}
-                  onMouseUp={() => {
-                    if(item.ship) rotateShip(item.ship)
-                  }}
-                  onMouseDown={() => setShipSelected(item.ship as ship)}
-                  onDragOver={(e) => e.preventDefault()}
-                  onDragEnter={(e) => e.preventDefault()}
-                  onDrop={() => dragDrop(index)}
-                >
-                  {item.id}
-                </div>
-              ))}
+    <div id='wrapper' 
+      className='flex-auto m-0 min-h-screen text-[var(--color-text-primary)] flex items-start justify-center p-[48px]'
+      /*bg-linear-to-r from-[var(--color-primary) 0%] to-[#5B44E8 100%)]'*/
+      style={{background: 'linear-gradient(180deg, var(--color-primary) 0%, #5B44E8 100%)'}}
+    >
+      <div id='app' className="w-[1200px] max-w-[calc(100% - 96px)] rounded-[20px] shadow-[var(--shadow)] grid grid-cols-[1fr 360px] gap-[28px] bg-[linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02))]" role="main" aria-label="Page du jeu Bataille Navale">
+        {/* <!-- Left: main game panel --> */}
+        <section 
+          id="main" aria-label="Tableau de jeu du joueur"
+          className="bg-[var(--color-surface)] text-[var(--color-text-dark)] rounded-[14px] p-[24px] shadow-[0 6px 20px rgba(44,26,121,0.06)] min-h-[620px]"
+        >
+          <div id="game-header" className="flex items-center justify-between mb-[18px] gap-[12px]">
+            <div id="game-title" className='text-[28px] font-[700] uppercase text-[var(--color-primary-dark)] traking-[0.06em]'>BATAILLE NAVALE</div>
+            <div id="controls" className='flex gap-[10px] items-center'>
+              <button className="butn" id="auto-place" onClick={() => setCases(placeRandomShips())}>Placer aléatoire</button>
+              <button className="butn secondary" id="reset">Réinitialiser</button>
+              <button className="butn" id="start">Jouer</button>
             </div>
           </div>
-        </div>
+
+          <div id="board-container" className='flex gap-[24px] items-start'>
+            <Board cases={cases} style={styleCase}/>
+            <InformationBoard />
+
+          </div>
+        </section>
+
+        {/* <!-- Right side: scores / leaderboard --> */}
+        {/* <aside className="side" aria-label="Tableau des scores">
+          <h3>Tableau des parties</h3>
+          <table className="score-table" aria-hidden="false">
+            <thead>
+              <tr><th>Joueur</th><th>Score</th><th>Niveau</th></tr>
+            </thead>
+            <tbody id="score-body">
+              <tr><td>Marine</td><td>320</td><td>Facile</td></tr>
+              <tr><td>Léo</td><td>290</td><td>Moyen</td></tr>
+              <tr><td>Paul</td><td>260</td><td>Difficile</td></tr>
+            </tbody>
+          </table>
+
+          <div className="small">Dernières parties — triées par score</div>
+
+          <div className="instructions" role="note" aria-live="polite">
+            Cette interface montre **ton plateau**. Les attaques de l'adversaire ne sont pas affichées ici (simple vue joueur).
+          </div>
+        </aside> */}
       </div>
-      {gameStarted ? 
-          <></>
-        :
-          <div className='w-1/5 bg-slate-600 p-5 flex flex-col gap-3'>
-            <div className='text-white font-bold'>Opponent status: { opponentReady ? 'Ready' : 'Pending...'}</div>
-            {
-              boardValidated ?
-                <Button color='error' onClick={cancel}><CancelRoundedIcon/>Cancel</Button>
-              :
-                <Button color='success' onClick={validate} disabled={listOfShips.length > 0}><CheckCircleRoundedIcon/>Validation</Button>
-            }
-            <Button color='primary' onClick={resetBoard}><ReplayRoundedIcon/>Reset the board</Button>
-            <Button onClick={() => setOpponentReady(true)}><ReplayRoundedIcon/>Trap</Button>
-          </div>
-      }
     </div>
   );
 };

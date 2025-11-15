@@ -2,9 +2,22 @@ import Scoreboard from "components/Scoreboard";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axiosConfig";
-import { FormatedScoreboard } from "../../../@types/games";
+import { FormatedScoreboard, gameType } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentType } from "../../../@types/guiz";
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
+import TitleScoreboard from "components/TitleScoreboard";
+import TitleGame from "components/TitleGame";
+import Ranking from "components/Game/Presentation/Ranking";
+import Preview from "components/Game/Presentation/Preview";
+import InfoBlock from "components/Game/Presentation/InfoBlock";
+import Informations from "components/Game/Presentation/Informations";
+import Surface from "components/Game/Presentation/Surface";
+
+import imgPreview from "assets/preview_minesweeper.png";
+
+import { games } from "pages/Games";
+
+const gameInfos = games.filter(g => g.type === gameType.WORDLE)[0];
 
 const MainMinesweeper = () => {
   const navigate = useNavigate();
@@ -34,22 +47,38 @@ const MainMinesweeper = () => {
   }, []);
 
   return (
-    <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <h1 className="text-6xl text-center mb-14">💣 Minesweeper 💣</h1>
-
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
-        <ButtonComponent
-          index="Create a party"
-          text="Create a party"
-          type={buttonComponentType.RED}
-          clickOn={() => navigate("game")}
+    <Surface>
+      <>
+        <Informations
+          title={gameInfos.title}
+          description={gameInfos.description}
+          buttonPlay={
+            <>
+              <ButtonComponent
+                text="Jouer"
+                color={buttonComponentColor.NONE}
+                type={buttonComponentType.INLINE}
+                size={buttonComponentSize.MEDIUM}
+                clickOn={() => navigate("game")}
+              />
+            </>
+          }
+          estimatedTime="5–10 min"
+          infoBlocks={
+            <>
+              <InfoBlock title="Modes" desc="Solo • 1v1 (bientôt) • Classements" />
+              <InfoBlock title="Difficultés" desc="Facile, Moyen, Difficile — choisis ta tactique" />
+            </>
+          }
         />
-      </div>
-      <div>
-        <h2 className="text-center">Scoreboard :</h2>
-        <Scoreboard data={dataScoreboard} />
-      </div>
-    </div>
+
+        <div className="space-y-4">
+          <Preview link={imgPreview} alt="preview minesweeper" />
+
+          <Ranking data={dataScoreboard}/>
+        </div>
+      </>
+    </Surface>
   );
 };
 

@@ -1,11 +1,20 @@
-import { buttonComponentType } from '../../../@types/guiz';
-import { timegameButtonType } from '../../../@types/timegame';
-import ButtonComponent from 'components/ButtonComponent';
-import { useEffect, useState } from 'react'
-import ModalParty from './ModalParty';
-import Scoreboard from 'components/Scoreboard';
-import axios from '../../../axiosConfig';
-import { FormatedScoreboard } from '../../../@types/games';
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
+import { timegameButtonType } from "../../../@types/timegame";
+import ButtonComponent from "components/ButtonComponent";
+import { useState } from "react";
+import axios from "../../../axiosConfig";
+import { gameType } from "../../../@types/games";
+import Surface from "components/Game/Presentation/Surface";
+import Informations from "components/Game/Presentation/Informations";
+import InfoBlock from "components/Game/Presentation/InfoBlock";
+import Preview from "components/Game/Presentation/Preview";
+import Ranking from "components/Game/Presentation/Ranking";
+
+import imgPreview from "assets/preview_timeline.png"
+
+import { games } from "pages/Games";
+
+const gameInfos = games.filter(g => g.type === gameType.TIMEGAME)[0];
 
 const MainTimeGame = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -43,30 +52,47 @@ const MainTimeGame = () => {
   // }, []);
 
   return (
-    <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <h1 className="text-6xl text-center mb-14">⏳ Time Game ⏳</h1>
+    <Surface>
+      <>
+        <Informations
+          title={gameInfos.title}
+          description={gameInfos.description}
+          buttonPlay={
+            <>
+              <ButtonComponent
+                text="Create a party"
+                color={buttonComponentColor.INFO}
+                type={buttonComponentType.INLINE}
+                size={buttonComponentSize.MEDIUM}
+                clickOn={() => handleOpenModal(timegameButtonType.CREATE)}
+              />
+              <ButtonComponent
+                text="Join a party"
+                color={buttonComponentColor.INFO}
+                type={buttonComponentType.INLINE}
+                size={buttonComponentSize.MEDIUM}
+                clickOn={() => handleOpenModal(timegameButtonType.JOIN)}
+              />
+            </>
+          }
+          estimatedTime="5–10 min"
+          infoBlocks={
+            <>
+              <InfoBlock title="Modes" desc="Solo • 1v1 (bientôt) • Classements" />
+              <InfoBlock title="Difficultés" desc="Facile, Moyen, Difficile — choisis ta tactique" />
+            </>
+          }
+        />
 
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
-        <ButtonComponent
-          index="Create a party"
-          text="Create a party"
-          type={buttonComponentType.BLUE}
-          clickOn={() => handleOpenModal(timegameButtonType.CREATE)}
-        />
-        <ButtonComponent
-          index="Join a party"
-          text="Join a party"
-          type={buttonComponentType.BLUE}
-          clickOn={() => handleOpenModal(timegameButtonType.JOIN)}
-        />
-      </div>
-      {/* <div>
-        <h2 className="text-center">Scoreboard :</h2>
-        <Scoreboard data={dataScoreboard} />
-      </div> */}
-      {open ? <ModalParty setOpen={setOpen} selected={selected} /> : <></>}
-    </div>
+        <div className="space-y-4">
+          <Preview link={imgPreview} alt="preview timeline" />
+
+          {/* <Ranking data={dataScoreboard}/> */}
+        </div>
+      </>
+    </Surface>
+      // {open ? <ModalParty setOpen={setOpen} selected={selected} /> : <></>}
   );
-}
+};
 
-export default MainTimeGame
+export default MainTimeGame;

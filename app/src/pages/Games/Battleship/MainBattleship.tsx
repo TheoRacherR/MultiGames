@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
-import Scoreboard from "components/Scoreboard";
-import ModalParty from "./ModalParty";
 import axios from "axiosConfig";
-import { FormatedScoreboard } from "../../../@types/games";
+import { FormatedScoreboard, gameType } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentType } from "../../../@types/guiz";
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
 import { battleshipButtonType } from "../../../@types/battleship";
+import Informations from "components/Game/Presentation/Informations";
+import Surface from "components/Game/Presentation/Surface";
+import InfoBlock from "components/Game/Presentation/InfoBlock";
+import Preview from "components/Game/Presentation/Preview";
+import Ranking from "components/Game/Presentation/Ranking";
+
+import imgPreview from "assets/preview_battleship.png";
+import { games } from "pages/Games";
+
+const gameInfos = games.filter(g => g.type === gameType.WORDLE)[0];
 
 export const giveStartOrder = () => {
   const starter = Math.floor(Math.random() * 2);
@@ -52,29 +60,68 @@ const Battleships = () => {
   }, []);
 
   return (
-    <div className="my-5 mx-auto" style={{ width: 700 }}>
-      <h1 className="text-6xl text-center mb-14">⛴️ Battleship ⛴️</h1>
+    <Surface>
+      <>
+        <Informations
+          title={gameInfos.title}
+          description={gameInfos.description}
+          buttonPlay={
+            <>
+              <ButtonComponent
+                text="Jouer"
+                color={buttonComponentColor.NONE}
+                type={buttonComponentType.INLINE}
+                size={buttonComponentSize.MEDIUM}
+                clickOn={() => handleOpenModal(battleshipButtonType.CREATE)}
+              />
+              <ButtonComponent
+                text="Comment jouer"
+                color={buttonComponentColor.NONE}
+                type={buttonComponentType.INLINE}
+                size={buttonComponentSize.MEDIUM}
+                clickOn={() => handleOpenModal(battleshipButtonType.CREATE)}
+              />
+            </>
+          }
+          estimatedTime="5–10 min"
+          infoBlocks={
+            <>
+              <InfoBlock title="Modes" desc="Solo • 1v1 (bientôt) • Classements" />
+              <InfoBlock title="Difficultés" desc="Facile, Moyen, Difficile — choisis ta tactique" />
+            </>
+          }
+        />
 
-      <div className="w-2/3 h-500px mx-auto mb-28 flex justify-around">
-        <ButtonComponent
-          index="Create a party"
-          text="Create a party"
-          type={buttonComponentType.BLUE}
-          clickOn={() => handleOpenModal(battleshipButtonType.CREATE)}
-        />
-        <ButtonComponent
-          index="Join a party"
-          text="Join a party"
-          type={buttonComponentType.BLUE}
-          clickOn={() => handleOpenModal(battleshipButtonType.JOIN)}
-        />
-      </div>
-      <div>
-        <h2 className="text-center">Scoreboard :</h2>
-        <Scoreboard data={dataScoreboard} />
-      </div>
-      {open ? <ModalParty setOpen={setOpen} selected={selected} /> : <></>}
-    </div>
+        <div className="space-y-4">
+          <Preview link={imgPreview} alt="preview battleship" />
+
+          <Ranking data={dataScoreboard}/>
+        </div>
+      </>
+    </Surface>
+
+
+      // {/* <div className="w-1/2 mx-auto mb-28 flex justify-around">
+      //   <ButtonComponent
+      //     text="Create a party"
+      //     color={buttonComponentColor.PRIMARY}
+      //     type={buttonComponentType.INLINE}
+      //     size={buttonComponentSize.MEDIUM}
+      //     clickOn={() => handleOpenModal(battleshipButtonType.CREATE)}
+      //   />
+      //   <ButtonComponent
+      //     text="Join a party"
+      //     color={buttonComponentColor.PRIMARY}
+      //     type={buttonComponentType.INLINE}
+      //     size={buttonComponentSize.MEDIUM}
+      //     clickOn={() => handleOpenModal(battleshipButtonType.JOIN)}
+      //   />
+      // </div>
+      // <div>
+      //   <TitleScoreboard />
+      //   <Scoreboard data={dataScoreboard} />
+      // </div>
+      // {open ? <ModalParty setOpen={setOpen} selected={selected} /> : <></>} */}
   );
 };
 

@@ -8,7 +8,7 @@ const WrapperQuiz = () => {
   return (
     <Routes>
       <Route path="" element={<MainQuiz />} />
-      <Route path="/country" element={<WrapperCountry />}/>
+      <Route path="/country/*" element={<WrapperCountry />}/>
       <Route path="/flag/*" element={<WrapperFlag />} />
     </Routes>
   )

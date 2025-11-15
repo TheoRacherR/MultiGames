@@ -1,4 +1,4 @@
-FROM node:18-alpine AS DEV_IMAGE
+FROM node:18-alpine AS dev_image
 
 # set working directory
 WORKDIR /app
@@ -17,11 +17,11 @@ COPY . .
 CMD ["npm", "start"]
 
 
-FROM node:18-alpine as PROD_IMAGE
+FROM node:18-alpine AS prod_image
 
 WORKDIR /front/oxygenbnb
 
-COPY --from=DEV_IMAGE /app/dist/ /app/dist/
+COPY --from=dev_image /app/dist/ /app/dist/
 
 COPY package.json .
 
