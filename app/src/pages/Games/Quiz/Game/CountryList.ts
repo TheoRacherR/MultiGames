@@ -2201,7 +2201,7 @@ export const countryList: countryGuess[] = [
   },
   {
     name: 'Saint Lucie',
-    nameList: ["saint lucia", "saint lucie"],
+    nameList: ["saint lucia", "saint lucie", "sainte lucie", "sainte-lucie", "saint-lucie"],
     img: Saint_Lucia_flag,
     alt: "flag to guess",
     svgPoints: {
