@@ -8,6 +8,7 @@ import {
   buttonComponentSize,
   buttonComponentType,
 } from "../../../@types/default";
+import { useEffect } from "react";
 
 const QuizModalEndGame = ({
   finalScore,
@@ -25,10 +26,17 @@ const QuizModalEndGame = ({
   const gotoMenu = () => {
     setFinalScore({
       ...finalScore,
-      end: false,
+      modalOpenned: false,
     });
     navigate("/");
   };
+
+  const closeModal = () => {
+    setFinalScore({
+      ...finalScore,
+      modalOpenned: false,
+    });
+  }
 
   return (
     <div>
@@ -39,22 +47,21 @@ const QuizModalEndGame = ({
             <p className="text-2xl">
               You guested {finalScore.listFound.length}/
               {finalScore.listFound.length + finalScore.listLeftToFind.length}
-              {finalScore.finalTimer.seconds > 0 ||
-              finalScore.finalTimer.minutes > 0
+              {finalScore.finalTimer > 0
                 ? ` in 
                 ${
-                  finalScore.finalTimer.minutes === 1
+                  Math.trunc(finalScore.finalTimer / 60) === 1
                     ? "1 minute and "
-                    : finalScore.finalTimer.minutes > 1
-                    ? finalScore.finalTimer.minutes + " minutes and "
+                    : Math.trunc(finalScore.finalTimer / 60) > 1
+                    ? Math.trunc(finalScore.finalTimer / 60) + " minutes and "
                     : ""
                 }
                 ${
-                  finalScore.finalTimer.seconds === 1
+                  (finalScore.finalTimer % 60) === 1
                     ? "1 second"
-                    : finalScore.finalTimer.seconds > 1
-                    ? finalScore.finalTimer.seconds + " seconds"
-                    : ""
+                    : (finalScore.finalTimer % 60) > 1
+                    ? (finalScore.finalTimer % 60) + " seconds"
+                    : "0"
                 }
               🎉`
                 : ""}
@@ -94,6 +101,7 @@ const QuizModalEndGame = ({
             />
           </>
         }
+        closeModal={closeModal}
       />
     </div>
   );

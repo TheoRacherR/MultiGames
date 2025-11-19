@@ -1,12 +1,11 @@
-import { countriesSortedInterface, countryGuess, modeQuiz } from "../../@types/quiz";
+import { countriesSortedInterface, countryGuess, modeQuiz, styleTransformMap } from "../../@types/quiz";
+import { timerTotalQuizCountry, timerTotalQuizCountryAFRICA, timerTotalQuizCountryASIA, timerTotalQuizCountryEUROPE, timerTotalQuizCountryNORTH_AMERICA, timerTotalQuizCountrySOUTH_AMERICA,  } from "./Rules";
 
-// Country.tsx
 export const resetCountriesFound = (countryListArg: countryGuess[]): countryGuess[] => {
   countryListArg.forEach(cf => cf.found = false);
   return countryListArg;
 };
 
-// CountryList.tsx
 export const reassembleCountries = (countriesFound: countryGuess[], countriesGuess: countryGuess[], modeCountryList: modeQuiz[]) => {
   console.log("reassembleCountries " + countriesFound.length + " " + countriesGuess.length);
 let countriesSorted: countriesSortedInterface[] = [];
@@ -33,21 +32,44 @@ for (let i = 0; i < modeCountryList.length; i++) {
   return countriesSorted.filter(cs => cs.countries.length > 0);
 }
 
-export const rescaleMapToMode = (mode: modeQuiz) => {
+export const rescaleMapToModeCountry = (mode: modeQuiz): styleTransformMap => {
   switch (mode){
     case modeQuiz.ALL: 
-      return "scale(.38) translate(0px, 240px)"
+      return {scale: .38, translate: { x: 0,y: 240}}
     case modeQuiz.ASIA: 
-      return "scale(.9) translate(-1000px, -0px)"
+      return {scale: .9, translate: { x: -1000,y: -0}}
     case modeQuiz.EUROPE: 
-      return "scale(2) translate(-870px, -40px)"
+      return {scale: 2, translate: { x: -870,y: -40}}
     case modeQuiz.AFRICA: 
-      return "scale(1) translate(-700px, -240px)"
+      return {scale: 1, translate: { x: -700,y: -240}}
     case modeQuiz.OCEANIA: 
-      return "scale(1.2) translate(-1550px, -400px)"
+      return {scale: 1.2, translate: { x: -1550,y: -400}}
     case modeQuiz.NORTH_AMERICA: 
-      return "scale(1) translate(-60px, 20px)"
+      return {scale: 1, translate: { x: -60,y: 20}}
     case modeQuiz.SOUTH_AMERICA: 
-      return "scale(1) translate(-220px, -370px)"
+      return {scale: 1, translate: { x: -220,y: -370}}
+    default:
+      return {scale: .38, translate: { x: 0,y: 240}}
+  }
+}
+
+export const getTotalSecondByModeCountry = (mode: modeQuiz): number => {
+  switch (mode) {
+    case modeQuiz.ALL: 
+      return timerTotalQuizCountry;
+    case modeQuiz.ASIA: 
+      return timerTotalQuizCountryASIA
+    case modeQuiz.EUROPE: 
+      return timerTotalQuizCountryEUROPE;
+    case modeQuiz.AFRICA: 
+      return timerTotalQuizCountryAFRICA
+    case modeQuiz.OCEANIA: 
+      return timerTotalQuizCountryAFRICA
+    case modeQuiz.NORTH_AMERICA: 
+      return timerTotalQuizCountryNORTH_AMERICA
+    case modeQuiz.SOUTH_AMERICA: 
+      return timerTotalQuizCountrySOUTH_AMERICA
+    default:
+      return timerTotalQuizCountry
   }
 }

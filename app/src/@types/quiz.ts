@@ -16,12 +16,10 @@ export interface countryGuess {
 
 export interface finalScoreInterface {
   end: boolean;
+  modalOpenned: boolean;
   listLeftToFind: countryGuess[];
   listFound: countryGuess[];
-  finalTimer: {
-    seconds: number;
-    minutes: number;
-  };
+  finalTimer: number;
 }
 
 export enum gameQuiz {
@@ -66,4 +64,12 @@ export interface countriesSortedInterface {
 export interface QuizFormatedScoreboard {
   user: UserLimitedInfos;
   score: number;
+}
+
+export interface styleTransformMap {
+  scale: number;
+  translate: {
+    x: number;
+    y: number
+  }
 }

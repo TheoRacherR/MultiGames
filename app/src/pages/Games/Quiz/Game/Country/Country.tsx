@@ -9,7 +9,7 @@ import Map from "./Map";
 import { countryList } from "../CountryList";
 import CountryList from "./CountryList/CountryList";
 import QuizModalEndGame from "../../QuizModalEndGame";
-import { resetCountriesFound } from "utils/Quiz/FunctionsForCountry";
+import { getTotalSecondByModeCountry, resetCountriesFound } from "utils/Quiz/FunctionsForCountry";
 import { getUserInfos } from "utils/Default/Auth";
 import {
   country,
@@ -24,26 +24,23 @@ import {
   buttonComponentSize,
   buttonComponentType,
 } from "../../../../../@types/default";
-import { timerTotalQuizCountry } from "utils/Quiz/Rules";
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 const Country = ({ mode }: { mode: modeQuiz }) => {
+  const maxTimer = getTotalSecondByModeCountry(mode);
   const refInput = useRef<HTMLInputElement>(null);
   const [countryFound, setCountryFound] = useState<any[]>([]);
   const [countryToGuess, setCountryToGuess] = useState<countryGuess[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [finalScore, setFinalScore] = useState<finalScoreInterface>({
     end: false,
-    finalTimer: {
-      seconds: 0,
-      minutes: 0,
-    },
+    modalOpenned: false,
+    finalTimer: 0,
     listLeftToFind: [],
     listFound: [],
   });
 
-  const countryToGuessInit: countryGuess[] = countryList.filter(
-    (cl) => cl.location.contient === mode || mode === modeQuiz.ALL
-  );
   const [userInfos, setUserInfos] = useState<UserInfos>({
     id: "",
     email: "",
@@ -55,8 +52,8 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
     country: country.FRANCE,
   });
   const [startTimer, setStartTimer] = useState<boolean>(false);
-  const [minutes, setMinutes] = useState(timerTotalQuizCountry.minutes);
-  const [seconds, setSeconds] = useState(timerTotalQuizCountry.seconds);
+  const [gamePaused, setGamePaused] = useState<boolean>(false);
+  const [seconds, setSeconds] = useState(maxTimer);
 
   const handleChangeInput = (text: any, countryListToGuess: countryGuess[]) => {
     if (!startTimer) {
@@ -81,31 +78,30 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
           )
         );
       setCountryToGuess(newCountryFoundTemp);
-      // console.log(newCountryFoundTemp)
 
       setInputValue("");
       if (newCountryFoundTemp.length === 0) {
-        endGame();
+        endGame(true);
       }
     } else {
       setInputValue(text.target.value);
     }
   };
 
-  // TODO btn abandon
+  // TODO btn pause
+
   const clickStopTimer = () => {
     setStartTimer(false);
   };
 
-  const endGame = async () => {
+  const endGame = async (won: boolean) => {
+    setInputValue("");
     setFinalScore({
       end: true,
-      finalTimer: {
-        seconds: timerTotalQuizCountry.seconds - seconds,
-        minutes: timerTotalQuizCountry.minutes - minutes,
-      },
+      modalOpenned: true,
+      finalTimer: maxTimer - seconds,
       listFound: countryFound,
-      listLeftToFind: countryToGuess,
+      listLeftToFind: won ? [] : countryToGuess,
     });
     try {
       const userInfosRequest = await getUserInfos();
@@ -114,40 +110,39 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         await axios.post("/quiz", {
           scoreFound: countryFound.length,
           scoreTotal: countryFound.length + countryToGuess.length,
-          timerFinished: 0, //TODO calcul temps total
+          timerFinished: maxTimer - seconds,
           type: gameQuiz.COUNTRY,
           player: userInfosRequest.id,
         });
       }
     } catch (e) {
       // return navigate("auth");
-      console.log(e);
     }
   };
 
   useEffect(() => {
-    setCountryToGuess(countryToGuessInit);
+    setCountryToGuess(resetCountriesFound(
+      countryList.filter(
+        (cl) => cl.location.contient === mode || mode === modeQuiz.ALL
+      )
+    ));
   }, []);
 
   useEffect(() => {
     let interval: any;
-    if (startTimer && !finalScore.end) {
+    if (startTimer && !finalScore.end && !gamePaused) {
       interval = setInterval(() => {
         if (seconds > 0) {
           setSeconds((seconds) => seconds - 1);
-        } else if (minutes > 0) {
-          setMinutes((minutes) => minutes - 1);
-          setSeconds(59);
         }
       }, 1000);
-      if (minutes === 0 && seconds === 0) {
-        // console.log('timeout')
-        endGame();
+      if (seconds === 0) {
+        endGame(false);
         clickStopTimer();
       }
     }
     return () => clearInterval(interval);
-  }, [seconds, minutes, startTimer]);
+  }, [seconds, startTimer, gamePaused]);
 
   const resetPage = () => {
     setCountryFound([]);
@@ -161,15 +156,12 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
     setInputValue("");
     setFinalScore({
       end: false,
-      finalTimer: {
-        seconds: 0,
-        minutes: 0,
-      },
+      modalOpenned: false,
+      finalTimer: 0,
       listLeftToFind: [],
       listFound: [],
     });
-    setMinutes(timerTotalQuizCountry.minutes);
-    setSeconds(timerTotalQuizCountry.seconds);
+    setSeconds(maxTimer);
     setStartTimer(false);
     if (refInput.current) {
       refInput.current.focus();
@@ -188,14 +180,16 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         </h2>
 
         {/* <!-- Timer --> */}
-        <div className="w-[300px]">
+        <div className="w-[400px]">
           <div className="w-full flex mb-6">
             <div
               id="timer"
-              className="text-2xl font-bold text-[#6C4EF6] bg-[#F4F2FF] px-6 py-2 rounded-full shadow-inner text-center"
+              className="text-2xl font-bold  bg-[#F4F2FF] px-6 py-2 rounded-full shadow-inner text-center"
+              style={{color: gamePaused ? 'grey' : '#6C4EF6'}}
+
             >
-              Temps : {minutes < 10 ? `0${minutes}` : minutes}:
-              {seconds < 10 ? `0${seconds}` : seconds}
+              Temps : {Math.trunc(seconds / 60) < 10 ? `0${Math.trunc(seconds / 60)}` : Math.trunc(seconds / 60)}:
+              {seconds % 60 < 10 ? `0${seconds % 60}` : seconds % 60}
             </div>
             <ButtonComponent
               text="Stop"
@@ -204,10 +198,21 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
               size={buttonComponentSize.MEDIUM}
               clickOn={() => {
                 clickStopTimer();
-                endGame();
+                endGame(false);
               }}
               clName="m-auto mr-0"
-              disabled={!startTimer}
+              disabled={!startTimer || finalScore.end}
+            />
+            <ButtonComponent
+              text={gamePaused ? <PlayArrowIcon/> : <PauseIcon/>}
+              color={gamePaused ? buttonComponentColor.SUCCESS : buttonComponentColor.WARNING}
+              type={buttonComponentType.INLINE}
+              size={buttonComponentSize.MEDIUM}
+              clickOn={() => {
+                setGamePaused(!gamePaused);
+              }}
+              clName="m-auto mr-0"
+              disabled={!startTimer || finalScore.end}
             />
           </div>
 
@@ -217,10 +222,12 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
               id="countryInput"
               type="text"
               placeholder="Écris le nom d’un pays..."
-              className="w-full px-4 py-3 rounded-lg border border-[#D9D4F8] bg-[#F9F9FF] text-[#5533EA] placeholder-[#B6AEEB] focus:outline-none focus:ring-4 focus:ring-[#6C4EF6] transition"
+              className="w-full px-4 py-3 rounded-lg border border-[#D9D4F8] bg-[#F9F9FF] placeholder-[#B6AEEB] focus:outline-none focus:ring-4 focus:ring-[#6C4EF6] transition"
+              style={{color: gamePaused ? 'grey' : '#5533EA'}}
               value={inputValue}
               autoFocus
               onChange={(e) => handleChangeInput(e, countryToGuess)}
+              disabled={gamePaused || finalScore.end}
             />
           </div>
         </div>
@@ -246,7 +253,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         countryListToGuess={countryToGuess}
       />
 
-      {finalScore.end ? (
+      {finalScore.modalOpenned ? (
         <QuizModalEndGame
           finalScore={finalScore}
           setFinalScore={setFinalScore}

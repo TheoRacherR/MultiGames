@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import FlagModalEndGame from "./FlagModalEndGame";
 import {
   finalScoreInterface,
   countryGuess,
@@ -7,21 +6,25 @@ import {
   gameQuiz,
 } from "../../../../../@types/quiz";
 import { countryList } from "../CountryList";
-import Timer from "../Timer/Timer";
 import axios from "axiosConfig";
 import { getUserInfos } from "../../../../../utils/Default/Auth";
 import { country, UserInfos, userRole, userStatus } from "../../../../../@types/user";
+import { getTotalSecondByModeFlag, resetFlagFound, selectRandomInList } from "utils/Quiz/FunctionsForFlag";
+import QuizModalEndGame from "../../QuizModalEndGame";
+import ButtonComponent from "components/ButtonComponent";
+import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../../@types/default";
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 const Flag = ({ mode }: { mode: modeQuiz }) => {
+  const maxTimer = getTotalSecondByModeFlag(mode);
   const refInput = useRef<HTMLInputElement>(null);
   const [selected, setSelected] = useState<number>(0);
   const [inputValue, setInputValue] = useState<string>("");
   const [finalScore, setFinalScore] = useState<finalScoreInterface>({
     end: false,
-    finalTimer: {
-      seconds: 0,
-      minutes: 0,
-    },
+    modalOpenned: false,
+    finalTimer: 0,
     listLeftToFind: [],
     listFound: [],
   });
@@ -39,34 +42,14 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
     country: country.FRANCE,
   });
 
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(15);
+  const [gamePaused, setGamePaused] = useState<boolean>(false);
+  const [seconds, setSeconds] = useState(maxTimer);
 
-  const selectRandomInList = (
-    list: countryGuess[],
-    mode: modeQuiz
-  ): countryGuess[] => {
-    let listTemp = list;
-    let returnList: countryGuess[] = [];
-    let len =
-      mode === modeQuiz.ALL
-        ? 182
-        : mode === modeQuiz.FIVE
-        ? 5
-        : mode === modeQuiz.TEN
-        ? 10
-        : 20;
-    for (let index = 0; index < len; index++) {
-      let ranNum = Math.floor(Math.random() * listTemp.length);
-      returnList.push(listTemp[ranNum]);
-      listTemp.splice(ranNum, 1);
-    }
-    return returnList;
-  };
-
-  const flagToGuessInit: countryGuess[] = selectRandomInList(countryList, mode);
 
   const handleChangeInput = (text: any, nameListPossible: string[]) => {
+    if(!startTimer){
+      setStartTimer(true);
+    }
     if (nameListPossible.includes(text.target.value.toLowerCase().trim())) {
       let flagTemp = flagFound;
       flagTemp.push(flagToGuess[selected]);
@@ -88,22 +71,16 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
     }
   };
 
-  const clickStartTimer = () => {
-    setStartTimer(true);
-    // setGameStarted(true);
-  };
-
   const clickStopTimer = () => {
     setStartTimer(false);
   };
 
   const endGame = async () => {
+    setInputValue("");
     setFinalScore({
       end: true,
-      finalTimer: {
-        seconds: seconds,
-        minutes: minutes,
-      },
+      modalOpenned: true,
+      finalTimer: maxTimer - seconds,
       listFound: flagFound,
       listLeftToFind: flagToGuess,
     });
@@ -114,7 +91,7 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
         await axios.post("/quiz", {
           scoreFound: flagFound.length,
           scoreTotal: flagFound.length + flagToGuess.length,
-          timerFinished: 0, //TODO calcul temps total
+          timerFinished: maxTimer - seconds, //TODO calcul temps total
           type: gameQuiz.FLAG,
           player: userInfosRequest.id,
         });
@@ -126,82 +103,134 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
   };
 
   useEffect(() => {
-    setFlagToGuess(flagToGuessInit);
-  }, []);
-
-  useEffect(() => {
     let interval: any;
-    if (startTimer && !finalScore.end) {
+    if (startTimer && !finalScore.end && !gamePaused) {
       interval = setInterval(() => {
         if (seconds > 0) {
           setSeconds((seconds) => seconds - 1);
-        } else if (minutes > 0) {
-          setMinutes((minutes) => minutes - 1);
-          setSeconds(59);
         }
       }, 1000);
-      if (minutes === 0 && seconds === 0) {
+      if (seconds === 0) {
         endGame();
         clickStopTimer();
       }
     }
     return () => clearInterval(interval);
-  }, [seconds, minutes, startTimer]);
+  }, [seconds, startTimer, gamePaused]);
+
+  const resetPage = () => {
+    setFlagFound([]);
+    setFlagToGuess(resetFlagFound(selectRandomInList(countryList, mode)));
+    setInputValue("");
+    setFinalScore({
+      end: false,
+      modalOpenned: false,
+      finalTimer: 0,
+      listLeftToFind: [],
+      listFound: [],
+    });
+    setSeconds(maxTimer);
+    setStartTimer(false);
+    if(refInput.current){
+      refInput.current.focus();
+    }
+  }
+
+  useEffect(() => {
+    resetPage();
+  }, []);
 
   return (
     <div className="min-h-screen text-white flex flex-col items-center p-10 bg-[var(--color-primary)]" /*bg-gradient-to-b from-[#6C4EF6] to-[#5B44E8]"*/>
       <div
-      className="bg-white text-[#5533EA] rounded-2xl shadow-xl p-8 w-full max-w-5xl flex flex-col items-center"
-    >
-      <div className="flex justify-between items-center w-full mb-6">
-        <h2 className="text-3xl font-bold uppercase">Quiz - Drapeaux</h2>
+        className="bg-white text-[#5533EA] rounded-2xl shadow-xl p-8 w-full max-w-5xl flex flex-col items-center"
+      >
+        <div className="flex justify-between items-center w-full mb-6">
+          <h2 className="text-3xl font-bold uppercase">Quiz - Drapeaux</h2>
 
-        {/* <!-- Timer --> */}
-        <div
-          id="timer"
-          className="text-2xl font-bold bg-[#6C4EF6] text-white px-5 py-2 rounded-lg shadow-md"
-        >
-          30s
+          <div className="flex">
+            <div
+              id="timer"
+              className="text-2xl font-bold bg-[#F4F2FF] px-6 py-2 rounded-full shadow-inner text-center"
+              style={{color: gamePaused ? 'grey' : '#6C4EF6'}}
+            >
+              Temps : {Math.trunc(seconds / 60) < 10 ? `0${Math.trunc(seconds / 60)}` : Math.trunc(seconds / 60)}:
+              {seconds % 60 < 10 ? `0${seconds % 60}` : seconds % 60}
+            </div>
+            <ButtonComponent
+                text="Stop"
+                color={buttonComponentColor.ERROR}
+                type={buttonComponentType.INLINE}
+                size={buttonComponentSize.MEDIUM}
+                clickOn={() => {
+                  clickStopTimer();
+                  endGame();
+                }}
+                clName="m-auto mr-0 ml-4"
+                disabled={!startTimer || finalScore.end}
+              />
+            <ButtonComponent
+              text={gamePaused ? <PlayArrowIcon/> : <PauseIcon/>}
+              color={gamePaused ? buttonComponentColor.SUCCESS : buttonComponentColor.WARNING}
+              type={buttonComponentType.INLINE}
+              size={buttonComponentSize.MEDIUM}
+              clickOn={() => {
+                setGamePaused(!gamePaused);
+              }}
+              clName="m-auto mr-0 ml-4"
+              disabled={!startTimer || finalScore.end}
+            />
+          </div>
+        </div>
+
+        <p className="text-center text-[#6B5BEA] mb-8">
+          Sélectionne un drapeau, puis écris le nom du pays correspondant avant la
+          fin du temps imparti.
+        </p>
+
+        <div className="flex mb-4">
+          {/* <!-- Answer input --> */}
+          <input
+            autoFocus
+            id="answerInput" type="text"
+            placeholder="Écris le nom du pays ici..."
+            className="w-[300px] flex-1 px-4 py-3 rounded-lg border border-[#D9D4F8] bg-[#F9F9FF] placeholder-[#B6AEEB] focus:outline-none focus:ring-4 focus:ring-[#6C4EF6] transition"
+            onChange={(e) => handleChangeInput(e, flagToGuess[selected].nameList)}
+            ref={refInput} value={inputValue}
+            style={{color: gamePaused ? 'grey' : '#5533EA'}}
+            disabled={gamePaused || finalScore.end}
+          />
+          {/* <!-- Score --> */}
+          <div id="score" className="m-auto ml-4 text-lg font-semibold text-[#5533EA]">
+            Pays trouvés : {flagFound.length} /{" "}
+            {flagFound.length + flagToGuess.length}
+          </div>
+
+        </div>
+
+        {/* <!-- Flags selection --> */}
+        <div id="flagList" className="grid grid-cols-5 gap-6 mb-10 w-full justify-center">
+          {flagToGuess.map((item, index) => (
+            <button 
+              key={index} 
+              onClick={() => {
+                setSelected(index);
+                refInput.current?.focus();
+              }}
+              className={`flex flex-col bg-[${selected === index ? '#EEE9FF' : '#F9F9FF'}] ${gamePaused ? '' : 'hover:bg-[#EEE9FF]'} border border-[#D9D4F8] rounded-xl p-6 transition focus:ring-4 focus:ring-[#6C4EF6] focus:outline-none`}
+              disabled={gamePaused || finalScore.end}
+            >
+              <span className="text-5xl">{gamePaused ? '' : item?.img}</span>
+              {finalScore.end ? <span>{item?.name}</span> : <></>}
+            </button>
+          ))}
         </div>
       </div>
-
-      <p className="text-center text-[#6B5BEA] mb-8">
-        Sélectionne un drapeau, puis écris le nom du pays correspondant avant la
-        fin du temps imparti.
-      </p>
-
-      {/* <!-- Flags selection --> */}
-      <div id="flagList" className="grid grid-cols-5 gap-6 mb-10 w-full justify-center">
-        {['🇫🇷', '🇩🇪', '🇯🇵', '🇨🇦', '🇧🇷'].map((item, index) => (
-          <button key={index} className="bg-[#F9F9FF] hover:bg-[#EEE9FF] border border-[#D9D4F8] rounded-xl p-6 text-5xl transition focus:ring-4 focus:ring-[#6C4EF6] focus:outline-none">
-            {item}
-          </button>
-        ))}
-      </div>
-
-      {/* <!-- Answer input --> */}
-      <form id="quizForm" className="flex flex-col sm:flex-row gap-4 items-center w-full justify-center">
-        <input
-          id="answerInput" type="text"
-          placeholder="Écris le nom du pays ici..."
-          className="flex-1 px-4 py-3 rounded-lg border border-[#D9D4F8] bg-[#F9F9FF] text-[#5533EA] placeholder-[#B6AEEB] focus:outline-none focus:ring-4 focus:ring-[#6C4EF6] transition"
-        />
-        <button className="px-6 py-3 rounded-lg font-semibold bg-[#6C4EF6] text-white hover:bg-[#7D61F8] transition"
-        >
-          Valider
-        </button>
-      </form>
-
-      {/* <!-- Feedback message --> */}
-      <div
-        id="feedback"
-        className="mt-6 text-lg font-medium opacity-0 transition-opacity"
-      ></div>
-      </div>
-      {finalScore.end ? (
-        <FlagModalEndGame
+      {finalScore.modalOpenned ? (
+        <QuizModalEndGame
           finalScore={finalScore}
           setFinalScore={setFinalScore}
+          resetPage={resetPage}
           userInfos={userInfos}
         />
       ) : (

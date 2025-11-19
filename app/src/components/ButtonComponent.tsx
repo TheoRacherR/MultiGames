@@ -10,7 +10,7 @@ const ButtonComponent = ({
   disabled,
 }: {
   clickOn: Function;
-  text: string;
+  text: JSX.Element | string;
   color: buttonComponentColor;
   type: buttonComponentType;
   size: buttonComponentSize;

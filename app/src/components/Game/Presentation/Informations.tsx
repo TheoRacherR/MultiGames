@@ -1,7 +1,7 @@
 
 const Informations = ({title, description, buttonPlay, estimatedTime, infoBlocks}: {title: string, description: string, buttonPlay: JSX.Element, estimatedTime: string, infoBlocks: JSX.Element}) => {
   return (
-    <div>
+    <div className="h-full">
       <h2 className="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight" style={{color: '#FFFFFF'}}>{title.toUpperCase()}</h2>
       <p className="mt-4 text-[#EDEBFF] max-w-xl">{description}</p>
 

@@ -1,16 +1,22 @@
 import { useEffect, useRef } from 'react'
-import { countryGuess, modeQuiz } from '../../../../../@types/quiz'
-import { rescaleMapToMode } from 'utils/Quiz/FunctionsForCountry';
+import { countryGuess, modeQuiz, styleTransformMap } from '../../../../../@types/quiz'
+import { rescaleMapToModeCountry } from 'utils/Quiz/FunctionsForCountry';
 
 const Map = ({mode, countryListFound, countryListToGuess, isContent}: {mode: modeQuiz, countryListFound: countryGuess[], countryListToGuess: countryGuess[], isContent: boolean}) => {
+  const transformSVG = useRef<styleTransformMap>({scale: 0, translate: {x: 0, y: 0}})
   const refTotalMap: any = useRef(null);
   useEffect(() => {
     console.log(refTotalMap.current)
-  }, [refTotalMap])
-  
+  }, [refTotalMap]);
+
+  useEffect(() => {
+    transformSVG.current = rescaleMapToModeCountry(mode);
+    console.log(rescaleMapToModeCountry(mode))
+  }, []);
+
   return (
     <svg key='svg' className='bg-blue-400' style={{width: 770, height: 530}}>
-      <g ref={refTotalMap} style={{transform: rescaleMapToMode(mode)}}>
+      <g ref={refTotalMap} style={{transform: `scale(${transformSVG.current.scale}) translate(${transformSVG.current.translate.x}px,${transformSVG.current.translate.y}px)`}}>
         {countryListFound.map((item, index) => (
           <path key={`country_main_found_${index}`} name={item.name} d={item.svgPoints.maintLocation}  style={{fill: 'green', stroke: 'black', strokeWidth: 1, strokeOpacity: 0.2, cursor: 'pointer'}}></path>
         ))}
