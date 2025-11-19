@@ -1,17 +1,30 @@
-import { useEffect, useRef, useState } from 'react'
-import { countryGuess, finalScoreInterface, gameQuiz, modeQuiz } from '../../../../../@types/quiz'
-import Map from './Map';
+import { useEffect, useRef, useState } from "react";
+import {
+  countryGuess,
+  finalScoreInterface,
+  gameQuiz,
+  modeQuiz,
+} from "../../../../../@types/quiz";
+import Map from "./Map";
 import { countryList } from "../CountryList";
-import CountryList from './CountryList/CountryList';
-import CountryModalEndGame from './CountryModalEndGame';
-import { resetCountriesFound } from 'utils/Quiz/FunctionsForCountry';
-import { getUserInfos } from 'utils/Default/Auth';
-import { country, UserInfos, userRole, userStatus } from '../../../../../@types/user';
-import axios from 'axios';
-import ButtonComponent from 'components/ButtonComponent';
-import { buttonComponentColor, buttonComponentSize, buttonComponentType } from '../../../../../@types/default';
-import { timerTotalQuizCountry } from 'utils/Quiz/Rules';
-
+import CountryList from "./CountryList/CountryList";
+import QuizModalEndGame from "../../QuizModalEndGame";
+import { resetCountriesFound } from "utils/Quiz/FunctionsForCountry";
+import { getUserInfos } from "utils/Default/Auth";
+import {
+  country,
+  UserInfos,
+  userRole,
+  userStatus,
+} from "../../../../../@types/user";
+import axios from "axios";
+import ButtonComponent from "components/ButtonComponent";
+import {
+  buttonComponentColor,
+  buttonComponentSize,
+  buttonComponentType,
+} from "../../../../../@types/default";
+import { timerTotalQuizCountry } from "utils/Quiz/Rules";
 
 const Country = ({ mode }: { mode: modeQuiz }) => {
   const refInput = useRef<HTMLInputElement>(null);
@@ -19,16 +32,18 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
   const [countryToGuess, setCountryToGuess] = useState<countryGuess[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [finalScore, setFinalScore] = useState<finalScoreInterface>({
-      end: false,
-      finalTimer: {
-        seconds: 0,
-        minutes: 0,
-      },
-      listLeftToFind: [],
-      listFound: [],
-    });
+    end: false,
+    finalTimer: {
+      seconds: 0,
+      minutes: 0,
+    },
+    listLeftToFind: [],
+    listFound: [],
+  });
 
-  const countryToGuessInit: countryGuess[] = countryList.filter(cl => cl.location.contient === mode || mode === modeQuiz.ALL);
+  const countryToGuessInit: countryGuess[] = countryList.filter(
+    (cl) => cl.location.contient === mode || mode === modeQuiz.ALL
+  );
   const [userInfos, setUserInfos] = useState<UserInfos>({
     id: "",
     email: "",
@@ -44,29 +59,37 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
   const [seconds, setSeconds] = useState(timerTotalQuizCountry.seconds);
 
   const handleChangeInput = (text: any, countryListToGuess: countryGuess[]) => {
-    if(!startTimer){
+    if (!startTimer) {
       setStartTimer(true);
     }
     const inputText = text.target.value.toLowerCase().trim();
-    const countryFoundTempList = countryListToGuess.filter(cg => cg.nameList.some(n => n.toLowerCase() === inputText));
-    if(countryFoundTempList.length > 0){
+    const countryFoundTempList = countryListToGuess.filter((cg) =>
+      cg.nameList.some((n) => n.toLowerCase() === inputText)
+    );
+    if (countryFoundTempList.length > 0) {
       let countryFoundTemp: countryGuess[] = countryFound;
       countryFoundTempList[0].found = true;
       countryFoundTemp.push(countryFoundTempList[0]);
       setCountryFound(countryFoundTemp);
       // Change en vert
-      const newCountryFoundTemp = countryListToGuess.slice(0, countryListToGuess.indexOf(countryFoundTempList[0])).concat(countryListToGuess.slice(countryListToGuess.indexOf(countryFoundTempList[0])+1, countryListToGuess.length));
+      const newCountryFoundTemp = countryListToGuess
+        .slice(0, countryListToGuess.indexOf(countryFoundTempList[0]))
+        .concat(
+          countryListToGuess.slice(
+            countryListToGuess.indexOf(countryFoundTempList[0]) + 1,
+            countryListToGuess.length
+          )
+        );
       setCountryToGuess(newCountryFoundTemp);
       // console.log(newCountryFoundTemp)
 
-      setInputValue('');
-      if(newCountryFoundTemp.length === 0){
+      setInputValue("");
+      if (newCountryFoundTemp.length === 0) {
         endGame();
       }
-    }
-    else {
+    } else {
       setInputValue(text.target.value);
-    };
+    }
   };
 
   // TODO btn abandon
@@ -100,7 +123,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
       // return navigate("auth");
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     setCountryToGuess(countryToGuessInit);
@@ -128,7 +151,13 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
 
   const resetPage = () => {
     setCountryFound([]);
-    setCountryToGuess(resetCountriesFound(countryList.filter(cl => cl.location.contient === mode || mode === modeQuiz.ALL)));
+    setCountryToGuess(
+      resetCountriesFound(
+        countryList.filter(
+          (cl) => cl.location.contient === mode || mode === modeQuiz.ALL
+        )
+      )
+    );
     setInputValue("");
     setFinalScore({
       end: false,
@@ -142,10 +171,10 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
     setMinutes(timerTotalQuizCountry.minutes);
     setSeconds(timerTotalQuizCountry.seconds);
     setStartTimer(false);
-    if(refInput.current){
+    if (refInput.current) {
       refInput.current.focus();
     }
-  }
+  };
 
   useEffect(() => {
     resetPage();
@@ -153,36 +182,23 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
 
   return (
     <div className="min-h-screen bg-[var(--color-primary)] text-white flex flex-col items-center p-10">
-
-      {/* 
-      <input
-        className="input m-2 flex-1 h-12 fixed bottom-0 w-[calc(100%-1rem)] z-50"
-        value={inputValue}
-        type="text"
-        name="flag"
-        id="flag"
-        placeholder="Type here"
-        ref={refInput}
-        autoFocus
-        onChange={(e) => handleChangeInput(e, countryToGuess)}
-        disabled={!startTimer}
-      /> */}
-      <main
-        className="bg-white text-[#5533EA] rounded-2xl shadow-xl p-8 w-full max-w-6xl flex flex-col items-center"
-      >
-        <h2 className="text-3xl font-bold uppercase mb-6">Quiz - Carte du Monde</h2>
+      <main className="bg-white text-[#5533EA] rounded-2xl shadow-xl p-8 w-full max-w-6xl flex flex-col items-center">
+        <h2 className="text-3xl font-bold uppercase mb-6">
+          Quiz - Carte du Monde
+        </h2>
 
         {/* <!-- Timer --> */}
-        <div className='w-[300px]'>
-          <div className='w-full flex mb-6'>
+        <div className="w-[300px]">
+          <div className="w-full flex mb-6">
             <div
               id="timer"
               className="text-2xl font-bold text-[#6C4EF6] bg-[#F4F2FF] px-6 py-2 rounded-full shadow-inner text-center"
             >
-              Temps : {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+              Temps : {minutes < 10 ? `0${minutes}` : minutes}:
+              {seconds < 10 ? `0${seconds}` : seconds}
             </div>
             <ButtonComponent
-              text='Stop'
+              text="Stop"
               color={buttonComponentColor.ERROR}
               type={buttonComponentType.INLINE}
               size={buttonComponentSize.MEDIUM}
@@ -190,7 +206,7 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
                 clickStopTimer();
                 endGame();
               }}
-              clName='m-auto mr-0'
+              clName="m-auto mr-0"
               disabled={!startTimer}
             />
           </div>
@@ -211,12 +227,18 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
 
         {/* <!-- Carte du monde --> */}
         <div className="bg-[#F9F9FF] p-6 rounded-xl border border-[#D9D4F8] overflow-hidden">
-          <Map countryListFound={countryFound} countryListToGuess={countryToGuess} isContent={mode !== modeQuiz.ALL}/>
+          <Map
+            mode={mode}
+            countryListFound={countryFound}
+            countryListToGuess={countryToGuess}
+            isContent={mode !== modeQuiz.ALL}
+          />
         </div>
 
         {/* <!-- Score --> */}
         <div id="score" className="mt-8 text-lg font-semibold text-[#5533EA]">
-          Pays trouvés : {countryFound.length} / {countryFound.length + countryToGuess.length}
+          Pays trouvés : {countryFound.length} /{" "}
+          {countryFound.length + countryToGuess.length}
         </div>
       </main>
       <CountryList
@@ -224,18 +246,18 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
         countryListToGuess={countryToGuess}
       />
 
-      {finalScore.end ? 
-        <CountryModalEndGame
+      {finalScore.end ? (
+        <QuizModalEndGame
           finalScore={finalScore}
           setFinalScore={setFinalScore}
           resetPage={resetPage}
           userInfos={userInfos}
         />
-      :
+      ) : (
         <></>
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Country
+export default Country;

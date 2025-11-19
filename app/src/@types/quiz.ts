@@ -4,7 +4,6 @@ export interface countryGuess {
   name: string;
   nameList: string[];
   img: string;
-  alt: string;
   svgPoints: {
     maintLocation: string;
     islands: string;
