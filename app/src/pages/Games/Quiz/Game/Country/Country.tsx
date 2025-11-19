@@ -26,6 +26,7 @@ import {
 } from "../../../../../@types/default";
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import ReplayIcon from '@mui/icons-material/Replay';
 
 const Country = ({ mode }: { mode: modeQuiz }) => {
   const maxTimer = getTotalSecondByModeCountry(mode);
@@ -214,6 +215,17 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
               clName="m-auto mr-0"
               disabled={!startTimer || finalScore.end}
             />
+            <ButtonComponent
+              text={<ReplayIcon/>}
+              color={buttonComponentColor.INFO}
+              type={buttonComponentType.INLINE}
+              size={buttonComponentSize.MEDIUM}
+              clickOn={() => {
+                resetPage();
+              }}
+              clName="m-auto mr-0"
+              disabled={!startTimer}
+            />
           </div>
 
           {/* <!-- Input --> */}
@@ -248,10 +260,13 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
           {countryFound.length + countryToGuess.length}
         </div>
       </main>
-      <CountryList
-        countryListFound={countryFound}
-        countryListToGuess={countryToGuess}
-      />
+      <div className="max-w-6xl">
+        <CountryList
+          end={finalScore.end}
+          countryListFound={countryFound}
+          countryListToGuess={countryToGuess}
+        />
+      </div>
 
       {finalScore.modalOpenned ? (
         <QuizModalEndGame

@@ -15,6 +15,7 @@ import ButtonComponent from "components/ButtonComponent";
 import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../../@types/default";
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import ReplayIcon from '@mui/icons-material/Replay';
 
 const Flag = ({ mode }: { mode: modeQuiz }) => {
   const maxTimer = getTotalSecondByModeFlag(mode);
@@ -65,8 +66,6 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
         setSelected(selected - 1);
       }
     } else {
-      console.log("nope: " + text.target.value.toLowerCase());
-      console.log(nameListPossible);
       setInputValue(text.target.value);
     }
   };
@@ -98,7 +97,6 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
       }
     } catch (e) {
       // return navigate("auth");
-      console.log(e);
     }
   };
 
@@ -179,6 +177,17 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
               }}
               clName="m-auto mr-0 ml-4"
               disabled={!startTimer || finalScore.end}
+            />
+            <ButtonComponent
+              text={<ReplayIcon/>}
+              color={buttonComponentColor.INFO}
+              type={buttonComponentType.INLINE}
+              size={buttonComponentSize.MEDIUM}
+              clickOn={() => {
+                resetPage();
+              }}
+              clName="m-auto mr-0 ml-4"
+              disabled={!startTimer}
             />
           </div>
         </div>

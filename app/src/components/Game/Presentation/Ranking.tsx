@@ -31,14 +31,14 @@ const Ranking = ({data}: {data: FormatedScoreboard[]}) => {
         <tbody id="leaderboardBody">
           {data.map((item, index) => (
             <tr>
-              <td className="py-2 font-semibold p-[12px 10px]">
-                ${index + 1}
+              <td className="py-2 font-semibold text-[#5533EA] p-[12px 10px]">
+                {index + 1}
               </td>
-              <td className="py-2 p-[12px 10px]">
+              <td className="py-2 font-semibold text-[#5533EA] p-[12px 10px]">
                 {item.user.pseudo}
               </td>
               <td className="py-2 font-semibold text-[#5533EA] p-[12px 10px]">
-                ${item.score}
+                {item.score}
               </td>
               {/* <td className="py-2 text-sm text-[#6B5BEA]">${item.}</td> */}
             </tr>
@@ -46,11 +46,11 @@ const Ranking = ({data}: {data: FormatedScoreboard[]}) => {
         </tbody>
       </table>
 
-      <div className="mt-3 flex items-center justify-between">
+      {/* <div className="mt-3 flex items-center justify-between">
         <div className="text-sm text-[#6B5BEA]">
           Dernière mise à jour : <span id="lastUpdate">—</span>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

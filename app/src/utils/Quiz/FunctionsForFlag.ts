@@ -3,7 +3,6 @@ import { timerTotalQuizFlag, timerTotalQuizFlagFIVE, timerTotalQuizFlagTEN, time
 
 // Country.tsx
 export const resetFlagFound = (flagListArg: countryGuess[]): countryGuess[] => {
-  console.log(flagListArg)
   flagListArg.forEach(cf => cf.found = false);
   return flagListArg;
 };
@@ -27,7 +26,6 @@ export const selectRandomInList = (
       returnList.push(listTemp[ranNum]);
       listTemp.splice(ranNum, 1);
     }
-    console.log(returnList);
     return returnList;
   };
 
