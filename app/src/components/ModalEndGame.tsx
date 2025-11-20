@@ -6,7 +6,7 @@ const ModalEndGame = ({title, content, buttons, closeModal}: {title: string, con
       <div className='w-[900px] absolute z-50 bg-white mx-auto rounded-md text-left p-6'>
         <div className='flex justify-between'>
           <h2 className="pb-6 m-0 text-xl border-b-[1px] border-b-[rgba(34, 36, 38, 0.15)]">{title}</h2>
-          <CloseIcon onClick={closeModal}/>
+          <CloseIcon onClick={closeModal} sx={{cursor: 'pointer'}}/>
         </div>
 
         <div className="py-6 border-b-[1px] border-b-[rgba(34, 36, 38, 0.15)]">
