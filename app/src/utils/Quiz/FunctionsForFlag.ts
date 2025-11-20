@@ -15,7 +15,7 @@ export const selectRandomInList = (
     let returnList: countryGuess[] = [];
     let len =
       mode === modeQuiz.ALL
-        ? 182
+        ? list.length
         : mode === modeQuiz.FIVE
         ? 5
         : mode === modeQuiz.TEN

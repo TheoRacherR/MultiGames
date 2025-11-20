@@ -118,7 +118,8 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
 
   const resetPage = () => {
     setFlagFound([]);
-    setFlagToGuess(resetFlagFound(selectRandomInList(countryList, mode)));
+    let tempCountryList = [...countryList];
+    setFlagToGuess(resetFlagFound(selectRandomInList(tempCountryList, mode)));
     setInputValue("");
     setFinalScore({
       end: false,

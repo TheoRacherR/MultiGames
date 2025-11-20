@@ -122,14 +122,6 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
   };
 
   useEffect(() => {
-    setCountryToGuess(resetCountriesFound(
-      countryList.filter(
-        (cl) => cl.location.contient === mode || mode === modeQuiz.ALL
-      )
-    ));
-  }, []);
-
-  useEffect(() => {
     let interval: any;
     if (startTimer && !finalScore.end && !gamePaused) {
       interval = setInterval(() => {
@@ -147,13 +139,8 @@ const Country = ({ mode }: { mode: modeQuiz }) => {
 
   const resetPage = () => {
     setCountryFound([]);
-    setCountryToGuess(
-      resetCountriesFound(
-        countryList.filter(
-          (cl) => cl.location.contient === mode || mode === modeQuiz.ALL
-        )
-      )
-    );
+    let tempCountryList = [...countryList];
+    setCountryToGuess(resetCountriesFound(tempCountryList.filter((cl) => cl.location.contient === mode || mode === modeQuiz.ALL)));
     setInputValue("");
     setFinalScore({
       end: false,
