@@ -1,5 +1,9 @@
-import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
-import { timegameButtonType } from "../../../@types/timegame";
+import {
+  buttonComponentColor,
+  buttonComponentSize,
+  buttonComponentType,
+} from "../../../@types/default";
+import { timelineButtonType } from "../../../@types/timeline";
 import ButtonComponent from "components/ButtonComponent";
 import { useState } from "react";
 // import axios from "../../../axiosConfig";
@@ -10,27 +14,26 @@ import InfoBlock from "components/Game/Presentation/InfoBlock";
 import Preview from "components/Game/Presentation/Preview";
 // import Ranking from "components/Game/Presentation/Ranking";
 
-import imgPreview from "assets/preview_timeline.png"
+import imgPreview from "assets/preview_timeline.png";
 
 import { games } from "pages/Games";
 import ModalParty from "./ModalParty";
 
-const gameInfos = games.filter(g => g.type === gameType.TIMEGAME)[0];
+const gameInfos = games.filter((g) => g.type === gameType.TIMELINE)[0];
 
-const MainTimeGame = () => {
+const MainTimeLine = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState<timegameButtonType>(
-    timegameButtonType.CREATE
+  const [selected, setSelected] = useState<timelineButtonType>(
+    timelineButtonType.CREATE
   );
   // const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>(
   //   []
   // );
 
-  const handleOpenModal = (type: timegameButtonType) => {
+  const handleOpenModal = (type: timelineButtonType) => {
     setOpen(true);
     setSelected(type);
   };
-
 
   // const getScoreboardInfos = async () => {
   //   try {
@@ -67,22 +70,28 @@ const MainTimeGame = () => {
                   color={buttonComponentColor.NONE}
                   type={buttonComponentType.INLINE}
                   size={buttonComponentSize.MEDIUM}
-                  clickOn={() => handleOpenModal(timegameButtonType.CREATE)}
+                  clickOn={() => handleOpenModal(timelineButtonType.CREATE)}
                 />
                 <ButtonComponent
                   text="Join a party"
                   color={buttonComponentColor.NONE}
                   type={buttonComponentType.INLINE}
                   size={buttonComponentSize.MEDIUM}
-                  clickOn={() => handleOpenModal(timegameButtonType.JOIN)}
+                  clickOn={() => handleOpenModal(timelineButtonType.JOIN)}
                 />
               </>
             }
             estimatedTime="5–10 min"
             infoBlocks={
               <>
-                <InfoBlock title="Modes" desc="Solo • 1v1 (bientôt) • Classements" />
-                <InfoBlock title="Difficultés" desc="Facile, Moyen, Difficile — choisis ta tactique" />
+                <InfoBlock
+                  title="Modes"
+                  desc="Solo • 1v1 (bientôt) • Classements"
+                />
+                <InfoBlock
+                  title="Difficultés"
+                  desc="Facile, Moyen, Difficile — choisis ta tactique"
+                />
               </>
             }
           />
@@ -99,4 +108,4 @@ const MainTimeGame = () => {
   );
 };
 
-export default MainTimeGame;
+export default MainTimeLine;

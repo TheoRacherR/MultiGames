@@ -1,24 +1,28 @@
 import { TextField } from "@mui/material";
-import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
+import {
+  buttonComponentColor,
+  buttonComponentSize,
+  buttonComponentType,
+} from "../../../@types/default";
 import ButtonComponent from "components/ButtonComponent";
 import ModalEndGame from "components/ModalEndGame";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { timegameButtonType } from "../../../@types/timegame";
+import { timelineButtonType } from "../../../@types/timeline";
 
 const ModalParty = ({
   setOpen,
   selected,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selected: timegameButtonType;
+  selected: timelineButtonType;
 }) => {
   const navigate = useNavigate();
   const [password, setPassword] = useState<string>("");
   const [roomId, setRoomId] = useState<string>("");
 
   const handleSubmit = () => {
-    if (selected === timegameButtonType.CREATE) {
+    if (selected === timelineButtonType.CREATE) {
       if (password.length > 0) {
         // axios post room
         const roomID = 1;
@@ -43,13 +47,13 @@ const ModalParty = ({
   return (
     <ModalEndGame
       title={
-        selected === timegameButtonType.CREATE
+        selected === timelineButtonType.CREATE
           ? "Create a party"
           : "Join a party"
       }
       content={
         <>
-          {selected === timegameButtonType.CREATE ? (
+          {selected === timelineButtonType.CREATE ? (
             <>
               <TextField
                 id="key"

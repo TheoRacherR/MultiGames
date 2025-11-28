@@ -1,11 +1,11 @@
 import { UserLimitedInfos } from "./user";
 
-export interface TimeGameEloFormatedScoreboard {
+export interface TimeLineEloFormatedScoreboard {
   user: UserLimitedInfos,
   score: number
 }
 
-export enum timegameButtonType {
+export enum timelineButtonType {
   CREATE,
   JOIN
 }

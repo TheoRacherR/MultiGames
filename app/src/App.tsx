@@ -9,7 +9,7 @@ import WrapperWordle from "pages/Games/Wordle/WrapperWordle";
 import WrapperQuiz from "pages/Games/Quiz/WrapperQuiz";
 import WrapperMinesweeper from "pages/Games/Minesweeper/WrapperMinesweeper";
 import WrapperBattleship from "pages/Games/Battleship/WrapperBattleship";
-import WrapperTimeGame from "pages/Games/TimeGame/WrapperTimeGame";
+import WrapperTimeLine from "pages/Games/TimeLine/WrapperTimeLine";
 import GamesList from "pages/GamesList";
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
         <Route path="/battleship/*" element={<WrapperBattleship />} />
         <Route path="/wordle/*" element={<WrapperWordle />} />
         <Route path="/quiz/*" element={<WrapperQuiz />} />
-        <Route path="/timegame/*" element={<WrapperTimeGame />} />
+        <Route path="/timeline/*" element={<WrapperTimeLine />} />
       </Routes>
     </div>
   );

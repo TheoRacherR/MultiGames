@@ -57,8 +57,8 @@ const MenuDefault = () => {
         return 'quiz';
       case 'wordle'.toLowerCase():
         return 'wordle';
-      case 'timegame'.toLowerCase():
-        return 'Timegame';
+      case 'timeline'.toLowerCase():
+        return 'Timeline';
       default:
         return '';
     }

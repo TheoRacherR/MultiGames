@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { finalScoreInterface } from "../../../../@types/timegame";
+import { finalScoreInterface } from "../../../../@types/timeline";
 import ModalEndGame from "components/ModalEndGame";
 import ButtonComponent from "components/ButtonComponent";
 import { UserInfos } from "../../../../@types/user";
@@ -9,7 +9,7 @@ import {
   buttonComponentType,
 } from "../../../../@types/default";
 
-const TimeGameModalEndGame = ({
+const TimeLineModalEndGame = ({
   finalScore,
   setFinalScore,
   resetPage,
@@ -35,7 +35,7 @@ const TimeGameModalEndGame = ({
       ...finalScore,
       modalOpenned: false,
     });
-  }
+  };
 
   return (
     <div>
@@ -55,9 +55,9 @@ const TimeGameModalEndGame = ({
                     : ""
                 }
                 ${
-                  (finalScore.finalTimer % 60) === 1
+                  finalScore.finalTimer % 60 === 1
                     ? "1 second"
-                    : (finalScore.finalTimer % 60) > 1
+                    : finalScore.finalTimer % 60 > 1
                     ? (finalScore.finalTimer % 60) + " seconds"
                     : "0"
                 }
@@ -105,4 +105,4 @@ const TimeGameModalEndGame = ({
   );
 };
 
-export default TimeGameModalEndGame;
+export default TimeLineModalEndGame;

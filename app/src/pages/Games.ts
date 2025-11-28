@@ -32,10 +32,10 @@ export const games = [
     type: gameType.WORDLE
   },
   {
-    title: "TimeGame",
+    title: "TimeLine",
     description: "Remonte le fil du temps et replace les grands événements de l’Histoire dans le bon ordre. Du passé lointain aux moments les plus récents, fais appel à ton sens de la chronologie et compose la frise parfaite. L’Histoire n’attend plus que toi !",
-    gameLink: "timegame",
-    type: gameType.TIMEGAME
+    gameLink: "timeline",
+    type: gameType.TIMELINE
   },
   
 ]

@@ -11,5 +11,5 @@ export enum gameType {
   QUIZ_FLAG = 'quiz flag',
   QUIZ_COUNTRY = 'quiz country',
   WORDLE = 'wordle',
-  TIMEGAME = 'timegame',
+  TIMELINE = 'timeline',
 }
