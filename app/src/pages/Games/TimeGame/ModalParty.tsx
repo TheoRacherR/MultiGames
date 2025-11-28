@@ -101,6 +101,7 @@ const ModalParty = ({
           />
         </>
       }
+      closeModal={closeModal}
     />
   );
 };
