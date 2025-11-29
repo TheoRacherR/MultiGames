@@ -4,7 +4,7 @@ import { BoardType, cardType, ItemType } from "../../../../@types/timeline";
 import { CardSortable } from "./Card";
 import { useDroppable } from "@dnd-kit/core";
 
-const PlayerBoard = ({ cards }: { cards: cardType[] }) => {
+const PlayerBoard = ({ cards, gameEnded }: { cards: cardType[], gameEnded: boolean }) => {
   const { setNodeRef } = useDroppable({
     id: BoardType.PLAYER,
     data: { type: ItemType.BOARD },
@@ -20,6 +20,7 @@ const PlayerBoard = ({ cards }: { cards: cardType[] }) => {
             card={item}
             key={`myboard_card_${index}`}
             board={BoardType.PLAYER}
+            gameEnded={gameEnded}
           />
         ))}
       </div>

@@ -41,7 +41,7 @@ import {
   userRole,
   userStatus,
 } from "../../../../@types/user";
-import axios from "axios";
+import axios from "../../../../axiosConfig";
 
 const TimeLine = () => {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
@@ -71,6 +71,7 @@ const TimeLine = () => {
 
   const startGame = () => {
     setGameStarted(true);
+    resetPage();
   };
 
   const endGame = async () => {
@@ -97,10 +98,6 @@ const TimeLine = () => {
     //   // return navigate("auth");
     // }
   };
-
-  useEffect(() => {
-    resetPage();
-  }, []);
 
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -244,7 +241,7 @@ const TimeLine = () => {
       return;
     } else {
       const check = checkIfOrderIsFine(middleBoard);
-      if (!check) endGame();
+      if (!check || eventsToGuess.length === 0) endGame();
       else if (playerBoard.length === 0) {
         const { toGuess, player } = extractFirstEvents(
           1,
@@ -282,12 +279,12 @@ const TimeLine = () => {
         </h2>
 
         <div className="flex mb-6">
-          <div
+          {/* <div
             id="timer"
             className="text-2xl font-bold text-[#6C4EF6] bg-[#F4F2FF] px-6 py-2 rounded-full shadow-inner"
           >
             Temps : 02:00
-          </div>
+          </div> */}
           {gameStarted ? (
             <ButtonComponent
               text="Stop"
@@ -296,9 +293,18 @@ const TimeLine = () => {
               size={buttonComponentSize.MEDIUM}
               clickOn={endGame}
               clName="m-auto mr-0 ml-4"
-              // disabled={!startTimer || finalScore.end}
             />
           ) : (
+            finalScore.end ?
+            <ButtonComponent
+              text="Replay"
+              color={buttonComponentColor.WARNING}
+              type={buttonComponentType.INLINE}
+              size={buttonComponentSize.MEDIUM}
+              clickOn={startGame}
+              clName="m-auto mr-0 ml-4"
+            />
+            :
             <ButtonComponent
               text="Start"
               color={buttonComponentColor.SUCCESS}
@@ -306,7 +312,6 @@ const TimeLine = () => {
               size={buttonComponentSize.MEDIUM}
               clickOn={startGame}
               clName="m-auto mr-0 ml-4"
-              // disabled={!startTimer || finalScore.end}
             />
           )}
         </div>
@@ -319,9 +324,9 @@ const TimeLine = () => {
           onDragEnd={(event: DragEndEvent) => handleDragEnd(event)} //GOOD
           collisionDetection={rectIntersection}
         >
-          <MiddleBoard cards={middleBoard} />
+          <MiddleBoard cards={middleBoard} gameEnded={finalScore.end}/>
 
-          <PlayerBoard cards={playerBoard} />
+          <PlayerBoard cards={playerBoard} gameEnded={finalScore.end}/>
           <DragOverlay>
             {activeItemID > 0 ? (
               <Item
@@ -335,13 +340,28 @@ const TimeLine = () => {
                       ]
                 }
                 dragOverlay
+                gameEnded={false}
               />
             ) : null}
           </DragOverlay>
         </DndContext>
 
-        <div id="score" className="mt-8 text-lg font-semibold text-[#5533EA]">
-          Événements placés : {middleBoard.length}
+        <div className="w-full flex mt-8 justify-between">
+          <div></div>
+          <div id="score" className="text-lg font-semibold text-[#5533EA]">
+            Événement{middleBoard.length > 0 ? 's ' : ' '}
+            placé{middleBoard.length > 0 ? 's' : ''}
+            : {middleBoard.length}
+          </div>
+          <ButtonComponent
+            text="Report"
+            color={buttonComponentColor.ERROR}
+            type={buttonComponentType.INLINE}
+            size={buttonComponentSize.SMALL}
+            clickOn={() => console.log('report')}
+            clName="m-auto mr-0 ml-4"
+          />
+
         </div>
       </main>
       {finalScore.modalOpenned ? (

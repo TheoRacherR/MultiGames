@@ -3,7 +3,7 @@ import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { BoardType, cardType, ItemType } from "../../../../@types/timeline";
 import { CardSortable } from "./Card";
 
-const MiddleBoard = ({ cards }: { cards: cardType[] }) => {
+const MiddleBoard = ({ cards,  gameEnded }: { cards: cardType[], gameEnded: boolean }) => {
   const { setNodeRef } = useDroppable({
     id: BoardType.MIDDLE,
     data: { type: ItemType.BOARD },
@@ -23,6 +23,7 @@ const MiddleBoard = ({ cards }: { cards: cardType[] }) => {
                 card={item}
                 key={`myboard_card_${index}`}
                 board={BoardType.MIDDLE}
+                gameEnded={gameEnded}
               />
             ))
           ) : (
