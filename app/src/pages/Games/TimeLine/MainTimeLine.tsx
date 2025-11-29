@@ -3,9 +3,8 @@ import {
   buttonComponentSize,
   buttonComponentType,
 } from "../../../@types/default";
-import { timelineButtonType } from "../../../@types/timeline";
 import ButtonComponent from "components/ButtonComponent";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../../../axiosConfig";
 import { FormatedScoreboard, gameType } from "../../../@types/games";
 import Surface from "components/Game/Presentation/Surface";
@@ -17,7 +16,6 @@ import Ranking from "components/Game/Presentation/Ranking";
 import imgPreview from "assets/preview_timeline.png";
 
 import { games } from "pages/Games";
-import ModalParty from "./ModalParty";
 import { useNavigate } from "react-router-dom";
 
 const gameInfos = games.filter((g) => g.type === gameType.TIMELINE)[0];
