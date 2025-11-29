@@ -7,7 +7,7 @@ const WrapperTimeLine = () => {
   return (
     <Routes>
       <Route path='' element={<MainTimeLine/>} />
-      <Route path='/room/:id' element={<TimeLine/>} />
+      <Route path='/game' element={<TimeLine/>} />
     </Routes>
   )
 }

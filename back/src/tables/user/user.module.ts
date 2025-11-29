@@ -7,7 +7,7 @@ import { Room } from '../room/entities/room.entity';
 import { Minesweeper } from '../minesweeper/entities/minesweeper.entity';
 import { Battleship } from '../battleship/entities/battleship.entity';
 import { BattleshipElo } from '../battleship_elo/entities/battleship_elo.entity';
-import { TimeGame } from '../timegame/entities/timegame.entity';
+import { TimeLine } from '../timeline/entities/timeline.entity';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { TimeGame } from '../timegame/entities/timegame.entity';
       Minesweeper,
       Battleship,
       BattleshipElo,
-      TimeGame,
+      TimeLine,
     ]),
   ],
   controllers: [UserController],

@@ -9,21 +9,17 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class TimeGame {
+export class TimeLine {
   @PrimaryGeneratedColumn()
   id: string;
 
   @Column()
-  final_score: number;
+  score: number;
 
   @CreateDateColumn()
   created_at: Date;
 
-  @ManyToOne(() => User, (winner) => winner.tg_winner)
+  @ManyToOne(() => User, (player) => player.timeline_game, { eager: true })
   @JoinColumn()
-  winner: User;
-
-  @ManyToOne(() => User, (winner) => winner.tg_looser)
-  @JoinColumn()
-  looser: User;
+  player: User;
 }

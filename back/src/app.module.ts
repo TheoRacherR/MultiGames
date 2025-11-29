@@ -10,7 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './tables/auth/auth.module';
 import { QuizModule } from './tables/quiz/quiz.module';
 import { WordleModule } from './tables/wordle/wordle.module';
-import { TimeGameModule } from './tables/timegame/timegame.module';
+import { TimeLineModule } from './tables/timeline/timeline.module';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { TimeGameModule } from './tables/timegame/timegame.module';
     QuizModule,
     WordleModule,
     WordleDayModule,
-    TimeGameModule,
+    TimeLineModule,
   ],
 })
 export class AppModule {}

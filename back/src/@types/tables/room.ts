@@ -1,5 +1,5 @@
 export enum roomType {
   BATTLESHIP = 'Battelship',
-  TIMEGAME = 'TimeGame',
+  TIMELINE = 'TimeLine',
   OTHER = 'Other',
 }

@@ -42,8 +42,10 @@ import {
   userStatus,
 } from "../../../../@types/user";
 import axios from "../../../../axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 const TimeLine = () => {
+  const navigate = useNavigate();
   const [gameStarted, setGameStarted] = useState<boolean>(false);
 
   const [playerBoard, setPlayerBoard] = useState<cardType[]>([]);
@@ -83,20 +85,18 @@ const TimeLine = () => {
       finalTimer: 0, // maxTimer - seconds,
       listFound: middleBoard.length - 1, //flagFound,
     });
-    // TODO Send to DB
-    // try {
-    //   const userInfosRequest = await getUserInfos();
-    //   setUserInfos(userInfosRequest);
-    //   if (userInfosRequest) {
-    //     await axios.post("/timeline", {
-    //       scoreFound: middleBoard.length-1,//flagFound.length,
-    //       // timerFinished: 0,//maxTimer - seconds, //TODO calcul temps total
-    //       player: userInfosRequest.id,
-    //     });
-    //   }
-    // } catch (e) {
-    //   // return navigate("auth");
-    // }
+    try {
+      const userInfosRequest = await getUserInfos();
+      setUserInfos(userInfosRequest);
+      if (userInfosRequest) {
+        await axios.post("/timeline", {
+          score: middleBoard.length-1,
+          player: userInfosRequest.id,
+        });
+      }
+    } catch (e) {
+      return navigate("auth");
+    }
   };
 
   const sensors = useSensors(

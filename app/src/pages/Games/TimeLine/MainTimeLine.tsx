@@ -5,56 +5,48 @@ import {
 } from "../../../@types/default";
 import { timelineButtonType } from "../../../@types/timeline";
 import ButtonComponent from "components/ButtonComponent";
-import { useState } from "react";
-// import axios from "../../../axiosConfig";
-import { gameType } from "../../../@types/games";
+import { useEffect, useRef, useState } from "react";
+import axios from "../../../axiosConfig";
+import { FormatedScoreboard, gameType } from "../../../@types/games";
 import Surface from "components/Game/Presentation/Surface";
 import Informations from "components/Game/Presentation/Informations";
 import InfoBlock from "components/Game/Presentation/InfoBlock";
 import Preview from "components/Game/Presentation/Preview";
-// import Ranking from "components/Game/Presentation/Ranking";
+import Ranking from "components/Game/Presentation/Ranking";
 
 import imgPreview from "assets/preview_timeline.png";
 
 import { games } from "pages/Games";
 import ModalParty from "./ModalParty";
+import { useNavigate } from "react-router-dom";
 
 const gameInfos = games.filter((g) => g.type === gameType.TIMELINE)[0];
 
 const MainTimeLine = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState<timelineButtonType>(
-    timelineButtonType.CREATE
-  );
-  // const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>(
-  //   []
-  // );
+  const navigate = useNavigate();
+  const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>([]);
 
-  const handleOpenModal = (type: timelineButtonType) => {
-    setOpen(true);
-    setSelected(type);
+  const getScoreboardInfos = async () => {
+    try {
+      const req = await axios.post("/timeline/scoreboard", {
+        length: 5,
+      });
+      console.log(req)
+      if (req.status === 201) {
+        setDataScoreboard(req.data);
+        return;
+      } else {
+        // TODO Alerte error
+      }
+    } catch (e) {
+      console.log(e);
+      // TODO Alerte error
+    }
   };
 
-  // const getScoreboardInfos = async () => {
-  //   try {
-  //     const req = await axios.post("/battleship-elo/scoreboard", {
-  //       length: 5,
-  //     });
-  //     if (req.status === 201) {
-  //       setDataScoreboard(req.data);
-  //       return;
-  //     } else {
-  //       // TODO Alerte error
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //     // TODO Alerte error
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getScoreboardInfos();
-  // }, []);
+  useEffect(() => {
+    getScoreboardInfos();
+  }, []);
 
   return (
     <>
@@ -66,18 +58,11 @@ const MainTimeLine = () => {
             buttonPlay={
               <>
                 <ButtonComponent
-                  text="Create a party"
+                  text="Play"
                   color={buttonComponentColor.NONE}
                   type={buttonComponentType.INLINE}
                   size={buttonComponentSize.MEDIUM}
-                  clickOn={() => handleOpenModal(timelineButtonType.CREATE)}
-                />
-                <ButtonComponent
-                  text="Join a party"
-                  color={buttonComponentColor.NONE}
-                  type={buttonComponentType.INLINE}
-                  size={buttonComponentSize.MEDIUM}
-                  clickOn={() => handleOpenModal(timelineButtonType.JOIN)}
+                  clickOn={() => navigate('game')}
                 />
               </>
             }
@@ -99,11 +84,10 @@ const MainTimeLine = () => {
           <div className="space-y-4">
             <Preview link={imgPreview} alt="preview timeline" />
 
-            {/* <Ranking data={dataScoreboard}/> */}
+            <Ranking data={dataScoreboard}/>
           </div>
         </>
       </Surface>
-      {open ? <ModalParty setOpen={setOpen} selected={selected} /> : <></>}
     </>
   );
 };
