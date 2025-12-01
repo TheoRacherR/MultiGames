@@ -1,43 +1,59 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Board, { checkIfUniqueArray, getWordFromGrid } from "./Board";
+import Board from "./Board";
 import ModalEndGame from "./WordleModalEndGame";
 import {
   caseCurrentState,
   casesInterface,
+  finalScoreInterface,
   resultCompare,
   WordleContextInterface,
 } from "../../../../@types/wordle";
 import Keyboard from "./Keyboard";
 import axios from "axiosConfig";
 import { getUserInfos } from "utils/Default/Auth";
-import { UserInfos } from "../../../../@types/user";
-import { Route, useNavigate } from "react-router-dom";
+import { country, UserInfos, userRole, userStatus } from "../../../../@types/user";
+import { useNavigate } from "react-router-dom";
 import {
   WordleContext,
   WordleContextProvider,
 } from "utils/Context/WordleContext";
 import {
   checkIfLocalStorageWordleIsFine,
+  checkIfUniqueArray,
   checkIfWordCorrespond,
+  getWordFromGrid,
+  nbTryMax,
+  pressBackspace,
   updateCaseColor,
   updateKeyboardStates,
 } from "utils/Wordle/Wordle";
+import { wordList } from "utils/Wordle/WordList";
 
 const alphabetic = "abcdefghijklmnopqrstuvwxyz";
 
 const Wordle = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const [finalScore, setFinalScore] = useState<{ won: true; nbTry: number }>({
+  const [finalScore, setFinalScore] = useState<finalScoreInterface>({
+    ended: false,
     won: true,
+    modalOpenned: false,
     nbTry: 0,
+    wordSearched: ''
   });
-  const userInfo = useRef<UserInfos | null>(null);
+  const [userInfos, setUserInfos] = useState<UserInfos>({
+      id: "",
+      email: "",
+      firstname: "",
+      lastname: "",
+      pseudo: "",
+      role: userRole.USER,
+      status: userStatus.TO_ACTIVE,
+      country: country.FRANCE,
+    });
   const logged = useRef<boolean>();
 
   const [cases, setCases] = useState<casesInterface[]>();
   const gridInit = useRef<boolean>(false);
-  const nbTry: number = 6;
   const wordDay = useRef<{ id: string; word: string }>({
     id: "",
     word: "",
@@ -57,7 +73,7 @@ const Wordle = () => {
     }
     try {
       if (uInfos) {
-        userInfo.current = uInfos;
+        setUserInfos(uInfos);
         logged.current = true;
       } else {
         logged.current = false;
@@ -69,10 +85,10 @@ const Wordle = () => {
           gridInit.current = !check;
         } else {
           // TODO Alerte wordle du jour deja fait
-          return navigate("/already-done");
+          return navigate("/wordle/game/already-done");
         }
       } else {
-        return navigate("/word-dont-exists");
+        return navigate("/wordle/game/word-dont-exists");
       }
     } catch (e) {
       logged.current = false;
@@ -80,30 +96,16 @@ const Wordle = () => {
   };
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown, {
-      capture: true,
-      once: true,
-    });
-    document.removeEventListener("keydown", handleKeyDown);
+    if(!finalScore.ended) {
+      document.addEventListener("keydown", handleKeyDown, {
+        capture: true,
+        once: true,
+      });
+    }
   });
 
-  // useEffect(() => {
-  //   document.addEventListener(
-  //     "keyup",
-  //     () => {
-  //       setKeyPressed("");
-  //     },
-  //     {
-  //       capture: true,
-  //       once: true,
-  //     }
-  //   );
-  //   document.removeEventListener("keyup", (e) => {
-  //     console.log(e);
-  //   });
-  // });
-
   const handleKeyDown = async (event: KeyboardEvent) => {
+    if(finalScore.ended) return;
     if (alphabetic.includes(event.key.toLowerCase()) && cases) {
       let casesTemp = [...cases];
       const caseSelected = casesTemp.find((c) => c.selected);
@@ -123,87 +125,9 @@ const Wordle = () => {
         // setKeyPressed(event.key.toUpperCase());
       }
     } else if (event.key === "Backspace" && cases) {
-      const casesTemp = [...cases];
-      const caseSelected = casesTemp.find((c) => c.selected);
-      if (caseSelected) {
-        if (
-          (cases.indexOf(caseSelected) + 1) % wordDay.current.word.length ===
-            0 &&
-          casesTemp[cases.indexOf(caseSelected)].letterPlaced !== ""
-        ) {
-          casesTemp[cases.indexOf(caseSelected)].letterPlaced = "";
-        } else if (
-          cases.indexOf(caseSelected) > 0 &&
-          casesTemp[cases.indexOf(caseSelected) - 1].state ===
-            caseCurrentState.UNUSED
-        ) {
-          casesTemp[cases.indexOf(caseSelected) - 1].selected = true;
-          casesTemp[cases.indexOf(caseSelected) - 1].letterPlaced = "";
-          casesTemp[cases.indexOf(caseSelected)].selected = false;
-        }
-        setCases(casesTemp);
-      }
+      setCases(await pressBackspace(wordDay.current.word, cases));
     } else if (event.key === "Enter" && cases) {
-      let casesTemp = [...cases];
-      const caseSelected = casesTemp.find((c) => c.selected);
-      if (caseSelected) {
-        if (
-          (cases.indexOf(caseSelected) + 1) % wordDay.current.word.length ===
-          0
-        ) {
-          const typedWord = getWordFromGrid(
-            casesTemp,
-            caseSelected,
-            wordDay.current.word
-          );
-          try {
-            const searchWord = await axios.post("wordle/checkWord", {
-              word: typedWord.toLowerCase(),
-            });
-            console.log(searchWord.data);
-            if (!searchWord.data) {
-              console.log("word doesn't exist");
-              return;
-            }
-          } catch (e) {
-            console.log(e);
-            setCases(cases);
-            return;
-          }
-          //TODO end of the line, test it
-          const comparison: resultCompare[] = checkIfWordCorrespond(
-            wordDay.current.word,
-            typedWord
-          );
-          casesTemp = updateCaseColor(
-            casesTemp,
-            caseSelected,
-            wordDay.current.word,
-            comparison
-          );
-          const keyListTemp = updateKeyboardStates(
-            keyList,
-            casesTemp,
-            caseSelected,
-            wordDay.current.word,
-            comparison
-          );
-          console.log(keyListTemp);
-          setKeyList(keyListTemp);
-          if (
-            checkIfUniqueArray(comparison) &&
-            comparison[0] === resultCompare.PERFECT
-          ) {
-            // won
-            gameWon(cases, caseSelected);
-          } else {
-            // continue
-            casesTemp[cases.indexOf(caseSelected)].selected = false;
-            casesTemp[casesTemp.indexOf(caseSelected) + 1].selected = true;
-          }
-        }
-        setCases(casesTemp);
-      }
+      await pressEnter(cases);
     } else {
       setCases(cases);
     }
@@ -234,7 +158,7 @@ const Wordle = () => {
   const initGrid = async (wordArg: string) => {
     initKeys();
     let arrGridTemp: casesInterface[] = [];
-    for (let lineIndex = 0; lineIndex < nbTry * wordArg.length; lineIndex++) {
+    for (let lineIndex = 0; lineIndex < nbTryMax * wordArg.length; lineIndex++) {
       arrGridTemp.push({
         letterPlaced: "",
         state: caseCurrentState.UNUSED,
@@ -244,7 +168,8 @@ const Wordle = () => {
     setCases(arrGridTemp);
   };
 
-  const gameWon = async (
+  const endGame = async (
+    gameWon: boolean,
     totalCases: casesInterface[],
     caseSelected: casesInterface
   ) => {
@@ -256,26 +181,28 @@ const Wordle = () => {
         JSON.stringify({
           nbTry: nbTry,
           won: true,
-          player: userInfo.current ? userInfo.current.id : "",
+          player: userInfos ? userInfos.id : "",
           word: wordDay.current.id,
         })
       );
-      if (userInfo.current) {
+      if (userInfos) {
         await axios.post("/wordle/", {
           nbTry: nbTry,
-          won: true,
-          player: userInfo.current.id,
+          won: gameWon,
+          player: userInfos.id,
           word: wordDay.current.id,
         });
       }
-      setFinalScore({
-        won: true,
-        nbTry: nbTry,
-      });
-      setOpen(true);
     } catch (e) {
       // TODO Alerte d'erreur de récupération des infos du user
     }
+    setFinalScore({
+      ended: true,
+      won: gameWon,
+      modalOpenned: true,
+      nbTry: nbTry,
+      wordSearched: wordDay.current.word
+    });
   };
 
   const checkIfWordleIsDoneByUser = async (): Promise<boolean> => {
@@ -289,9 +216,9 @@ const Wordle = () => {
         console.log("already done");
         return true;
       }
-      if (userInfo.current && wordDay.current.word.length > 0) {
+      if (userInfos && wordDay.current.word.length > 0) {
         const wordleInfos = await axios.get(
-          `/wordle/today/${userInfo.current.id}/${wordDay.current.id}`
+          `/wordle/today/${userInfos.id}/${wordDay.current.id}`
         );
         if (wordleInfos) {
           wordleOfTodayDone.current = true;
@@ -311,6 +238,58 @@ const Wordle = () => {
     return false;
   };
 
+  const pressEnter = async (casesList: casesInterface[]) => {
+    let casesTemp = [...casesList];
+    const caseSelected = casesTemp.find((c) => c.selected);
+    if (caseSelected) {
+      console.log(caseSelected);
+      if (
+        ((casesList.indexOf(caseSelected) + 1) % wordDay.current.word.length === 0)
+        && caseSelected.letterPlaced !== ''
+      ) {
+          const typedWord = getWordFromGrid(
+          casesTemp,
+          caseSelected,
+          wordDay.current.word
+        );
+        if(!wordList.some(w => w === typedWord.toLowerCase())){
+          console.log("word doesn't exist");
+          setCases(casesTemp);
+          return;
+        }
+        //TODO end of the line, test it
+        const comparison: resultCompare[] = checkIfWordCorrespond(
+          wordDay.current.word,
+          typedWord
+        );
+        casesTemp = updateCaseColor(casesTemp,caseSelected,wordDay.current.word,comparison);
+        setKeyList(updateKeyboardStates(keyList,casesTemp,caseSelected,wordDay.current.word,comparison));
+
+        if (
+          checkIfUniqueArray(comparison) &&
+          comparison[0] === resultCompare.PERFECT
+        ) {
+          // won
+          endGame(true, casesList, caseSelected);
+          document.removeEventListener("keydown", handleKeyDown)
+        } else {
+          // continue
+          if(casesTemp.indexOf(caseSelected) === casesTemp.length-1){
+            // loosed
+            endGame(false, casesList, caseSelected);
+          }
+          else {
+            casesTemp[casesList.indexOf(caseSelected)].selected = false;
+            casesTemp[casesTemp.indexOf(caseSelected) + 1].selected = true;
+          }
+        }
+        console.log(casesTemp)
+      }
+      setCases(casesTemp);
+    }
+  }
+
+
   useEffect(() => {
     asyncGetInfo();
   }, []);
@@ -326,15 +305,12 @@ const Wordle = () => {
               <main className="bg-white text-[#5533EA] rounded-2xl shadow-xl p-8">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold uppercase">WORDLE</h2>
-                  <div className="text-sm text-[#6B5BEA]">Tu as 6 essais pour deviner un mot de 5 lettres</div>
+                  <div className="text-sm text-[#6B5BEA]">Tu as {nbTryMax} essai{nbTryMax > 1 ? 's' : ''} pour deviner un mot de {wordDay.current.word.length} lettres</div>
                 </div>
 
-                <section id="board" className="mx-auto mb-6" aria-label="Grille Wordle" style={{width:'max-content'}}>
-                </section>
+                <Board word={wordDay.current.word} cases={cases} />
 
-                <div id="message" className="h-8 text-center text-sm font-medium text-[#6B5BEA] mb-4" role="status" aria-live="polite"></div>
-
-                <div className="keyboard grid gap-2 mt-4">
+                {/* <div className="keyboard grid gap-2 mt-4">
                   <div className="flex justify-center gap-2">
                     <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">Q</button>
                     <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">W</button>
@@ -369,20 +345,16 @@ const Wordle = () => {
                     <button className="key-btn inline-block px-3 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">M</button>
                     <button id="backspace" className="inline-block px-4 py-2 rounded-md font-semibold bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">⌫</button>
                   </div>
-                </div>
-
-                <div className="mt-6 flex items-center justify-between">
-                  <div className="text-sm text-[#6B5BEA]">Mot du jour (démo) : <span id="hint" className="font-semibold">5 lettres</span></div>
-                  <div className="flex gap-2">
-                    <button id="newGame" className="px-3 py-2 rounded-md bg-[#F9F9FF] text-[#5533EA] border border-[#D9D4F8]">Nouvelle partie</button>
-                  </div>
-                </div>
+                </div> */}
+                <Keyboard handleKeyDown={handleKeyDown} />
               </main>
             </div>
             </div>
-          {/* <Board word={wordDay.current.word} cases={cases} /> */}
-          {/* <Keyboard handleKeyDown={handleKeyDown} /> */}
-          {/* <ModalEndGame open={open} setOpen={setOpen} finalScore={finalScore} /> */}
+            {finalScore.modalOpenned ?
+              <ModalEndGame finalScore={finalScore} setFinalScore={setFinalScore} userInfos={userInfos} />
+              :
+              <></>
+            }
         </>
       ) : (
         <></>

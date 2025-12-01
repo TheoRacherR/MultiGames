@@ -36,7 +36,8 @@ export interface WordleContextInterface {
 // Context
 export interface keyInterface {
   key: string,
-  state: keyState
+  state: keyState,
+  type: keyType
 }
 
 // Context
@@ -45,6 +46,19 @@ export enum keyState {
   RIGHT_PLACE,
   WRONG_PLACE,
   WRONG
+}
+
+export enum keyType {
+  LETTER,
+  ENTER,
+  DELETE
+}
+
+export enum caseStyle {
+  UNTOUCHED="bg-[#FBF9FF] text-[#5533EA]",
+  RIGHT_PLACE="bg-[#4CAF50] text-[#FFFFFF]",
+  WRONG_PLACE="bg-[#FFC107] text-[#FFFFFF]",
+  WRONG="bg-[#E6E6F7] text-[#5533EA]"
 }
 
 export interface KeyListDictionary {
@@ -56,4 +70,12 @@ export interface WordleLocalStorageInformations {
   won: boolean,
   player: string,
   word: string,
+}
+
+export interface finalScoreInterface {
+  ended: boolean;
+  won: boolean;
+  modalOpenned: boolean;
+  nbTry: number;
+  wordSearched: string;
 }

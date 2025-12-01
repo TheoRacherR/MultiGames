@@ -75,6 +75,7 @@ export class WordleService {
         headers: { 'Access-Control-Allow-Origin': 'https://fr.wiktionary.org' },
       },
     );
+    console.log(searchWord);
     return searchWord;
   }
 

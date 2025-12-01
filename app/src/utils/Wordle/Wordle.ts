@@ -1,7 +1,12 @@
-import { caseCurrentState, casesInterface, keyInterface, KeyListDictionary, keyState, resultCompare } from "../../@types/wordle";
+import { caseCurrentState, casesInterface, keyInterface, KeyListDictionary, keyState, keyType, resultCompare } from "../../@types/wordle";
 
+/********************************************************************/
+/***************************** KEYBOARD *****************************/
+/********************************************************************/
 export const minLengthWord = 5;
 export const maxLengthWord = 12;
+
+export const nbTryMax = 6;
 
 export const checkIfWordCorrespond = (wordSearched: string, wordGet: string): resultCompare[] => {
   if(wordGet.toLowerCase() === wordSearched.toLowerCase()) {
@@ -88,11 +93,7 @@ export const initialiseKeyList = (): keyInterface[][] => {
     const key = keyListInit[i];
     const arrTemp: keyInterface[] = [];
     for (let j = 0; j < key.length; j++) {
-      arrTemp.push({
-        key: key[j].key,
-        state: key[j].state
-      })
-      
+      arrTemp.push(key[j])
     }
     arrKeyExport.push(arrTemp)
   }
@@ -101,38 +102,38 @@ export const initialiseKeyList = (): keyInterface[][] => {
 
 const keyListInit: keyInterface[][] = [
   [
-    { key: "a", state: keyState.UNTOUCHED },
-    { key: "z", state: keyState.UNTOUCHED },
-    { key: "e", state: keyState.UNTOUCHED },
-    { key: "r", state: keyState.UNTOUCHED },
-    { key: "t", state: keyState.UNTOUCHED },
-    { key: "y", state: keyState.UNTOUCHED },
-    { key: "u", state: keyState.UNTOUCHED },
-    { key: "i", state: keyState.UNTOUCHED },
-    { key: "o", state: keyState.UNTOUCHED },
-    { key: "p", state: keyState.UNTOUCHED },
+    { key: "a", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "z", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "e", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "r", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "t", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "y", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "u", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "i", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "o", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "p", state: keyState.UNTOUCHED, type: keyType.LETTER },
   ],
   [
-    { key: "q", state: keyState.UNTOUCHED },
-    { key: "s", state: keyState.UNTOUCHED },
-    { key: "d", state: keyState.UNTOUCHED },
-    { key: "f", state: keyState.UNTOUCHED },
-    { key: "g", state: keyState.UNTOUCHED },
-    { key: "h", state: keyState.UNTOUCHED },
-    { key: "j", state: keyState.UNTOUCHED },
-    { key: "k", state: keyState.UNTOUCHED },
-    { key: "l", state: keyState.UNTOUCHED },
-    { key: "m", state: keyState.UNTOUCHED },
+    { key: "q", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "s", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "d", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "f", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "g", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "h", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "j", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "k", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "l", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "m", state: keyState.UNTOUCHED, type: keyType.LETTER },
   ],
   [
-    { key: "ENTER", state: keyState.UNTOUCHED },
-    { key: "w", state: keyState.UNTOUCHED },
-    { key: "x", state: keyState.UNTOUCHED },
-    { key: "c", state: keyState.UNTOUCHED },
-    { key: "v", state: keyState.UNTOUCHED },
-    { key: "b", state: keyState.UNTOUCHED },
-    { key: "n", state: keyState.UNTOUCHED },
-    { key: "DELETE", state: keyState.UNTOUCHED },
+    { key: "ENTER", state: keyState.UNTOUCHED, type: keyType.ENTER },
+    { key: "w", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "x", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "c", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "v", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "b", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "n", state: keyState.UNTOUCHED, type: keyType.LETTER },
+    { key: "⌫", state: keyState.UNTOUCHED, type: keyType.DELETE },
   ],
 ];
 
@@ -165,4 +166,52 @@ const keyListDictionnary: KeyListDictionary = {
   'v': { row: 2, column: 4 },
   'b': { row: 2, column: 5 },
   'n': { row: 2, column: 6 },
+}
+
+/*****************************************************************/
+/***************************** BOARD *****************************/
+/*****************************************************************/
+export const getWordFromGrid = (grid: casesInterface[], caseSelected: casesInterface, wordSearched: string): string => {
+  let stringWord = '';
+  for (let index = 0; index < wordSearched.length; index++) {
+    stringWord = grid[grid.indexOf(caseSelected) - index].letterPlaced + stringWord;
+  }
+  return stringWord;
+}
+
+// TODO check if the word exist
+
+export const checkIfUniqueArray = (arr: any[]): boolean => {
+  if(arr.length > 0){
+    const initValue = arr[0];
+    for (let index = 1; index < arr.length; index++) {
+      if(arr[index] !== initValue) return false;
+    }
+  }
+  return true;
+}
+
+
+
+export const pressBackspace = async (wordDay: string, casesList: casesInterface[]) => {
+  const casesTemp = [...casesList];
+    const caseSelected = casesTemp.find((c) => c.selected);
+    if (caseSelected) {
+      if (
+        (casesList.indexOf(caseSelected) + 1) % wordDay.length ===
+          0 &&
+        casesTemp[casesList.indexOf(caseSelected)].letterPlaced !== ""
+      ) {
+        casesTemp[casesList.indexOf(caseSelected)].letterPlaced = "";
+      } else if (
+        casesList.indexOf(caseSelected) > 0 &&
+        casesTemp[casesList.indexOf(caseSelected) - 1].state ===
+          caseCurrentState.UNUSED
+      ) {
+        casesTemp[casesList.indexOf(caseSelected) - 1].selected = true;
+        casesTemp[casesList.indexOf(caseSelected) - 1].letterPlaced = "";
+        casesTemp[casesList.indexOf(caseSelected)].selected = false;
+      }
+    }
+    return casesTemp;
 }

@@ -1,53 +1,45 @@
 import ModalEndGame from "components/ModalEndGame";
 import { UserInfos } from "../../../../@types/user";
-import { getUserInfos } from "../../../../utils/Default/Auth";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from "components/ButtonComponent";
 import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../@types/default";
+import { finalScoreInterface } from "../../../../@types/wordle";
 
 const WordleModalEndGame = ({
-  open,
-  setOpen,
   finalScore,
+  setFinalScore,
+  userInfos,
 }: {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  finalScore: { nbTry: number };
+  finalScore: finalScoreInterface;
+    setFinalScore: React.Dispatch<React.SetStateAction<finalScoreInterface>>;
+    userInfos: UserInfos;
 }) => {
   const navigate = useNavigate();
-  const [userInfos, setUserInfos] = useState<UserInfos | null>(null);
-
-  const getLogInfos = async () => {
-    try {
-      const userInfos = await getUserInfos();
-      setUserInfos(userInfos);
-      return;
-    } catch (e) {
-      console.log(e);
-      // TODO Alerte d'erreur de récupération des infos du user
-    }
-  };
-
-  useEffect(() => {
-    getLogInfos();
-  }, []);
+  console.log(userInfos)
 
   const gotoMenu = () => {
-    setOpen(false);
+    setFinalScore({
+      ...finalScore,
+      modalOpenned: false,
+    });
     navigate("/");
+  };
+
+  const closeModal = () => {
+    setFinalScore({
+      ...finalScore,
+      modalOpenned: false,
+    });
   };
 
   return (
     <div>
       <ModalEndGame
-        title={"You won !"}
+        title={finalScore.won ? "You won !" : "End of the game for today"}
         content={
           <>
-            <p>{`You guested it in ${finalScore.nbTry} try`}</p>
-            {userInfos ? (
-              <p>{`You're logged as ${userInfos.pseudo}, your score has been saved`}</p>
-            ) : (
+            <p>{finalScore.won ? `You guested it in ${finalScore.nbTry} try` : `You used all of your tries, the word was "${finalScore.wordSearched}"`}</p>
+            {userInfos.id === "" ? (
               <p>
                 {`You're not connected, you can login to save your score`}
                 <ButtonComponent
@@ -58,18 +50,23 @@ const WordleModalEndGame = ({
                   clickOn={() => navigate("/auth")}
                 />
               </p>
+            ) : (
+              <p>{`You're logged as "${userInfos.pseudo}", your score has been saved`}</p>
             )}
           </>
         }
         buttons={
-          <ButtonComponent
-            text="Home"
-            color={buttonComponentColor.INFO}
-            type={buttonComponentType.INLINE}
-            size={buttonComponentSize.MEDIUM}
-            clickOn={() => gotoMenu()}
-          />
+          <>
+            <ButtonComponent
+              text="Home"
+              color={buttonComponentColor.PRIMARY}
+              type={buttonComponentType.INLINE}
+              size={buttonComponentSize.MEDIUM}
+              clickOn={() => gotoMenu()}
+            />
+          </>
         }
+        closeModal={closeModal}
       />
     </div>
   );
