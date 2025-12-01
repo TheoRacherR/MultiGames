@@ -1,16 +1,22 @@
 import { MenuItem, Select, TextField, Button } from "@mui/material";
 import { UserInfos } from "../../../@types/user";
 import { useState } from "react";
-import {
-  mailRegex,
-} from "../../../utils/Default/Auth";
-import axios from "axiosConfig";
+import { mailRegex } from "utils/Default/Auth";
+import axios from "utils/Default/axiosConfig";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import InputAdornment from "@mui/material/InputAdornment";
-import { countryList, countryObject } from "../../../utils/Default/Default";
+import { countryList, countryObject } from "utils/Default/Default";
 
-const UserInfosChange = ({userInfos, setUserInfos, userInfosInit}: {userInfos: UserInfos, setUserInfos: React.Dispatch<React.SetStateAction<UserInfos>>, userInfosInit: UserInfos}) => {
+const UserInfosChange = ({
+  userInfos,
+  setUserInfos,
+  userInfosInit,
+}: {
+  userInfos: UserInfos;
+  setUserInfos: React.Dispatch<React.SetStateAction<UserInfos>>;
+  userInfosInit: UserInfos;
+}) => {
   const [errors, setErrors] = useState<{ mailFormat: boolean }>({
     mailFormat: false,
   });

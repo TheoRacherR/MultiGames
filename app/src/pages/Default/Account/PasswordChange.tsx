@@ -1,5 +1,5 @@
 import { Button, LinearProgress, TextField, Typography } from '@mui/material';
-import { getUserInfos, minLengthPassword, verifyRole } from '../../../utils/Default/Auth';
+import { getUserInfos, minLengthPassword, verifyRole } from 'utils/Default/Auth';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';

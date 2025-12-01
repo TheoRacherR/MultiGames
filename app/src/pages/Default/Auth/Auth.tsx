@@ -1,4 +1,4 @@
-import { verifyIfLogged } from "../../../utils/Default/Auth";
+import { verifyIfLogged } from "utils/Default/Auth";
 import AuthForm from "./AuthForm";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";

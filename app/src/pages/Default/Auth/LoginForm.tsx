@@ -1,12 +1,12 @@
 import { useState } from "react";
-import axios from "axiosConfig";
+import axios from "utils/Default/axiosConfig";
 import { Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import {
   createEntitesAtLogin,
   getUserInfos,
   mailRegex,
-} from "../../../utils/Default/Auth";
+} from "utils/Default/Auth";
 import ContainerUserInfos from "components/ContainerUserInfos";
 import { userStatus } from "../../../@types/user";
 
@@ -34,13 +34,12 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
         // TODO Alerte de connexion
         const usrInfos = await getUserInfos();
         if (usrInfos) {
-          if(usrInfos.status === userStatus.BANNED) {
+          if (usrInfos.status === userStatus.BANNED) {
             // TODO Alerte d'erreur user banned
-            setValuesLogin({mail: '', password: ''})
-            console.log('user banned')
+            setValuesLogin({ mail: "", password: "" });
+            console.log("user banned");
             return;
-          }
-          else {
+          } else {
             createEntitesAtLogin(usrInfos.id);
           }
         }

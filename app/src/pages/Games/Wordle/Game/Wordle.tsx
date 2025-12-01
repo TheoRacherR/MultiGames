@@ -9,9 +9,14 @@ import {
   WordleContextInterface,
 } from "../../../../@types/wordle";
 import Keyboard from "./Keyboard";
-import axios from "axiosConfig";
+import axios from "utils/Default/axiosConfig";
 import { getUserInfos } from "utils/Default/Auth";
-import { country, UserInfos, userRole, userStatus } from "../../../../@types/user";
+import {
+  country,
+  UserInfos,
+  userRole,
+  userStatus,
+} from "../../../../@types/user";
 import { useNavigate } from "react-router-dom";
 import {
   WordleContext,
@@ -38,18 +43,18 @@ const Wordle = () => {
     won: true,
     modalOpenned: false,
     nbTry: 0,
-    wordSearched: ''
+    wordSearched: "",
   });
   const [userInfos, setUserInfos] = useState<UserInfos>({
-      id: "",
-      email: "",
-      firstname: "",
-      lastname: "",
-      pseudo: "",
-      role: userRole.USER,
-      status: userStatus.TO_ACTIVE,
-      country: country.FRANCE,
-    });
+    id: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+    pseudo: "",
+    role: userRole.USER,
+    status: userStatus.TO_ACTIVE,
+    country: country.FRANCE,
+  });
   const logged = useRef<boolean>();
 
   const [cases, setCases] = useState<casesInterface[]>();
@@ -96,7 +101,7 @@ const Wordle = () => {
   };
 
   useEffect(() => {
-    if(!finalScore.ended) {
+    if (!finalScore.ended) {
       document.addEventListener("keydown", handleKeyDown, {
         capture: true,
         once: true,
@@ -105,7 +110,7 @@ const Wordle = () => {
   });
 
   const handleKeyDown = async (event: KeyboardEvent) => {
-    if(finalScore.ended) return;
+    if (finalScore.ended) return;
     if (alphabetic.includes(event.key.toLowerCase()) && cases) {
       let casesTemp = [...cases];
       const caseSelected = casesTemp.find((c) => c.selected);
@@ -158,7 +163,11 @@ const Wordle = () => {
   const initGrid = async (wordArg: string) => {
     initKeys();
     let arrGridTemp: casesInterface[] = [];
-    for (let lineIndex = 0; lineIndex < nbTryMax * wordArg.length; lineIndex++) {
+    for (
+      let lineIndex = 0;
+      lineIndex < nbTryMax * wordArg.length;
+      lineIndex++
+    ) {
       arrGridTemp.push({
         letterPlaced: "",
         state: caseCurrentState.UNUSED,
@@ -201,7 +210,7 @@ const Wordle = () => {
       won: gameWon,
       modalOpenned: true,
       nbTry: nbTry,
-      wordSearched: wordDay.current.word
+      wordSearched: wordDay.current.word,
     });
   };
 
@@ -244,15 +253,16 @@ const Wordle = () => {
     if (caseSelected) {
       console.log(caseSelected);
       if (
-        ((casesList.indexOf(caseSelected) + 1) % wordDay.current.word.length === 0)
-        && caseSelected.letterPlaced !== ''
+        (casesList.indexOf(caseSelected) + 1) % wordDay.current.word.length ===
+          0 &&
+        caseSelected.letterPlaced !== ""
       ) {
-          const typedWord = getWordFromGrid(
+        const typedWord = getWordFromGrid(
           casesTemp,
           caseSelected,
           wordDay.current.word
         );
-        if(!wordList.some(w => w === typedWord.toLowerCase())){
+        if (!wordList.some((w) => w === typedWord.toLowerCase())) {
           console.log("word doesn't exist");
           setCases(casesTemp);
           return;
@@ -262,8 +272,21 @@ const Wordle = () => {
           wordDay.current.word,
           typedWord
         );
-        casesTemp = updateCaseColor(casesTemp,caseSelected,wordDay.current.word,comparison);
-        setKeyList(updateKeyboardStates(keyList,casesTemp,caseSelected,wordDay.current.word,comparison));
+        casesTemp = updateCaseColor(
+          casesTemp,
+          caseSelected,
+          wordDay.current.word,
+          comparison
+        );
+        setKeyList(
+          updateKeyboardStates(
+            keyList,
+            casesTemp,
+            caseSelected,
+            wordDay.current.word,
+            comparison
+          )
+        );
 
         if (
           checkIfUniqueArray(comparison) &&
@@ -271,24 +294,22 @@ const Wordle = () => {
         ) {
           // won
           endGame(true, casesList, caseSelected);
-          document.removeEventListener("keydown", handleKeyDown)
+          document.removeEventListener("keydown", handleKeyDown);
         } else {
           // continue
-          if(casesTemp.indexOf(caseSelected) === casesTemp.length-1){
+          if (casesTemp.indexOf(caseSelected) === casesTemp.length - 1) {
             // loosed
             endGame(false, casesList, caseSelected);
-          }
-          else {
+          } else {
             casesTemp[casesList.indexOf(caseSelected)].selected = false;
             casesTemp[casesTemp.indexOf(caseSelected) + 1].selected = true;
           }
         }
-        console.log(casesTemp)
+        console.log(casesTemp);
       }
       setCases(casesTemp);
     }
-  }
-
+  };
 
   useEffect(() => {
     asyncGetInfo();
@@ -299,13 +320,14 @@ const Wordle = () => {
       {wordDay.current.word.length > 0 ? (
         <>
           <div className="min-h-screen bg-[var(--color-primary)] text-white flex items-center justify-center p-8">
-
             <div className="w-full max-w-4xl">
-
               <main className="bg-white text-[#5533EA] rounded-2xl shadow-xl p-8">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold uppercase">WORDLE</h2>
-                  <div className="text-sm text-[#6B5BEA]">Tu as {nbTryMax} essai{nbTryMax > 1 ? 's' : ''} pour deviner un mot de {wordDay.current.word.length} lettres</div>
+                  <div className="text-sm text-[#6B5BEA]">
+                    Tu as {nbTryMax} essai{nbTryMax > 1 ? "s" : ""} pour deviner
+                    un mot de {wordDay.current.word.length} lettres
+                  </div>
                 </div>
 
                 <Board word={wordDay.current.word} cases={cases} />
@@ -349,12 +371,16 @@ const Wordle = () => {
                 <Keyboard handleKeyDown={handleKeyDown} />
               </main>
             </div>
-            </div>
-            {finalScore.modalOpenned ?
-              <ModalEndGame finalScore={finalScore} setFinalScore={setFinalScore} userInfos={userInfos} />
-              :
-              <></>
-            }
+          </div>
+          {finalScore.modalOpenned ? (
+            <ModalEndGame
+              finalScore={finalScore}
+              setFinalScore={setFinalScore}
+              userInfos={userInfos}
+            />
+          ) : (
+            <></>
+          )}
         </>
       ) : (
         <></>

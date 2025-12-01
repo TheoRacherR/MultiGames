@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { countriesSortedInterface, countryGuess, modeCountryList } from '../../../../../../@types/quiz'
 import CountryListBloc from './CountryListBloc';
-import { reassembleCountries } from '../../../../../../utils/Quiz/FunctionsForCountry';
+import { reassembleCountries } from 'utils/Quiz/FunctionsForCountry';
 
 const CountryList = ({end, countryListFound, countryListToGuess}: {end: boolean, countryListFound: countryGuess[], countryListToGuess: countryGuess[]}) => {
 

@@ -1,6 +1,6 @@
 import { checkIfLocalStorageWordleIsFine } from "utils/Wordle/Wordle";
 import { UserInfos, userRole } from "../../@types/user";
-import axios from "axiosConfig";
+import axios from "utils/Default/axiosConfig";
 
 export const minLengthPassword: number = 12;
 

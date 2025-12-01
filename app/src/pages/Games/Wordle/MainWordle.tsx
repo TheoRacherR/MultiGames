@@ -1,19 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import axios from "axiosConfig";
+import axios from "utils/Default/axiosConfig";
 import { useEffect, useState } from "react";
 import { FormatedScoreboard, gameType } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../@types/default";
+import {
+  buttonComponentColor,
+  buttonComponentSize,
+  buttonComponentType,
+} from "../../../@types/default";
 import Surface from "components/Game/Presentation/Surface";
 import Informations from "components/Game/Presentation/Informations";
 import InfoBlock from "components/Game/Presentation/InfoBlock";
 import Preview from "components/Game/Presentation/Preview";
 import Ranking from "components/Game/Presentation/Ranking";
 
-import imgPreview from "assets/preview_wordle.png"
+import imgPreview from "assets/preview_wordle.png";
 import { games } from "pages/Games";
 
-const gameInfos = games.filter(g => g.type === gameType.WORDLE)[0];
+const gameInfos = games.filter((g) => g.type === gameType.WORDLE)[0];
 
 const MainWordle = () => {
   const navigate = useNavigate();
@@ -62,8 +66,14 @@ const MainWordle = () => {
           estimatedTime="5–10 min"
           infoBlocks={
             <>
-              <InfoBlock title="Modes" desc="Solo • 1v1 (bientôt) • Classements" />
-              <InfoBlock title="Difficultés" desc="Facile, Moyen, Difficile — choisis ta tactique" />
+              <InfoBlock
+                title="Modes"
+                desc="Solo • 1v1 (bientôt) • Classements"
+              />
+              <InfoBlock
+                title="Difficultés"
+                desc="Facile, Moyen, Difficile — choisis ta tactique"
+              />
             </>
           }
         />
@@ -71,7 +81,7 @@ const MainWordle = () => {
         <div className="space-y-4">
           <Preview link={imgPreview} alt="preview wordle" />
 
-          <Ranking data={dataScoreboard}/>
+          <Ranking data={dataScoreboard} />
         </div>
       </>
     </Surface>

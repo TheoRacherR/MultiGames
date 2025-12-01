@@ -7,7 +7,7 @@ import {
   modeQuiz,
 } from "../../../@types/quiz";
 import { useNavigate } from "react-router-dom";
-import axios from "axiosConfig";
+import axios from "utils/Default/axiosConfig";
 import { FormatedScoreboard, gameType } from "../../../@types/games";
 import InputComponent from "components/InputComponent";
 import Surface from "components/Game/Presentation/Surface";
@@ -16,8 +16,8 @@ import InfoBlock from "components/Game/Presentation/InfoBlock";
 import Preview from "components/Game/Presentation/Preview";
 import Ranking from "components/Game/Presentation/Ranking";
 
-import imgPreviewCountry from "assets/preview_quiz_country.png"
-import imgPreviewFlag from "assets/preview_quiz_flag.png"
+import imgPreviewCountry from "assets/preview_quiz_country.png";
+import imgPreviewFlag from "assets/preview_quiz_flag.png";
 
 import { games } from "pages/Games";
 
@@ -40,7 +40,7 @@ const MainQuiz = () => {
   const handleChangeInput = (
     e: React.ChangeEvent<HTMLSelectElement>,
     type: string
-  ): { game: gameQuiz, mode: modeQuiz } => {
+  ): { game: gameQuiz; mode: modeQuiz } => {
     const value = e.target.value;
     if (type === "mode") {
       if (game !== value) {
@@ -53,23 +53,34 @@ const MainQuiz = () => {
       } else return { game: gameQuiz.FLAG, mode: modeQuiz.ALL };
     } else if (type === "difficulty" && game === gameQuiz.FLAG) {
       switch (value) {
-        case "All": return { game: game, mode: modeQuiz.ALL };
-        case "5": return { game: game, mode: modeQuiz.FIVE };
-        case "10": return { game: game, mode: modeQuiz.TEN };
-        case "20": return { game: game, mode: modeQuiz.TWENTY };
+        case "All":
+          return { game: game, mode: modeQuiz.ALL };
+        case "5":
+          return { game: game, mode: modeQuiz.FIVE };
+        case "10":
+          return { game: game, mode: modeQuiz.TEN };
+        case "20":
+          return { game: game, mode: modeQuiz.TWENTY };
       }
     } else if (type === "difficulty" && game === gameQuiz.COUNTRY) {
       switch (value) {
-        case "All": return { game: game, mode: modeQuiz.ALL };
-        case "North america": return { game: game, mode: modeQuiz.NORTH_AMERICA };
-        case "South america": return { game: game, mode: modeQuiz.SOUTH_AMERICA };
-        case "Europe": return { game: game, mode: modeQuiz.EUROPE };
-        case "Africa": return { game: game, mode: modeQuiz.AFRICA };
-        case "Oceania": return { game: game, mode: modeQuiz.OCEANIA };
-        case "Asia": return { game: game, mode: modeQuiz.ASIA };
+        case "All":
+          return { game: game, mode: modeQuiz.ALL };
+        case "North america":
+          return { game: game, mode: modeQuiz.NORTH_AMERICA };
+        case "South america":
+          return { game: game, mode: modeQuiz.SOUTH_AMERICA };
+        case "Europe":
+          return { game: game, mode: modeQuiz.EUROPE };
+        case "Africa":
+          return { game: game, mode: modeQuiz.AFRICA };
+        case "Oceania":
+          return { game: game, mode: modeQuiz.OCEANIA };
+        case "Asia":
+          return { game: game, mode: modeQuiz.ASIA };
       }
     }
-    return { game: game, mode: mode }
+    return { game: game, mode: mode };
   };
 
   const getScoreboardInfos = async () => {
@@ -101,8 +112,18 @@ const MainQuiz = () => {
     <Surface>
       <>
         <Informations
-          title={game === gameQuiz.FLAG ? games.filter(g => g.type === gameType.QUIZ_FLAG)[0].title : games.filter(g => g.type === gameType.QUIZ_COUNTRY)[0].title}
-          description={game === gameQuiz.FLAG ? games.filter(g => g.type === gameType.QUIZ_FLAG)[0].description : games.filter(g => g.type === gameType.QUIZ_COUNTRY)[0].description}
+          title={
+            game === gameQuiz.FLAG
+              ? games.filter((g) => g.type === gameType.QUIZ_FLAG)[0].title
+              : games.filter((g) => g.type === gameType.QUIZ_COUNTRY)[0].title
+          }
+          description={
+            game === gameQuiz.FLAG
+              ? games.filter((g) => g.type === gameType.QUIZ_FLAG)[0]
+                  .description
+              : games.filter((g) => g.type === gameType.QUIZ_COUNTRY)[0]
+                  .description
+          }
           buttonPlay={
             <>
               <div className="h-500px mx-auto mb-6 flex justify-center">
@@ -136,15 +157,23 @@ const MainQuiz = () => {
                   <>
                     {game === gameQuiz.FLAG
                       ? modeFlagList.map((item: modeQuiz, index: number) => (
-                          <option key={`option_mode_${index}`} value={item} selected={item === mode}>
+                          <option
+                            key={`option_mode_${index}`}
+                            value={item}
+                            selected={item === mode}
+                          >
                             {item}
                           </option>
                         ))
                       : modeCountryList.map((item: modeQuiz, index: number) => (
-                          <option key={`option_mode_${index}`} value={item} selected={item === mode}>
+                          <option
+                            key={`option_mode_${index}`}
+                            value={item}
+                            selected={item === mode}
+                          >
                             {item}
                           </option>
-                    ))}
+                        ))}
                   </>
                 </InputComponent>
 
@@ -159,7 +188,7 @@ const MainQuiz = () => {
                     backgroundColor: "var(--color-primary)",
                     color: "var(--color-text-primary)",
                     borderColor: "var(--color-text-primary)",
-                    height: 50
+                    height: 50,
                   }}
                   onClick={() =>
                     navigate(
@@ -181,16 +210,25 @@ const MainQuiz = () => {
           estimatedTime="5–10 min"
           infoBlocks={
             <>
-              <InfoBlock title="Modes" desc="Solo • 1v1 (bientôt) • Classements" />
-              <InfoBlock title="Difficultés" desc="Facile, Moyen, Difficile — choisis ta tactique" />
+              <InfoBlock
+                title="Modes"
+                desc="Solo • 1v1 (bientôt) • Classements"
+              />
+              <InfoBlock
+                title="Difficultés"
+                desc="Facile, Moyen, Difficile — choisis ta tactique"
+              />
             </>
           }
         />
 
         <div className="space-y-4">
-          <Preview link={game === gameQuiz.FLAG ? imgPreviewFlag : imgPreviewCountry} alt="preview quiz" />
+          <Preview
+            link={game === gameQuiz.FLAG ? imgPreviewFlag : imgPreviewCountry}
+            alt="preview quiz"
+          />
 
-          <Ranking data={dataScoreboard}/>
+          <Ranking data={dataScoreboard} />
         </div>
       </>
     </Surface>

@@ -41,7 +41,7 @@ import {
   userRole,
   userStatus,
 } from "../../../../@types/user";
-import axios from "../../../../axiosConfig";
+import axios from "utils/Default/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 const TimeLine = () => {
@@ -90,7 +90,7 @@ const TimeLine = () => {
       setUserInfos(userInfosRequest);
       if (userInfosRequest) {
         await axios.post("/timeline", {
-          score: middleBoard.length-1,
+          score: middleBoard.length - 1,
           player: userInfosRequest.id,
         });
       }
@@ -294,8 +294,7 @@ const TimeLine = () => {
               clickOn={endGame}
               clName="m-auto mr-0 ml-4"
             />
-          ) : (
-            finalScore.end ?
+          ) : finalScore.end ? (
             <ButtonComponent
               text="Replay"
               color={buttonComponentColor.WARNING}
@@ -304,7 +303,7 @@ const TimeLine = () => {
               clickOn={startGame}
               clName="m-auto mr-0 ml-4"
             />
-            :
+          ) : (
             <ButtonComponent
               text="Start"
               color={buttonComponentColor.SUCCESS}
@@ -324,9 +323,9 @@ const TimeLine = () => {
           onDragEnd={(event: DragEndEvent) => handleDragEnd(event)} //GOOD
           collisionDetection={rectIntersection}
         >
-          <MiddleBoard cards={middleBoard} gameEnded={finalScore.end}/>
+          <MiddleBoard cards={middleBoard} gameEnded={finalScore.end} />
 
-          <PlayerBoard cards={playerBoard} gameEnded={finalScore.end}/>
+          <PlayerBoard cards={playerBoard} gameEnded={finalScore.end} />
           <DragOverlay>
             {activeItemID > 0 ? (
               <Item
@@ -349,19 +348,17 @@ const TimeLine = () => {
         <div className="w-full flex mt-8 justify-between">
           <div></div>
           <div id="score" className="text-lg font-semibold text-[#5533EA]">
-            Événement{middleBoard.length > 0 ? 's ' : ' '}
-            placé{middleBoard.length > 0 ? 's' : ''}
-            : {middleBoard.length}
+            Événement{middleBoard.length > 0 ? "s " : " "}
+            placé{middleBoard.length > 0 ? "s" : ""}: {middleBoard.length}
           </div>
           <ButtonComponent
             text="Report"
             color={buttonComponentColor.ERROR}
             type={buttonComponentType.INLINE}
             size={buttonComponentSize.SMALL}
-            clickOn={() => console.log('report')}
+            clickOn={() => console.log("report")}
             clName="m-auto mr-0 ml-4"
           />
-
         </div>
       </main>
       {finalScore.modalOpenned ? (

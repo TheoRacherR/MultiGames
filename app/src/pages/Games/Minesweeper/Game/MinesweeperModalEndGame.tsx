@@ -1,6 +1,6 @@
 import ModalEndGame from "components/ModalEndGame";
 import { UserInfos } from "../../../../@types/user";
-import { getUserInfos } from "../../../../utils/Default/Auth";
+import { getUserInfos } from "utils/Default/Auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from "components/ButtonComponent";

@@ -6,15 +6,15 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import axios from "axiosConfig";
+import axios from "utils/Default/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { country } from "../../../@types/user";
-import { mailRegex, minLengthPassword } from "../../../utils/Default/Auth";
+import { mailRegex, minLengthPassword } from "utils/Default/Auth";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import InputAdornment from "@mui/material/InputAdornment";
-import { countryList, countryObject } from "../../../utils/Default/Default";
+import { countryList, countryObject } from "utils/Default/Default";
 import ContainerUserInfos from "components/ContainerUserInfos";
 
 const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
