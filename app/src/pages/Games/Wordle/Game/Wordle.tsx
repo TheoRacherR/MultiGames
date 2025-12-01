@@ -27,7 +27,7 @@ import {
   updateCaseColor,
   updateKeyboardStates,
 } from "utils/Wordle/Wordle";
-import { wordList } from "utils/Wordle/WordList";
+import { wordList } from "assets/data/wordle/wordleList";
 
 const alphabetic = "abcdefghijklmnopqrstuvwxyz";
 
