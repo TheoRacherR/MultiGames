@@ -29,15 +29,18 @@ export interface shipCase {
   shipCaseId: number;
   orientation: orientationCase;
   bombed: boolean;
+  destroyed: boolean;
 }
 
 export interface opponentShipCase {
   id: number,
   hasBeenBombed: boolean,
+  isBombedAndHasShip: boolean,
   whatRoundHasItBeenBombed: number,
   isTheShipDestroyed: boolean,
   coordinationNumber: string,
-  coordinationAlphabet: string
+  coordinationAlphabet: string,
+  shipDestroyed: boolean,
 }
 
 export interface shipPlacment {
