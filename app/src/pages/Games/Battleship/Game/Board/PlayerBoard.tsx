@@ -1,11 +1,12 @@
 import { Dispatch, Fragment, useState } from 'react';
 import Board from './Board';
-import { orientationCase, shipCase } from '../../../../../@types/battleship'
+import { boardCases, shipCase } from '../../../../../@types/battleship'
 import { styleCase } from 'assets/Battleship/Board';
 import LineAtoJ from './LineAtoJ';
-import { findStyleOfCasePlayer } from 'utils/Battleship/PlayerFunc';
-const PlayerBoard = ({ cases, setCases }: { cases: shipCase[], setCases: Dispatch<React.SetStateAction<shipCase[]>> }) => {
-    const [caseOver, setCaseOver] = useState<shipCase | null>(null);
+import { findStyleOfCasePlayer } from 'utils/Battleship/BattleshipFunc';
+import { attackACase } from 'utils/Battleship/BattleshipFunc';
+const PlayerBoard = ({ board, setBoard }: { board: boardCases, setBoard: Dispatch<React.SetStateAction<boardCases>> }) => {
+    // const [caseOver, setCaseOver] = useState<shipCase | null>(null);
 
   // const [caseShipSelected, setCaseShipSelected] = useState<number>(0);
   // const [caseOnBoardDropped, setCaseOnBoardDropped] = useState<number>(0);
@@ -14,54 +15,14 @@ const PlayerBoard = ({ cases, setCases }: { cases: shipCase[], setCases: Dispatc
 
   // const [opponentReady, setOpponentReady] = useState<boolean>(false);
 
+  console.log(board)
 
-  const attackACase = () => {
-    const caseAttacked = caseOver;
-    // if (playersTurn && caseAttacked) {
-    if (caseAttacked) {
-      console.log('click')
-      if (!caseAttacked.bombed) {
-        // TODO vérifier si le bateau est completment supprimé
-        let casesTemp = [...cases];
-        casesTemp[caseAttacked.id] = {
-          ...caseAttacked,
-          bombed: true,
-        };
-        if(checkIfShipIsDestroyed(casesTemp, caseAttacked) && caseAttacked.ship){
-          const nextStep = caseAttacked.orientation === orientationCase.VERTICAL ? 10 : 1;
-          const caseInitShip = caseAttacked.id - (caseAttacked.shipCaseId * (nextStep));
-          for (let i = 0; i < caseAttacked.ship.length; i++) {
-            casesTemp[(i*nextStep) + caseInitShip] = {
-              ...casesTemp[(i*nextStep) + caseInitShip],
-              destroyed: true,
-            };
-            // TODO update in global ship doc
-          }
-        }
-        console.log(casesTemp)
-        setCases(casesTemp);
-        // setPlayersTurn(false);
-      }
+  const handleClickOnACase = (caseOver: shipCase) => {
+    if (!caseOver.bombed) {
+      const result = attackACase(caseOver, board);
+      setBoard(prev => ({...prev, board: result}))
     }
   };
-
-  const checkIfShipIsDestroyed = (cases: shipCase[], caseSelected: shipCase) => {
-    if(caseSelected.ship){
-      const nextStep = caseSelected.orientation === orientationCase.VERTICAL ? 10 : 1;
-      const caseInitShip = caseSelected.id - (caseSelected.shipCaseId * (nextStep));
-      for (let i = 0; i < caseSelected.ship.length; i++) {
-        console.log(cases[(i*nextStep) + caseInitShip])
-        if(cases[(i*nextStep) + caseInitShip].bombed) {
-          continue;
-        }
-        else {
-          return false;
-        }
-      }
-      return true
-    }
-    return false;
-  }
 
   /*
     - Ajouter un bateau sur le board :                                    OK
@@ -78,7 +39,7 @@ const PlayerBoard = ({ cases, setCases }: { cases: shipCase[], setCases: Dispatc
   return (
     <Board playerBoard={true}>
       <>
-        {cases.map((item, index) => (
+        {board.board.map((item, index) => (
           <Fragment key={`case_player_${index}`}>
             <LineAtoJ index={index}/>
             <div
@@ -86,9 +47,9 @@ const PlayerBoard = ({ cases, setCases }: { cases: shipCase[], setCases: Dispatc
               style={{...styleCase, backgroundColor: item.ship ? `var(${item.ship.color})` : ''}}
               className={`relative`}
               key={index}
-              onMouseOver={() => setCaseOver(item)} //TODO temp
-              onMouseLeave={() => setCaseOver(null)} //TODO temp
-              onClick={() => attackACase()} //TODO temp
+              // onMouseOver={() => setCaseOver(item)}
+              // onMouseLeave={() => setCaseOver(null)}
+              onClick={() => handleClickOnACase(item)}
             >
               <div
                 className={findStyleOfCasePlayer(item)}

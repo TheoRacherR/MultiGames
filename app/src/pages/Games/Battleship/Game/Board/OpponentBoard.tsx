@@ -1,28 +1,34 @@
-import React, { Dispatch, Fragment } from "react";
-import { opponentShipCase } from "../../../../../@types/battleship";
+import React, { Dispatch, Fragment, useState } from "react";
+import { boardCases, opponentShipCase, orientationCase, shipCase } from "../../../../../@types/battleship";
 import Board from "./Board";
 import LineAtoJ from "./LineAtoJ";
 import { styleCase } from "assets/Battleship/Board";
-import { findStyleOfCaseOpponent } from "utils/Battleship/OpponentFunc";
+import { findStyleOfCasePlayer } from "utils/Battleship/BattleshipFunc";
+import { attackACase } from "utils/Battleship/BattleshipFunc";
 
 const OpponentBoard = ({
-  cases,
-  setCases,
-  attackACase,
-  caseOver,
-  setCaseOver
+  board,
+  setBoard,
 }: {
-  cases: opponentShipCase[];
-  setCases: Dispatch<React.SetStateAction<opponentShipCase[]>>;
-  attackACase: Function;
-  caseOver: opponentShipCase|null;
-  setCaseOver: Dispatch<React.SetStateAction<opponentShipCase|null>>;
+  board: boardCases;
+  setBoard: Dispatch<React.SetStateAction<boardCases>>;
 }) => {
+
+  // OpponentBoard
+  const [caseOver, setCaseOver] = useState<shipCase | null>(null);
+  
+
+  const handleClickOnACase = (caseOver: shipCase) => {
+    if (!caseOver.bombed) {
+      const result = attackACase(caseOver, board);
+      setBoard(prev => ({...prev, board: result}))
+    }
+  };
 
   return (
     <Board playerBoard={false}>
       <>
-        {cases.map((item, index) => (
+        {board.board.map((item, index) => (
           <Fragment key={`case_opponent_${index}`}>
             <LineAtoJ index={index}/>
             <div
@@ -32,12 +38,12 @@ const OpponentBoard = ({
               key={index}
               onMouseOver={() => setCaseOver(item)}
               onMouseLeave={() => setCaseOver(null)}
-              onClick={() => attackACase()}
+              onClick={() => handleClickOnACase(item)}
             >
               <div
-                className={findStyleOfCaseOpponent(item)}
+                className={findStyleOfCasePlayer(item)}
               >
-                {caseOver === item && !item.hasBeenBombed ? <div className="text-center text-3xl">❌</div> : ''}
+                {caseOver === item && !item.bombed ? <div className="text-center text-3xl">❌</div> : ''}
               </div>
             </div>
           </Fragment>

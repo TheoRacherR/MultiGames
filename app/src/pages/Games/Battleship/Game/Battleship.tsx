@@ -2,6 +2,7 @@ import PlayerBoard from "./Board/PlayerBoard";
 import OpponentBoard from "./Board/OpponentBoard";
 import { useEffect, useState } from "react";
 import {
+  boardCases,
   opponentShipCase,
   shipCase,
   shipPlacment,
@@ -13,23 +14,18 @@ import {
   buttonComponentSize,
   buttonComponentType,
 } from "../../../../@types/default";
-import { placeRandomShips } from "utils/Battleship/PlayerFunc";
-import { initOpponentCases } from "utils/Battleship/OpponentFunc";
 import { lengthOfTheBoard } from "assets/Battleship/Board";
+import { placeRandomShips } from "utils/Battleship/BattleshipFunc";
 
 const Battleship = () => {
   // Player
-  const [playerCases, setPlayerCases] = useState<shipCase[]>(
-    Array(lengthOfTheBoard ** 2)
-  );
+  const [playerCases, setPlayerCases] = useState<boardCases>({boardThisUser: true, board: Array(lengthOfTheBoard ** 2)});
+  const [opponentCases, setOpponentCases] = useState<boardCases>({boardThisUser: false, board: Array(lengthOfTheBoard ** 2)});
+
+
   const [playerShipsPlacment, setPlayerShipsPlacment] = useState<
     shipPlacment[]
   >([]);
-
-  const [opponentCases, setOpponentCases] = useState<opponentShipCase[]>(
-    Array(lengthOfTheBoard ** 2)
-  );
-
   const [openModalEnGame, setOpenModalEnGame] = useState<boolean>(false);
 
   const [gameStarted, setGameStarted] = useState<boolean>(false);
@@ -41,10 +37,6 @@ const Battleship = () => {
   const [playersTurn, setPlayersTurn] = useState<boolean>(false);
 
   const [playerBoardSelected, setPlayerBoardSelected] = useState<boolean>(true);
-
-  // OpponentBoard
-  const [caseOver, setCaseOver] = useState<opponentShipCase | null>(null);
-  
 
   // socket call giveStartOrder
 
@@ -120,32 +112,6 @@ const Battleship = () => {
   //   starter ? console.log("you start") : console.log("opponent starts");
   // };
 
-  // player attack opponent board
-  const attackACase = () => {
-    const caseAttacked = caseOver;
-    // if (playersTurn && caseAttacked) {
-    if (caseAttacked) {
-      console.log(
-        `click on case ${caseAttacked.coordinationAlphabet}${caseAttacked.coordinationNumber}`
-      );
-      if (!caseAttacked.hasBeenBombed) {
-        const round = 0; //TODO
-        const shipDestroyed = false;
-        // TODO vérifier si le bateau est completment supprimé
-        let casesTemp = [...opponentCases];
-        casesTemp[caseAttacked.id] = {
-          ...casesTemp[caseAttacked.id],
-          hasBeenBombed: true,
-          whatRoundHasItBeenBombed: round,
-          isBombedAndHasShip: false, // TODO ??
-          isTheShipDestroyed: shipDestroyed,
-          shipDestroyed: false,
-        };
-        setOpponentCases(casesTemp);
-        setPlayersTurn(false);
-      }
-    }
-  };
 
   // random attack on player board
   // const opponentPlayerMoove = () => {
@@ -217,8 +183,8 @@ const Battleship = () => {
 
 
   useEffect(() => {
-    setOpponentCases(initOpponentCases());
-    setPlayerCases(placeRandomShips());
+    setOpponentCases({boardThisUser: false, board: placeRandomShips()});
+    setPlayerCases({boardThisUser: true, board: placeRandomShips()});
   }, []);
 
   return (
@@ -256,7 +222,7 @@ const Battleship = () => {
                     color={buttonComponentColor.PRIMARY}
                     size={buttonComponentSize.MEDIUM}
                     type={buttonComponentType.INLINE}
-                    clickOn={() => setPlayerCases(placeRandomShips())}
+                    clickOn={() => setPlayerCases(prev => ({...prev, board: placeRandomShips()}))}
                   />
                   <ButtonComponent
                     text="Réinitialiser"
@@ -308,7 +274,7 @@ const Battleship = () => {
                         >
                           Ton plateau
                         </div>
-                        <div>Case ciblé: {caseOver?.coordinationAlphabet}{caseOver?.coordinationNumber}</div>
+                        {/* <div>Case ciblé: {caseOver?.coordinationAlphabet}{caseOver?.coordinationNumber}</div> */}
                         <div
                           className="bg-[var(--color-primary)] text-[var(--color-text-primary)] font-[700] inline-block p-3 cursor-pointer rounded-t-md"
                           onClick={() => setPlayerBoardSelected(false)}
@@ -320,16 +286,13 @@ const Battleship = () => {
                   </div>
                   {playerBoardSelected ? (
                     <PlayerBoard
-                      cases={playerCases}
-                      setCases={setPlayerCases}
+                      board={playerCases}
+                      setBoard={setPlayerCases}
                     />
                   ) : (
                     <OpponentBoard
-                      cases={opponentCases}
-                      setCases={setOpponentCases}
-                      attackACase={attackACase}
-                      caseOver={caseOver}
-                      setCaseOver={setCaseOver}
+                      board={opponentCases}
+                      setBoard={setOpponentCases}
                     />
                   )}
                 </div>

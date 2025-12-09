@@ -22,6 +22,12 @@ export enum orientationCase {
   VERTICAL= 'vertical',
   UNSET= 'unset'
 }
+
+export interface boardCases {
+  boardThisUser: boolean;
+  board: shipCase[];
+}
+
 export interface shipCase {
   id: number;
   hasShip: boolean;
