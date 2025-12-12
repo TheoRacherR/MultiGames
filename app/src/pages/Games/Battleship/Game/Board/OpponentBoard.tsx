@@ -1,34 +1,31 @@
-import React, { Dispatch, Fragment, useState } from "react";
-import { boardCases, opponentShipCase, orientationCase, shipCase } from "../../../../../@types/battleship";
+import { Fragment, useContext, useState } from "react";
+import { BattleshipContextInterface, shipCase } from "../../../../../@types/battleship";
 import Board from "./Board";
 import LineAtoJ from "./LineAtoJ";
 import { styleCase } from "assets/Battleship/Board";
 import { findStyleOfCasePlayer } from "utils/Battleship/BattleshipFunc";
 import { attackACase } from "utils/Battleship/BattleshipFunc";
+import { BattleshipContext } from "utils/Context/BattleshipContext";
 
-const OpponentBoard = ({
-  board,
-  setBoard,
-}: {
-  board: boardCases;
-  setBoard: Dispatch<React.SetStateAction<boardCases>>;
-}) => {
+const OpponentBoard = () => {
 
-  // OpponentBoard
+  const { opponentCases, setOpponentCases } = useContext(
+    BattleshipContext
+  ) as BattleshipContextInterface;
+
   const [caseOver, setCaseOver] = useState<shipCase | null>(null);
-  
 
   const handleClickOnACase = (caseOver: shipCase) => {
     if (!caseOver.bombed) {
-      const result = attackACase(caseOver, board);
-      setBoard(prev => ({...prev, board: result}))
+      const result = attackACase(caseOver, opponentCases);
+      setOpponentCases(prev => ({...prev, board: result}))
     }
   };
 
   return (
     <Board playerBoard={false}>
       <>
-        {board.board.map((item, index) => (
+        {opponentCases.board.map((item, index) => (
           <Fragment key={`case_opponent_${index}`}>
             <LineAtoJ index={index}/>
             <div

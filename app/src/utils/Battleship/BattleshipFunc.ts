@@ -1,4 +1,4 @@
-import { boardCases, orientationCase, ship, shipCase } from "../../@types/battleship";
+import { boardCases, orientationCase, ship, shipCase, shipPlacementCase } from "../../@types/battleship";
 import { lengthOfTheBoard, listOfShips, styleCaseDestroyed, styleCaseMissed, styleCaseTouched, styleCaseUnTouched } from 'assets/Battleship/Board';
 
 export const findStyleOfCasePlayer = (item: shipCase) => {
@@ -14,6 +14,7 @@ export const findStyleOfCasePlayer = (item: shipCase) => {
   return styleCaseUnTouched //rien
 }
 
+// TODO: différence avec checkIfDestroyed ??
 export const attackACase = (caseAttacked: shipCase, board: boardCases) => {
     let casesTemp = [...board.board];
     casesTemp[caseAttacked.id] = {
@@ -73,6 +74,20 @@ const placeShip = (cases: shipCase[],row: number, col: number, ship: ship, verti
   return casesTemp;
 };
 
+export const placeCaseShip = (cases: shipCase[], idCase: number, ship: ship, shipCaseID: number, orientation: orientationCase) => {
+  let casesTemp = [...cases]
+  casesTemp[idCase] = {
+    ...casesTemp[idCase],
+    shipCaseId: shipCaseID,
+    hasShip: true,
+    ship: ship,
+    bombed: false,
+    destroyed: false,
+    orientation: orientation,
+  };
+  return casesTemp;
+};
+
 
 export const placeRandomShips = () => {
   // Simple random placement algorithm for demo:
@@ -103,7 +118,7 @@ export const placeRandomShips = () => {
 };
 
 
-const initCases = () => {
+export const initCases = () => {
   const arr: shipCase[] = [];
   for (let c = 0; c < lengthOfTheBoard ** 2; c++) {
     arr.push({
@@ -133,6 +148,97 @@ export const checkIfShipIsDestroyed = (cases: shipCase[], caseSelected: shipCase
       }
     }
     return true
+  }
+  return false;
+}
+
+export const initShipPlacement = () => {
+  let stepTemp: shipPlacementCase[] = [];
+  for (let i = 0; i < listOfShips.length; i++) {
+    let ship = listOfShips[i];
+    for (let j = 0; j < ship.length; j++) {
+      stepTemp.push({ship: ship, shipNumber: j})
+    }
+  }
+  return stepTemp;
+}
+
+export const checkIfCaseNextToIsShip = (caseMiddle: shipCase, shipID: number, cases: shipCase[]): {isNextTo: boolean, caseShip: shipCase | null, orientation: orientationCase} => {
+  let position = {left: false, right: false, top: false, bottom: false};
+  if(caseMiddle.id > 0 && caseMiddle.id < lengthOfTheBoard-1) position.top = true;
+  if(caseMiddle.id % lengthOfTheBoard === 0) position.left = true
+  if((caseMiddle.id+1) % lengthOfTheBoard === 0) position.right = true
+  if(caseMiddle.id > (lengthOfTheBoard * (lengthOfTheBoard-1)) && caseMiddle.id < (lengthOfTheBoard * lengthOfTheBoard)-1) position.bottom = true;
+  
+  if(position.top) {
+    // check +10
+    if(cases[caseMiddle.id+10].hasShip && cases[caseMiddle.id+10].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id+10], orientation: orientationCase.VERTICAL};
+    if(position.left || !position.right){
+      // check +1
+      if(cases[caseMiddle.id+1].hasShip && cases[caseMiddle.id+1].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id+1], orientation: orientationCase.HORIZONTAL};
+
+    }
+    if(!position.left || position.right){
+      // check -1
+      if(cases[caseMiddle.id-1].hasShip && cases[caseMiddle.id-1].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id-1], orientation: orientationCase.HORIZONTAL};
+    }
+  }
+  else if(position.bottom){
+    // check -10
+    if(cases[caseMiddle.id-10].hasShip && cases[caseMiddle.id-10].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id-10], orientation: orientationCase.VERTICAL};
+
+    if(position.left || !position.right){
+      // check +1
+      if(cases[caseMiddle.id+1].hasShip && cases[caseMiddle.id+1].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id+1], orientation: orientationCase.HORIZONTAL};
+    }
+    if(!position.left || position.right){
+      // check -1
+      if(cases[caseMiddle.id-1].hasShip && cases[caseMiddle.id-1].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id-1], orientation: orientationCase.HORIZONTAL};
+    }
+  }
+  else if(position.left){
+    // check-10
+    if(cases[caseMiddle.id-10].hasShip && cases[caseMiddle.id-10].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id-10], orientation: orientationCase.VERTICAL};
+    // check+10
+    if(cases[caseMiddle.id+10].hasShip && cases[caseMiddle.id+10].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id+10], orientation: orientationCase.VERTICAL};
+    // check+1
+    if(cases[caseMiddle.id+1].hasShip && cases[caseMiddle.id+1].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id+1], orientation: orientationCase.HORIZONTAL};
+  }
+  else if(position.right){
+    // check-10
+    if(cases[caseMiddle.id-10].hasShip && cases[caseMiddle.id-10].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id-10], orientation: orientationCase.VERTICAL};
+    // check+10
+    if(cases[caseMiddle.id+10].hasShip && cases[caseMiddle.id+10].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id+10], orientation: orientationCase.VERTICAL};
+    // check-1
+    if(cases[caseMiddle.id-1].hasShip && cases[caseMiddle.id-1].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id-1], orientation: orientationCase.HORIZONTAL};
+  }
+  else {
+    // check-10
+    if(cases[caseMiddle.id-10].hasShip && cases[caseMiddle.id-10].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id-10], orientation: orientationCase.VERTICAL};
+    // check+10
+    if(cases[caseMiddle.id+10].hasShip && cases[caseMiddle.id+10].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id+10], orientation: orientationCase.VERTICAL};
+    // check-1
+    if(cases[caseMiddle.id-1].hasShip && cases[caseMiddle.id-1].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id-1], orientation: orientationCase.HORIZONTAL};
+    // check+1
+    if(cases[caseMiddle.id+1].hasShip && cases[caseMiddle.id+1].ship?.id === shipID) return {isNextTo: true, caseShip: cases[caseMiddle.id+1], orientation: orientationCase.HORIZONTAL};
+  }
+  return {
+    isNextTo: false,
+    caseShip: null,
+    orientation: orientationCase.UNSET
+  };
+}
+
+export const checkIfCaseIsSameOrientation = (caseMiddle: shipCase, caseNextTo: shipCase, cases: shipCase[]) => {
+  if(caseNextTo.orientation === orientationCase.HORIZONTAL){
+    if(caseMiddle.id === caseNextTo.id-1 || caseMiddle.id === caseNextTo.id+1) {
+      return true;
+    }
+  }
+  else if(caseNextTo.orientation === orientationCase.VERTICAL){
+    if(caseMiddle.id === caseNextTo.id-10 || caseMiddle.id === caseNextTo.id+10) {
+      return true;
+    }
   }
   return false;
 }

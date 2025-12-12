@@ -1,12 +1,15 @@
-import { Dispatch, Fragment, useState } from 'react';
+import { Fragment, useContext } from 'react';
 import Board from './Board';
-import { boardCases, shipCase } from '../../../../../@types/battleship'
+import { BattleshipContextInterface, gameStateEnum, orientationCase, shipCase } from '../../../../../@types/battleship'
 import { styleCase } from 'assets/Battleship/Board';
 import LineAtoJ from './LineAtoJ';
-import { findStyleOfCasePlayer } from 'utils/Battleship/BattleshipFunc';
-import { attackACase } from 'utils/Battleship/BattleshipFunc';
-const PlayerBoard = ({ board, setBoard }: { board: boardCases, setBoard: Dispatch<React.SetStateAction<boardCases>> }) => {
-    // const [caseOver, setCaseOver] = useState<shipCase | null>(null);
+import { checkIfCaseIsSameOrientation, checkIfCaseNextToIsShip, findStyleOfCasePlayer, placeCaseShip } from 'utils/Battleship/BattleshipFunc';
+import { BattleshipContext } from 'utils/Context/BattleshipContext';
+const PlayerBoard = () => {
+  const { playerCases, setPlayerCases, gameState, setGameState, shipPlacementPhase, setShipPlacementPhase } = useContext(
+    BattleshipContext
+  ) as BattleshipContextInterface;
+  // const [caseOver, setCaseOver] = useState<shipCase | null>(null);
 
   // const [caseShipSelected, setCaseShipSelected] = useState<number>(0);
   // const [caseOnBoardDropped, setCaseOnBoardDropped] = useState<number>(0);
@@ -15,14 +18,55 @@ const PlayerBoard = ({ board, setBoard }: { board: boardCases, setBoard: Dispatc
 
   // const [opponentReady, setOpponentReady] = useState<boolean>(false);
 
-  console.log(board)
-
   const handleClickOnACase = (caseOver: shipCase) => {
-    if (!caseOver.bombed) {
-      const result = attackACase(caseOver, board);
-      setBoard(prev => ({...prev, board: result}))
+  //   if (!caseOver.bombed) {
+  //     const result = attackACase(caseOver, playerCases);
+  //     setPlayerCases(prev => ({...prev, playerCases: result}))
+  //   }
+  if(gameState === gameStateEnum.ON_GAME) {
+
+  }
+  else if(gameState === gameStateEnum.SHIP_PLACEMENT) {
+    let caseTemp = [...playerCases.board];
+    let shipPlacementTemp = [...shipPlacementPhase];
+    if(caseOver.hasShip) return;
+    if(shipPlacementTemp.length === 0) return; //TODO Alerte
+    if(shipPlacementTemp[0].shipNumber === 0 && caseOver) {
     }
+    const result = checkIfCaseNextToIsShip(caseOver, shipPlacementTemp[0].ship.id, playerCases.board);
+    if(!result.isNextTo && shipPlacementTemp[0].shipNumber > 0) return;
+    if(shipPlacementTemp[0].shipNumber === 0 && caseOver) {
+      caseTemp = placeCaseShip(caseTemp, caseOver.id, shipPlacementTemp[0].ship, shipPlacementTemp[0].shipNumber, orientationCase.UNSET);
+      shipPlacementTemp.shift();
+    }
+    if(shipPlacementTemp[0].shipNumber === 1 && caseOver) {
+      if(result && result.caseShip && result.caseShip.shipCaseId === 0){
+        caseTemp = placeCaseShip(caseTemp, caseOver.id, shipPlacementTemp[0].ship, shipPlacementTemp[0].shipNumber, result.orientation);
+        caseTemp[result.caseShip.id] = {
+          ...caseTemp[result.caseShip.id],
+          orientation: result.orientation,
+        }
+        shipPlacementTemp.shift();
+      }
+    }
+    else if(shipPlacementTemp[0].shipNumber > 1 && caseOver) {
+      if(result && result.caseShip && result.caseShip.shipCaseId === shipPlacementTemp[0].shipNumber-1){
+        if(checkIfCaseIsSameOrientation(caseOver, result.caseShip, caseTemp)){
+          caseTemp = placeCaseShip(caseTemp, caseOver.id, shipPlacementTemp[0].ship, shipPlacementTemp[0].shipNumber, result.orientation);
+          shipPlacementTemp.shift();
+        }
+      }
+    }
+    setShipPlacementPhase(shipPlacementTemp);
+    setPlayerCases(prev => ({...prev, board: caseTemp}));
+
+    if(shipPlacementTemp.length === 0){
+      setGameState(gameStateEnum.SHIP_OK);
+    }
+    // (more, highlight case that can be placed)
+}
   };
+
 
   /*
     - Ajouter un bateau sur le board :                                    OK
@@ -39,7 +83,7 @@ const PlayerBoard = ({ board, setBoard }: { board: boardCases, setBoard: Dispatc
   return (
     <Board playerBoard={true}>
       <>
-        {board.board.map((item, index) => (
+        {playerCases.board.map((item, index) => (
           <Fragment key={`case_player_${index}`}>
             <LineAtoJ index={index}/>
             <div
@@ -49,7 +93,7 @@ const PlayerBoard = ({ board, setBoard }: { board: boardCases, setBoard: Dispatc
               key={index}
               // onMouseOver={() => setCaseOver(item)}
               // onMouseLeave={() => setCaseOver(null)}
-              onClick={() => handleClickOnACase(item)}
+              onClick={() => gameState === gameStateEnum.SHIP_PLACEMENT ? handleClickOnACase(item) : {}}
             >
               <div
                 className={findStyleOfCasePlayer(item)}
