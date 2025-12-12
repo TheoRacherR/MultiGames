@@ -22,6 +22,12 @@ export enum orientationCase {
   VERTICAL= 'vertical',
   UNSET= 'unset'
 }
+
+export interface boardCases {
+  boardThisUser: boolean;
+  board: shipCase[];
+}
+
 export interface shipCase {
   id: number;
   hasShip: boolean;
@@ -29,25 +35,34 @@ export interface shipCase {
   shipCaseId: number;
   orientation: orientationCase;
   bombed: boolean;
-}
-
-export interface opponentShipCase {
-  id: number,
-  hasBeenBombed: boolean,
-  whatRoundHasItBeenBombed: number,
-  isTheShipDestroyed: boolean,
-  coordinationNumber: string,
-  coordinationAlphabet: string
-}
-
-export interface shipPlacment {
-  ship: ship;
   destroyed: boolean;
-  cases: shipPlacmentCase[];
 }
 
-export interface shipPlacmentCase {
-  caseNumber: number; //0 = tête du bateau etc...
-  bombed: boolean;
-  idCaseInBoard: number; //de 0 à 99
+export interface shipPlacementCase {
+  shipNumber: number; //0 = tête du bateau etc...
+  ship: ship;
+}
+
+export enum gameStateEnum {
+  WATIING,
+  SHIP_PLACEMENT,
+  SHIP_OK,
+  ON_GAME,
+  GAME_FINISHED,
+}
+
+// Context
+export interface BattleshipContextInterface {
+  playerBoardSelected: boolean;
+  setPlayerBoardSelected: React.Dispatch<React.SetStateAction<boolean>>;
+  gameState: gameStateEnum;
+  setGameState: React.Dispatch<React.SetStateAction<gameStateEnum>>;
+  playerCases: boardCases;
+  setPlayerCases: React.Dispatch<React.SetStateAction<boardCases>>;
+  opponentCases: boardCases;
+  setOpponentCases: React.Dispatch<React.SetStateAction<boardCases>>;
+  resetShipBoardPlayer: () => void;
+  handleClickOnRandom: () => void;
+  shipPlacementPhase: shipPlacementCase[];
+  setShipPlacementPhase: React.Dispatch<React.SetStateAction<shipPlacementCase[]>>;
 }

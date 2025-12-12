@@ -20,6 +20,11 @@
   
   /* Battleship */
   --color-battleship-hit: #E53935;
+  --color-battleship-destroyed: #750a09;
+  --color-battleship-missed: #E0E0E0;
+  --color-ship-submarine: #FFC107;
+  --color-ship-tanker: #4CAF50;
+  --color-ship-boat: #2196F3;
 
   --btn-primary: #7457C6;
   --btn-primary-hover: #7D61F8;
