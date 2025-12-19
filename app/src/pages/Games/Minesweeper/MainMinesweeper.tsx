@@ -21,7 +21,7 @@ import imgPreview from "assets/preview_minesweeper.png";
 
 import { games } from "pages/Games";
 
-const gameInfos = games.filter((g) => g.type === gameType.WORDLE)[0];
+const gameInfos = games.filter((g) => g.type === gameType.MINESWEEPER)[0];
 
 const MainMinesweeper = () => {
   const navigate = useNavigate();

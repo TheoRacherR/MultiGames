@@ -46,3 +46,35 @@ export interface caseInterface {
   placment: casePosition | null;
   loosed: boolean;
 }
+
+export interface difficultyDetails {
+  mine: number;
+  total_cases: number;
+  xcases: number;
+  ycases: number;
+}
+
+export const rules: {
+  easy: difficultyDetails;
+  normal: difficultyDetails;
+  hard: difficultyDetails;
+} = {
+  easy: {
+    mine: 10,
+    total_cases: 56, //7x8,
+    xcases: 8,
+    ycases: 7,
+  },
+  normal: {
+    mine: 40,
+    total_cases: 256, //16x16
+    xcases: 16,
+    ycases: 16,
+  },
+  hard: {
+    mine: 99,
+    total_cases: 484, //22x22
+    xcases: 22,
+    ycases: 22,
+  },
+};

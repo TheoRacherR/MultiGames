@@ -1,11 +1,5 @@
 import { caseInterface, casePosition, caseTypes } from "../../@types/minesweeper";
 
-export const difficultyObj = [
-  {text: 'easy', value: 'easy'},
-  {text: 'normal', value: 'normal'},
-  {text: 'hard', value: 'hard'},
-]
-
 /*********************************************/
 /***************** Board.tsx *****************/
 /*********************************************/

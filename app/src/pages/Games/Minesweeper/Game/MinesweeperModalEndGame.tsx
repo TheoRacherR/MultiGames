@@ -1,19 +1,20 @@
 import ModalEndGame from "components/ModalEndGame";
 import { UserInfos } from "../../../../@types/user";
 import { getUserInfos } from "utils/Default/Auth";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from "components/ButtonComponent";
 import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../@types/default";
+import { minesweeperDifficulty } from "../../../../@types/minesweeper";
 
 const MinesweeperModalEndGame = ({
-  setOpen,
   finalScore,
+  setFinalScore,
   resetParty,
 }: {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  finalScore: { won: boolean; score: number } | undefined;
-  resetParty: Function;
+  finalScore: { end: boolean, won: boolean; score: number };
+  setFinalScore: Dispatch<SetStateAction<{ end: boolean, won: boolean; score: number }>>;
+  resetParty: (diff: minesweeperDifficulty) => void,
 }) => {
   const navigate = useNavigate();
   const [userInfos, setUserInfos] = useState<UserInfos | null>(null);
@@ -34,13 +35,20 @@ const MinesweeperModalEndGame = ({
   }, []);
 
   const replayTheGame = () => {
-    setOpen(false);
-    resetParty();
+    closeModal();
+    resetParty(minesweeperDifficulty.EASY);
   };
   const gotoMenu = () => {
-    setOpen(false);
+    closeModal();
     navigate("/");
   };
+
+  const closeModal = () => {
+    setFinalScore({
+      ...finalScore,
+      end: false,
+    });
+  }
 
   return (
     <div>
@@ -89,6 +97,7 @@ const MinesweeperModalEndGame = ({
             />
           </>
         }
+        closeModal={closeModal}
       />
     </div>
   );

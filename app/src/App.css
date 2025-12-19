@@ -26,6 +26,17 @@
   --color-ship-tanker: #4CAF50;
   --color-ship-boat: #2196F3;
 
+  /* MineSweeper */
+  --color-number-1: #2B6CB0;
+  --color-number-2: #2F855A;
+  --color-number-3: #C05621;
+  --color-number-4: #6B46C1;
+  --color-number-5: #B42222;
+  --color-number-6: #2C7A7B;
+  --color-number-7: #4A5568;
+  --color-number-8: #1A202C;
+  --color-case-bombed: red;
+
   --btn-primary: #7457C6;
   --btn-primary-hover: #7D61F8;
   --btn-secondary: #FFFFFF;
