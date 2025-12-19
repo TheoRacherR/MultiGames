@@ -30,7 +30,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   }>({
     firstname: "Theo",
     lastname: "RACHER RAULIN",
-    mail: "theo@gmail.com",
+    mail: "admin@multigame.com",
     password: "root",
     confirmPassword: "root",
     pseudo: "TheoRR",
@@ -43,17 +43,23 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   }>({ passwordCooherence: false, emailAlreadyUsed: false, not_email: false });
 
   const handleRegister = async () => {
+    console.log(valuesRegister)
     if (
       valuesRegister.mail.length === 0 ||
       valuesRegister.password.length === 0 ||
       valuesRegister.confirmPassword.length === 0
     )
       return;
+    console.log('ok')
     if (valuesRegister.password !== valuesRegister.confirmPassword)
       return setError({ ...error, passwordCooherence: true });
+    console.log('ok')
 
-    if (mailRegex.test(valuesRegister.mail))
-      return setError({ ...error, not_email: true });
+    if (!mailRegex.test(valuesRegister.mail)) {
+      setError({ ...error, not_email: true });
+      return;
+    }
+    console.log('ok')
 
     setError({
       passwordCooherence: false,
@@ -61,6 +67,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
       not_email: false,
     });
     try {
+      console.log('ok')
       await axios.post("/auth/register/", {
         firstname: valuesRegister.firstname,
         lastname: valuesRegister.lastname,
@@ -145,7 +152,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
               }}
             />
             {error.emailAlreadyUsed ? (
-              <div style={{ color: "red" }}>{"mail.error"}</div>
+              <div style={{ color: "red" }}>{"Mail already used"}</div>
             ) : (
               <></>
             )}
@@ -273,7 +280,7 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
             </Typography>
             {error.passwordCooherence ? (
               <div style={{ color: "red" }}>
-                {"confirm password should be the same as the password"}
+                {"Confirm password should be the same as the password"}
               </div>
             ) : (
               <></>
