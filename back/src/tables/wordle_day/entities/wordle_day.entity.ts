@@ -1,4 +1,4 @@
-import { Wordle } from 'src/tables/wordle/entities/wordle.entity';
+import { Wordle } from '../../../tables/wordle/entities/wordle.entity';
 import {
   Column,
   CreateDateColumn,

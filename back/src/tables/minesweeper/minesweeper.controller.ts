@@ -12,7 +12,7 @@ import { MinesweeperService } from './minesweeper.service';
 import { CreateMinesweeperDto } from './dto/create-minesweeper.dto';
 import { Minesweeper } from './entities/minesweeper.entity';
 import { SearchScoreboardMinesweeperDto } from './dto/search-scoreboard-minesweeper.dto';
-import { FormatedScoreboard } from 'src/@types/tables/games';
+import { FormatedScoreboard } from '../../@types/tables/games';
 
 @Controller('minesweeper')
 export class MinesweeperController {

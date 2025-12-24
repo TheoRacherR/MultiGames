@@ -8,7 +8,7 @@ import { UserService } from '../user/user.service';
 // import { UserInfoService } from '../user-info/user-info.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { userRole } from 'src/@types/tables/user';
+import { userRole } from '../../@types/tables/user';
 import { LoginDto } from './dto/login-auth.dto';
 import { TokenValidateDto } from './dto/tokenValidation-auth.dto ';
 import { JsonWebTokenError } from 'jsonwebtoken';

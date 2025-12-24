@@ -12,7 +12,7 @@ import { QuizService } from './quiz.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { Quiz } from './entities/quiz.entity';
 import { SearchScoreboardQuizDto } from './dto/search-scoreboard-quiz.dto';
-import { FormatedScoreboard } from 'src/@types/tables/games';
+import { FormatedScoreboard } from '../../@types/tables/games';
 
 @Controller('quiz')
 export class QuizController {

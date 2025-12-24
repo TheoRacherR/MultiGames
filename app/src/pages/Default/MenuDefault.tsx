@@ -5,6 +5,7 @@ import { Divider, IconButton, Menu, MenuItem } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person';
 import { UserInfos } from '../../@types/user';
 import logo from 'assets/logo_medium_white.png';
+import { games } from 'pages/Games';
 
 const MenuDefault = () => {
   const location = useLocation();
@@ -46,21 +47,13 @@ const MenuDefault = () => {
   };
 
   const menuIcon = (): string => {
-    switch (location.pathname.split('/')[1].toLowerCase()) {
-      case '':
-        return 'home';
-      case 'battleship'.toLowerCase():
-        return 'battleship';
-      case 'minesweeper'.toLowerCase():
-        return 'minesweeper';
-      case 'quiz'.toLowerCase():
-        return 'quiz';
-      case 'wordle'.toLowerCase():
-        return 'wordle';
-      case 'timeline'.toLowerCase():
-        return 'Timeline';
-      default:
-        return '';
+    const gamePath = location.pathname.split('/')[1].toLowerCase();
+    const gameFound = games.filter(gs => gs.gameLink.toLowerCase() === gamePath);
+    if(gameFound.length > 0){
+      return gameFound[0].gameLink.toLowerCase();
+    }
+    else {
+      return 'home';
     }
   }
 

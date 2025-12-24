@@ -12,7 +12,7 @@ import { TimeLineService } from './timeline.service';
 import { CreateTimeLineDto } from './dto/create-timeline.dto';
 import { TimeLine } from './entities/timeline.entity';
 import { SearchScoreboardTimeLineDto } from './dto/search-scoreboard-timeline.dto';
-import { FormatedScoreboard } from 'src/@types/tables/games';
+import { FormatedScoreboard } from '../../@types/tables/games';
 
 @Controller('timeline')
 export class TimeLineController {

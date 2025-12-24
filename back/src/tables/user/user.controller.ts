@@ -17,7 +17,7 @@ import {
   userRole,
   userStatus,
   UserWithPassword,
-} from 'src/@types/tables/user';
+} from '../../@types/tables/user';
 import { UpdateUserRoleDto } from './dto/update-role-user';
 import { UpdateUserPsswdDto } from './dto/update-psswd-user';
 import { UpdateUserStatusDto } from './dto/update-status-user';

@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { CreateWordleDayDto } from './create-wordle_day.dto';
 import { PartialType } from '@nestjs/mapped-types';
-import { maxLengthWord, minLengthWord } from 'src/utils/Wordle';
+import { maxLengthWord, minLengthWord } from '../../../utils/Wordle';
 
 export class UpdateWordleDayDto extends PartialType(CreateWordleDayDto) {
   @IsOptional()

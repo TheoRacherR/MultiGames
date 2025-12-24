@@ -11,6 +11,7 @@ import { AuthModule } from './tables/auth/auth.module';
 import { QuizModule } from './tables/quiz/quiz.module';
 import { WordleModule } from './tables/wordle/wordle.module';
 import { TimeLineModule } from './tables/timeline/timeline.module';
+import { AtlasModule } from './tables/atlas/atlas.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TimeLineModule } from './tables/timeline/timeline.module';
     WordleModule,
     WordleDayModule,
     TimeLineModule,
+    AtlasModule,
   ],
 })
 export class AppModule {}
