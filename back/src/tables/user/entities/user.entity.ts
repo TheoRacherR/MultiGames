@@ -6,6 +6,7 @@ import { Quiz } from 'src/tables/quiz/entities/quiz.entity';
 import { Room } from 'src/tables/room/entities/room.entity';
 import { TimeLine } from 'src/tables/timeline/entities/timeline.entity';
 import { Wordle } from 'src/tables/wordle/entities/wordle.entity';
+import { Atlas } from 'src/tables/atlas/entities/atlas.entity';
 import {
   Column,
   CreateDateColumn,
@@ -86,4 +87,7 @@ export class User {
 
   @OneToMany(() => Wordle, (wordle) => wordle.player)
   wordle: Wordle;
+
+  @OneToMany(() => Atlas, (atlas) => atlas.player)
+  atlas: Atlas;
 }
