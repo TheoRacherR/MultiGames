@@ -11,6 +11,7 @@ import WrapperMinesweeper from "pages/Games/Minesweeper/WrapperMinesweeper";
 import WrapperBattleship from "pages/Games/Battleship/WrapperBattleship";
 import WrapperTimeLine from "pages/Games/TimeLine/WrapperTimeLine";
 import GamesList from "pages/GamesList";
+import WrapperAtlas from "pages/Games/Atlas/WrapperAtlas";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/wordle/*" element={<WrapperWordle />} />
         <Route path="/quiz/*" element={<WrapperQuiz />} />
         <Route path="/timeline/*" element={<WrapperTimeLine />} />
+        <Route path="/atlas/*" element={<WrapperAtlas />} />
       </Routes>
     </div>
   );

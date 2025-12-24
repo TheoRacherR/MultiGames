@@ -37,5 +37,11 @@ export const games = [
     gameLink: "timeline",
     type: gameType.TIMELINE
   },
+  {
+    title: "Atlas",
+    description: "Selectionne une catégorie pour chaque drapeau qui s'affiche. Attention à faire le score le plus bas",
+    gameLink: "atlas",
+    type: gameType.CATEGCOUNTRY
+  },
   
 ]
