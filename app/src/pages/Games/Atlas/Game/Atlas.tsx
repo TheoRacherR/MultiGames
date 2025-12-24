@@ -4,13 +4,11 @@ import CategCountryModalEndGame from './AtlasModalEndGame';
 import { country, UserInfos, userRole, userStatus } from '../../../../@types/user';
 import { getUserInfos } from 'utils/Default/Auth';
 import axios from 'utils/Default/axiosConfig';
-import { useNavigate } from 'react-router-dom';
 import Category from './Components/Category';
 import { categories, countries } from 'utils/Atlas/Atlas';
 import { checkIfGameIsEnded, getCountryRank, initCategories, initRandomCountry } from 'utils/Atlas/AtlasFunc';
 
 const Atlas = () => {
-  const navigate = useNavigate();
   const [finalScore, setFinalScore] = useState<finalScoreInterface>({
     end: false,
     open: false,
@@ -38,16 +36,16 @@ const Atlas = () => {
       listEnd: categoriesToSelect,
     });
     try {
-      // const userInfosRequest = await getUserInfos();
-      // setUserInfos(userInfosRequest);
-      // if (userInfosRequest) {
-      //   await axios.post("/categcountry", {
-      //     score: middleBoard.length - 1,
-      //     player: userInfosRequest.id,
-      //   });
-      // }
+      const userInfosRequest = await getUserInfos();
+      setUserInfos(userInfosRequest);
+      if (userInfosRequest) {
+        await axios.post("/atlas", {
+          score: categoriesToSelect.filter(cts => cts.countrySelected).reduce((a: number, b: categoryLine) => a + (b.rank > 99 ? 100 : b.rank), 0),
+          player: userInfosRequest.id,
+        });
+      }
     } catch (e) {
-      return navigate("auth");
+      // return navigate("auth");
     }
   };
 
@@ -107,7 +105,7 @@ const Atlas = () => {
         </div>
         <div>
           {categoriesToSelect.map((item, index) => (
-            <Category key={`category_${index}`} infos={item} clickable={item.countrySelected && !countryRandomed ? false : true} click={handleSelectCateg}/>
+            <Category key={`category_${index}`} infos={item} clickable={!item.countrySelected && countryRandomed ? true : false} click={handleSelectCateg}/>
           ))}
         </div>
 

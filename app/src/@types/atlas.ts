@@ -1,4 +1,3 @@
-import { countryGuess } from "./quiz";
 
 export interface finalScoreInterface {
   end: boolean;
@@ -27,14 +26,14 @@ export interface categoryType {
 
 export enum categoryEnum {
   GDP='GPD',
-  LARGER_SIZE='LARGER_SIZE',
-  SMALLER_SIZE='SMALLER_SIZE',
-  LARGER_POP='LARGER_POP',
-  LOWER_POP='LOWER_POP',
-  FOOD='FOOD',
-  MILITARY='MILITARY',
-  FORREST_AREA='FORREST_AREA',
-  ENERGY_CONSUMPTION='ENERGY_CONSUMPTION',
+  LARGER_SIZE='Larger Size',
+  SMALLER_SIZE='Smaller Size',
+  LARGER_POP='Larger Population',
+  LOWER_POP='Low Population',
+  FOOD='Cuisine',
+  MILITARY='Military',
+  FORREST_AREA='Forrest Area',
+  ENERGY_CONSUMPTION='Energy Consumption',
 }
 
 export interface categoryRank {

@@ -14,7 +14,7 @@ import InfoBlock from "components/Game/Presentation/InfoBlock";
 import Preview from "components/Game/Presentation/Preview";
 import Ranking from "components/Game/Presentation/Ranking";
 
-import imgPreview from "assets/preview_wordle.png";
+import imgPreview from "assets/preview_atlas.png";
 import { games } from "pages/Games";
 
 const gameInfos = games.filter((g) => g.type === gameType.CATEGCOUNTRY)[0];
@@ -27,7 +27,7 @@ const MainAtlas = () => {
 
   const getScoreboardInfos = async () => {
     try {
-      const req = await axios.post("/categcountry/scoreboard", {
+      const req = await axios.post("/atlas/scoreboard", {
         length: 5,
       });
       if (req.status === 201) {

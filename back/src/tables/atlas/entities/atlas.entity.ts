@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 
+@Entity()
 export class Atlas {
   @PrimaryGeneratedColumn()
   id: string;
