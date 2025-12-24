@@ -1,6 +1,6 @@
 import { LoginDto } from '../dto/login-auth.dto';
-import { country } from 'src/@types/tables/user';
-import { CreateUserDto } from 'src/tables/user/dto/create-user.dto';
+import { country } from '../../../@types/tables/user';
+import { CreateUserDto } from '../../../tables/user/dto/create-user.dto';
 
 export const authLoginMock: LoginDto = {
   email: 'theo@gmail.com',

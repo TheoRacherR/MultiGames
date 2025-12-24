@@ -1,12 +1,12 @@
-import { country, userRole, userStatus } from 'src/@types/tables/user';
-import { Battleship } from 'src/tables/battleship/entities/battleship.entity';
-import { BattleshipElo } from 'src/tables/battleship_elo/entities/battleship_elo.entity';
-import { Minesweeper } from 'src/tables/minesweeper/entities/minesweeper.entity';
-import { Quiz } from 'src/tables/quiz/entities/quiz.entity';
-import { Room } from 'src/tables/room/entities/room.entity';
-import { TimeLine } from 'src/tables/timeline/entities/timeline.entity';
-import { Wordle } from 'src/tables/wordle/entities/wordle.entity';
-import { Atlas } from 'src/tables/atlas/entities/atlas.entity';
+import { country, userRole, userStatus } from '../../../@types/tables/user';
+import { Battleship } from '../../../tables/battleship/entities/battleship.entity';
+import { BattleshipElo } from '../../../tables/battleship_elo/entities/battleship_elo.entity';
+import { Minesweeper } from '../../../tables/minesweeper/entities/minesweeper.entity';
+import { Quiz } from '../../../tables/quiz/entities/quiz.entity';
+import { Room } from '../../../tables/room/entities/room.entity';
+import { TimeLine } from '../../../tables/timeline/entities/timeline.entity';
+import { Wordle } from '../../../tables/wordle/entities/wordle.entity';
+import { Atlas } from '../../../tables/atlas/entities/atlas.entity';
 import {
   Column,
   CreateDateColumn,

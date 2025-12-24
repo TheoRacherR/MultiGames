@@ -1,6 +1,6 @@
 import { SetMetadata, UseGuards } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
-import { userRole } from 'src/@types/tables/user';
+import { userRole } from '../../@types/tables/user';
 
 export const AuthenticationRequired = () => UseGuards(AuthGuard);
 

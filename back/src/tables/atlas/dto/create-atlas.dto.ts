@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsInt } from 'class-validator';
-import { User } from 'src/tables/user/entities/user.entity';
+import { User } from '../../../tables/user/entities/user.entity';
 
 export class CreateAtlasDto {
   @IsNotEmpty()

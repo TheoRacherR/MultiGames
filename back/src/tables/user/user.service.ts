@@ -7,7 +7,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserPsswdDto } from './dto/update-psswd-user';
-import { UserFormated, UserWithPassword } from 'src/@types/tables/user';
+import { UserFormated, UserWithPassword } from '../../@types/tables/user';
 import { UpdateUserStatusDto } from './dto/update-status-user';
 
 @Injectable()

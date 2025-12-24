@@ -3,7 +3,7 @@ import { CreateQuizDto } from './dto/create-quiz.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Quiz } from './entities/quiz.entity';
 import { Repository } from 'typeorm';
-// import { typeQuizEnum } from 'src/@types/tables/quiz';
+// import { typeQuizEnum } from '../../@types/tables/quiz';
 import { SearchScoreboardQuizDto } from './dto/search-scoreboard-quiz.dto';
 
 @Injectable()

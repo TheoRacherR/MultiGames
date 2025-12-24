@@ -12,7 +12,7 @@ import { BattleshipEloService } from './battleship_elo.service';
 import { CreateBattleshipEloDto } from './dto/create-battleship_elo.dto';
 import { BattleshipElo } from './entities/battleship_elo.entity';
 import { SearchScoreboardBattleshipEloDto } from './dto/search-scoreboard-battleship_elo.dto';
-import { FormatedScoreboard } from 'src/@types/tables/games';
+import { FormatedScoreboard } from '../../@types/tables/games';
 
 @Controller('battleship-elo')
 export class BattleshipEloController {

@@ -1,6 +1,6 @@
 import { IsEnum, IsInt, IsNotEmpty } from 'class-validator';
-import { typeQuizEnum } from 'src/@types/tables/quiz';
-import { User } from 'src/tables/user/entities/user.entity';
+import { typeQuizEnum } from '../../../@types/tables/quiz';
+import { User } from '../../../tables/user/entities/user.entity';
 
 export class CreateQuizDto {
   @IsNotEmpty()

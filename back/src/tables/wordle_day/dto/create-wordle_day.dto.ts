@@ -6,7 +6,7 @@ import {
   MinLength,
   NotContains,
 } from 'class-validator';
-import { maxLengthWord, minLengthWord } from 'src/utils/Wordle';
+import { maxLengthWord, minLengthWord } from '../../../utils/Wordle';
 
 export class CreateWordleDayDto {
   @IsNotEmpty()

@@ -1,12 +1,13 @@
-import { FormatedScoreboard } from 'src/@types/tables/games';
+import { FormatedScoreboard } from '../../@types/tables/games';
 import {
   Controller,
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { AtlasService } from './atlas.service';
 import { CreateAtlasDto } from './dto/create-atlas.dto';
@@ -42,7 +43,7 @@ export class AtlasController {
           pseudo: atlasFound[index].player.pseudo,
           country: atlasFound[index].player.country,
         },
-        score: atlasFound[index].score,
+        score: atlasFound[index].score.toString(),
       });
     }
     return atlasFormated;
@@ -58,7 +59,7 @@ export class AtlasController {
   @Post('/scoreboard')
   async findTopScoreboard(
     @Body() searchScoreBoardAtlas: SearchScoreboardAtlasDto,
-  ): Promise<FormatedScoreboard> {
+  ): Promise<FormatedScoreboard[]> {
     const atlasFound = await this.atlasService.findBestScoreByType(
       searchScoreBoardAtlas,
     );
@@ -70,7 +71,7 @@ export class AtlasController {
           pseudo: atlasFound[index].player.pseudo,
           country: atlasFound[index].player.country,
         },
-        score: atlasFound[index].score,
+        score: atlasFound[index].score.toString(),
       });
     }
     return atlasFormated;

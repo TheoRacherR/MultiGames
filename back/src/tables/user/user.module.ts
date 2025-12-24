@@ -1,4 +1,4 @@
-import { Wordle } from 'src/tables/wordle/entities/wordle.entity';
+import { Wordle } from '../../tables/wordle/entities/wordle.entity';
 import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';

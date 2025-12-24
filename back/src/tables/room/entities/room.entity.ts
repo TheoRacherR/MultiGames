@@ -1,5 +1,5 @@
-import { roomType } from 'src/@types/tables/room';
-import { User } from 'src/tables/user/entities/user.entity';
+import { roomType } from '../../../@types/tables/room';
+import { User } from '../../../tables/user/entities/user.entity';
 import {
   PrimaryGeneratedColumn,
   Column,

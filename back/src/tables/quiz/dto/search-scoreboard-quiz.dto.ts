@@ -1,5 +1,5 @@
 import { IsEnum, IsInt, IsNotEmpty } from 'class-validator';
-import { typeQuizEnum } from 'src/@types/tables/quiz';
+import { typeQuizEnum } from '../../../@types/tables/quiz';
 
 export class SearchScoreboardQuizDto {
   @IsNotEmpty()

@@ -12,8 +12,8 @@ import { WordleService } from './wordle.service';
 import { CreateWordleDto } from './dto/create-wordle.dto';
 import { Wordle } from './entities/wordle.entity';
 import { SearchScoreboardWordleDto } from './dto/search-scoreboard-wordle.dto';
-import { FormatedScoreboard } from 'src/@types/tables/games';
-import { WordleFormatedToday } from 'src/@types/tables/wordle';
+import { FormatedScoreboard } from '../../@types/tables/games';
+import { WordleFormatedToday } from '../../@types/tables/wordle';
 import { CheckWordWordleDto } from './dto/check-word-wordle.dto';
 
 @Controller('wordle')
