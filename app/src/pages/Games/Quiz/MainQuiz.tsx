@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   gameList,
   gameQuiz,
@@ -20,9 +20,12 @@ import imgPreviewCountry from "assets/preview_quiz_country.png";
 import imgPreviewFlag from "assets/preview_quiz_flag.png";
 
 import { games } from "pages/Games";
+import { AlertContextInterface, AlertTypeEnum } from "../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const MainQuiz = () => {
   const navigate = useNavigate();
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [game, setGame] = useState<gameQuiz>(gameQuiz.FLAG);
   const [mode, setMode] = useState<modeQuiz>(modeQuiz.ALL);
   const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>(
@@ -95,12 +98,12 @@ const MainQuiz = () => {
         setDataScoreboard(req.data);
         return;
       } else {
-        // TODO Alerte error
+        handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
         console.log("err");
       }
     } catch (e) {
       console.log(e);
-      // TODO Alerte error
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
     }
   };
 

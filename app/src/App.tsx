@@ -12,8 +12,15 @@ import WrapperBattleship from "pages/Games/Battleship/WrapperBattleship";
 import WrapperTimeLine from "pages/Games/TimeLine/WrapperTimeLine";
 import GamesList from "pages/GamesList";
 import WrapperAtlas from "pages/Games/Atlas/WrapperAtlas";
+import { Alert, Snackbar } from "@mui/material";
+import { AlertContext, AlertContextProvider } from "utils/Context/AlertContext";
+import { AlertContextInterface } from "./@types/default";
+import { useContext } from "react";
 
 function App() {
+
+  const { openAlert, alertMsg, alertType, handleCloseAlert } = useContext(AlertContext) as AlertContextInterface;
+
   return (
     <div>
       <MenuDefault />
@@ -37,8 +44,22 @@ function App() {
         <Route path="/timeline/*" element={<WrapperTimeLine />} />
         <Route path="/atlas/*" element={<WrapperAtlas />} />
       </Routes>
+
+      <Snackbar open={openAlert} autoHideDuration={3000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity={alertType} sx={{ width: '100%' }}>
+          {alertMsg}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
 
-export default App;
+const AppWrapperContext = () => {
+  return (
+    <AlertContextProvider>
+      <App/>
+    </AlertContextProvider>
+  )
+}
+
+export default AppWrapperContext;

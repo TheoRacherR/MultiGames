@@ -1,5 +1,5 @@
 import { MinesweeperFormatedScoreboard } from "../../../../@types/minesweeper";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "utils/Default/axiosConfig";
 import {
@@ -11,9 +11,12 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Scoreboard from "components/Scoreboard";
 import { FormatedScoreboard } from "../../../../@types/games";
+import { AlertContextInterface, AlertTypeEnum } from "../../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const MinesweeperPlayed = ({ id }: { id: string }) => {
   const navigate = useNavigate();
+    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [minesweeperHistory, setMinesweeperHistory] =
     useState<FormatedScoreboard[]>();
 
@@ -23,11 +26,11 @@ const MinesweeperPlayed = ({ id }: { id: string }) => {
       if (minesweeperReq.status === 200) {
         setMinesweeperHistory(minesweeperReq.data);
       } else {
-        // TODO Alerte minesweeper history not found
+        handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
         return navigate("/");
       }
     } catch (e) {
-      // TODO Alerte minesweeper history not found
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
       return navigate("/");
     }
   };

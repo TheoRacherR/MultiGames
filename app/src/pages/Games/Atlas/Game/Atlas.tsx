@@ -6,7 +6,7 @@ import {
   countryInterface,
   finalScoreInterface,
 } from "../../../../@types/atlas";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CategCountryModalEndGame from "./AtlasModalEndGame";
 import {
   country,
@@ -29,9 +29,11 @@ import {
 import { countries } from "assets/data/atlas/Countries";
 import { categoryGroups } from "assets/data/atlas/CategoryGroup";
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../@types/default";
+import { AlertContextInterface, AlertTypeEnum, buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const Atlas = () => {
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [finalScore, setFinalScore] = useState<finalScoreInterface>({
     end: false,
     open: false,
@@ -95,14 +97,14 @@ const Atlas = () => {
         categoriesObject
       );
 
-      // TODO Alerte: meilleur choix
       const bestRank = getTheBestRank(
         categoriesToSelect,
         countryRandomed.id,
         categoriesObject
       );
 
-      if(bestRank.rank < rank) console.log(`better choice: ${bestRank.type} (${bestRank.rank})`)
+      if(bestRank.rank < rank) 
+        handleOpenAlert(AlertTypeEnum.INFO, `Better choice for ${countryRandomed.icon}: ${bestRank.type} (${bestRank.rank})`);
 
       categoriesToSelectTemp[indexCategory] = {
         ...categoriesToSelectTemp[indexCategory],

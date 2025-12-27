@@ -1,5 +1,5 @@
 import { FormatedScoreboard } from "../../../../@types/games";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "utils/Default/axiosConfig";
 import Scoreboard from "components/Scoreboard";
@@ -10,9 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { AlertContextInterface, AlertTypeEnum } from "../../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const QuizPlayed = ({ id }: { id: string }) => {
   const navigate = useNavigate();
+    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [quizHistory, setQuizHistory] = useState<FormatedScoreboard[]>();
 
   const getInfos = async () => {
@@ -21,11 +24,11 @@ const QuizPlayed = ({ id }: { id: string }) => {
       if (quizReq.status === 200) {
         setQuizHistory(quizReq.data);
       } else {
-        // TODO Alerte quiz history not found
+        handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
         return navigate("/");
       }
     } catch (e) {
-      // TODO Alerte quiz history not found
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
       return navigate("/");
     }
   };

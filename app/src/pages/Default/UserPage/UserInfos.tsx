@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "utils/Default/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { UserProfile } from "../../../@types/user";
 import { TextField } from "@mui/material";
 import { countryObject } from "utils/Default/Default";
+import { AlertContextInterface, AlertTypeEnum } from "../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const UserInfos = ({ id }: { id: string }) => {
   const navigate = useNavigate();
+    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [userInfo, setUserInfo] = useState<UserProfile>();
 
   const getInfos = async () => {
@@ -15,11 +18,11 @@ const UserInfos = ({ id }: { id: string }) => {
       if (userReq.status === 200) {
         setUserInfo(userReq.data);
       } else {
-        // TODO Alerte user not found
+        handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
         return navigate("/");
       }
     } catch (e) {
-      // TODO Alerte user not found
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
       return navigate("/");
     }
   };

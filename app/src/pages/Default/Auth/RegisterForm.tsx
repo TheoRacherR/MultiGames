@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import axios from "utils/Default/axiosConfig";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { country } from "../../../@types/user";
 import { mailRegex, minLengthPassword } from "utils/Default/Auth";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
@@ -16,9 +16,12 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import InputAdornment from "@mui/material/InputAdornment";
 import { countryList, countryObject } from "utils/Default/Default";
 import ContainerUserInfos from "components/ContainerUserInfos";
+import { AlertContextInterface, AlertTypeEnum } from "../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   const navigate = useNavigate();
+    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [valuesRegister, setValuesRegister] = useState<{
     firstname: string;
     lastname: string;
@@ -76,10 +79,10 @@ const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
         pseudo: valuesRegister.pseudo,
         country: valuesRegister.country,
       });
+      handleOpenAlert(AlertTypeEnum.SUCCESS, `User created`);
       return navigate("/");
-      // TODO Alerte d'inscription
     } catch (e: any) {
-      // TODO Alerte d'erreur d'inscription
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
       if (e.response) {
         if (e.response.status === 409)
           setError({ ...error, emailAlreadyUsed: true });

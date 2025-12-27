@@ -5,10 +5,14 @@ import { styleCase } from 'assets/Battleship/Board';
 import LineAtoJ from './LineAtoJ';
 import { checkIfCaseIsSameOrientation, checkIfCaseNextToIsShip, findStyleOfCasePlayer, placeCaseShip } from 'utils/Battleship/BattleshipFunc';
 import { BattleshipContext } from 'utils/Context/BattleshipContext';
+import { AlertContext } from 'utils/Context/AlertContext';
+import { AlertContextInterface, AlertTypeEnum } from '../../../../../@types/default';
 const PlayerBoard = () => {
   const { playerCases, setPlayerCases, gameState, setGameState, shipPlacementPhase, setShipPlacementPhase } = useContext(
     BattleshipContext
   ) as BattleshipContextInterface;
+
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   // const [caseOver, setCaseOver] = useState<shipCase | null>(null);
 
   // const [caseShipSelected, setCaseShipSelected] = useState<number>(0);
@@ -30,7 +34,10 @@ const PlayerBoard = () => {
     let caseTemp = [...playerCases.board];
     let shipPlacementTemp = [...shipPlacementPhase];
     if(caseOver.hasShip) return;
-    if(shipPlacementTemp.length === 0) return; //TODO Alerte
+    if(shipPlacementTemp.length === 0) {
+      handleOpenAlert(AlertTypeEnum.WARNING, `Not placment left`);
+      return;
+    }
     if(shipPlacementTemp[0].shipNumber === 0 && caseOver) {
     }
     const result = checkIfCaseNextToIsShip(caseOver, shipPlacementTemp[0].ship.id, playerCases.board);

@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "utils/Default/axiosConfig";
 import { FormatedScoreboard, gameType } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
 import {
+  AlertContextInterface,
+  AlertTypeEnum,
   buttonComponentColor,
   buttonComponentSize,
   buttonComponentType,
@@ -16,6 +18,7 @@ import Ranking from "components/Game/Presentation/Ranking";
 
 import imgPreview from "assets/preview_battleship.png";
 import { games } from "pages/Games";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const gameInfos = games.filter((g) => g.type === gameType.WORDLE)[0];
 
@@ -29,6 +32,7 @@ export const giveStartOrder = () => {
 };
 
 const Battleships = () => {
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<battleshipButtonType>(
     battleshipButtonType.CREATE
@@ -51,11 +55,11 @@ const Battleships = () => {
         setDataScoreboard(req.data);
         return;
       } else {
-        // TODO Alerte error
+        handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
       }
     } catch (e) {
       console.log(e);
-      // TODO Alerte error
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
     }
   };
 

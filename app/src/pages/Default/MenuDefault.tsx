@@ -1,11 +1,13 @@
 import { errorWithUserOrLogout, getUserInfos } from 'utils/Default/Auth'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Divider, IconButton, Menu, MenuItem } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person';
 import { UserInfos } from '../../@types/user';
 import logo from 'assets/logo_medium_white.png';
 import { games } from 'pages/Games';
+import { AlertContextInterface, AlertTypeEnum } from '../../@types/default';
+import { AlertContext } from 'utils/Context/AlertContext';
 
 const MenuDefault = () => {
   const location = useLocation();
@@ -21,7 +23,7 @@ const MenuDefault = () => {
 
   const [userInfos, setUserInfos] = useState<UserInfos | null>(null);
   const navigate = useNavigate();
-
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const getLogInfos = async () => {
     try {
       const userInfo = await getUserInfos();
@@ -30,7 +32,7 @@ const MenuDefault = () => {
     }
     catch (e) {
       console.log(e);
-      // TODO Alerte d'erreur de récupération des infos du user
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
     }
   };
 
@@ -42,7 +44,7 @@ const MenuDefault = () => {
     errorWithUserOrLogout();
     setUserInfos(null);
     // handleClose();
-    // TODO Alerte de déconnexion
+    handleOpenAlert(AlertTypeEnum.WARNING, `Logout`);
     return navigate('/');
   };
 

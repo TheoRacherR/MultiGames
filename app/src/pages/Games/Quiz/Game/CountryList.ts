@@ -1994,7 +1994,7 @@ export const countryList: countryGuess[] = [
     name: 'Singapour', 
     nameList: ["singapore", "singapour"],
     img: '🇸🇬',
-    svgPoints: { //TODO ERROR
+    svgPoints: {
       maintLocation: "M 1573.298 494.001 L 1575.03 494.353 L 1576.966 493.942 L 1577.289 493.531 L 1575.558 492.915 L 1574.179 493.238 Z",
       islands: "",
     },

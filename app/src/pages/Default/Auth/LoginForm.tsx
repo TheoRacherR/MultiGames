@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "utils/Default/axiosConfig";
 import { Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -9,9 +9,12 @@ import {
 } from "utils/Default/Auth";
 import ContainerUserInfos from "components/ContainerUserInfos";
 import { userStatus } from "../../../@types/user";
+import { AlertContextInterface, AlertTypeEnum } from "../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
   const navigate = useNavigate();
+    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
 
   const [valuesLogin, setValuesLogin] = useState<{
     mail: string;
@@ -31,11 +34,10 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
         });
         localStorage.setItem("jwtToken", res.data);
         console.log("update jwt");
-        // TODO Alerte de connexion
         const usrInfos = await getUserInfos();
         if (usrInfos) {
           if (usrInfos.status === userStatus.BANNED) {
-            // TODO Alerte d'erreur user banned
+            handleOpenAlert(AlertTypeEnum.ERROR, `Error: User banned`);
             setValuesLogin({ mail: "", password: "" });
             console.log("user banned");
             return;
@@ -45,7 +47,7 @@ const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
         }
         return navigate("/");
       } catch (e) {
-        // TODO Alerte d'erreur de connexion
+        handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
         console.log(e);
         setError({ ...error, credentials: true });
       }

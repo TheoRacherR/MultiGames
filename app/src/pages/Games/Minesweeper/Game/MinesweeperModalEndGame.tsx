@@ -1,11 +1,12 @@
 import ModalEndGame from "components/ModalEndGame";
 import { UserInfos } from "../../../../@types/user";
 import { getUserInfos } from "utils/Default/Auth";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from "components/ButtonComponent";
-import { buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../@types/default";
+import { AlertContextInterface, AlertTypeEnum, buttonComponentColor, buttonComponentSize, buttonComponentType } from "../../../../@types/default";
 import { minesweeperDifficulty } from "../../../../@types/minesweeper";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const MinesweeperModalEndGame = ({
   finalScore,
@@ -17,6 +18,7 @@ const MinesweeperModalEndGame = ({
   resetParty: (diff: minesweeperDifficulty) => void,
 }) => {
   const navigate = useNavigate();
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [userInfos, setUserInfos] = useState<UserInfos | null>(null);
 
   const getLogInfos = async () => {
@@ -26,7 +28,7 @@ const MinesweeperModalEndGame = ({
       return;
     } catch (e) {
       console.log(e);
-      // TODO Alerte d'erreur de récupération des infos du user
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
     }
   };
 

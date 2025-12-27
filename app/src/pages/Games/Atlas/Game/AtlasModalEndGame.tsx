@@ -17,7 +17,7 @@ const AtlasModalEndGame = ({
 }: {
   finalScore: finalScoreInterface;
   setFinalScore: React.Dispatch<React.SetStateAction<finalScoreInterface>>;
-  resetPage: Function;
+  resetPage: () => void;
   userInfos: UserInfos;
 }) => {
   const navigate = useNavigate();
@@ -77,7 +77,10 @@ const AtlasModalEndGame = ({
               color={buttonComponentColor.WARNING}
               type={buttonComponentType.INLINE}
               size={buttonComponentSize.MEDIUM}
-              clickOn={() => resetPage()}
+              clickOn={() => {
+                closeModal();
+                resetPage();
+              }}
             />
           </>
         }

@@ -33,11 +33,14 @@ import {
   updateKeyboardStates,
 } from "utils/Wordle/Wordle";
 import { wordList } from "assets/data/wordle/wordleList";
+import { AlertContextInterface, AlertTypeEnum } from "../../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const alphabetic = "abcdefghijklmnopqrstuvwxyz";
 
 const Wordle = () => {
   const navigate = useNavigate();
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [finalScore, setFinalScore] = useState<finalScoreInterface>({
     ended: false,
     won: true,
@@ -89,7 +92,7 @@ const Wordle = () => {
         if (!check) {
           gridInit.current = !check;
         } else {
-          // TODO Alerte wordle du jour deja fait
+          handleOpenAlert(AlertTypeEnum.ERROR, `Wordle of today already done`);
           return navigate("/wordle/game/already-done");
         }
       } else {
@@ -153,9 +156,9 @@ const Wordle = () => {
         };
         initGrid(wordNotSpaces);
       }
-      // TODO Alerte pas de wordDay ajd
+      handleOpenAlert(AlertTypeEnum.ERROR, `Not wordle today, commeback tomorrow`);
     } catch (e) {
-      // TODO Alerte pas de wordDay ajd
+      handleOpenAlert(AlertTypeEnum.ERROR, `Not wordle today, commeback tomorrow`);
     }
     return true;
   };
@@ -203,7 +206,7 @@ const Wordle = () => {
         });
       }
     } catch (e) {
-      // TODO Alerte d'erreur de récupération des infos du user
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
     }
     setFinalScore({
       ended: true,

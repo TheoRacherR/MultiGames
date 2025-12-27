@@ -3,20 +3,22 @@ import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 import { UserInfos, userStatus } from '../../../@types/user';
 import { red } from '@mui/material/colors';
+import { AlertContextInterface, AlertTypeEnum } from '../../../@types/default';
+import { AlertContext } from 'utils/Context/AlertContext';
+import { useContext } from 'react';
 
 const DesactivateAccount = ({userInfos, setUserInfos}: {userInfos: UserInfos, setUserInfos: React.Dispatch<React.SetStateAction<UserInfos>>}) => {
-  // const navigate = useNavigate();
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const handleUpdateUserPassword = async () => {
     try {
       const res = await axios.patch(`/user/status/${userInfos.id}`, { status: userStatus.DESACTIVATE, userID: userInfos.id });
       console.log(res)
       if(res.status === 200) {
-        // TODO Alerte infos mis à jour
-        // res.data.message
+        handleOpenAlert(AlertTypeEnum.SUCCESS, `User banned`);
       }
     } catch (e) {
       console.log(e);
-      // TODO Alerte error
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error: ${e}`);
     }
   }
   return (

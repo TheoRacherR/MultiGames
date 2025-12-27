@@ -1,12 +1,14 @@
 import { MenuItem, Select, TextField, Button } from "@mui/material";
 import { UserInfos } from "../../../@types/user";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { mailRegex } from "utils/Default/Auth";
 import axios from "utils/Default/axiosConfig";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import InputAdornment from "@mui/material/InputAdornment";
 import { countryList, countryObject } from "utils/Default/Default";
+import { AlertContextInterface, AlertTypeEnum } from "../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const UserInfosChange = ({
   userInfos,
@@ -20,10 +22,11 @@ const UserInfosChange = ({
   const [errors, setErrors] = useState<{ mailFormat: boolean }>({
     mailFormat: false,
   });
+    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
 
   const handleUpdateUserInfos = async () => {
     if (!mailRegex.test(userInfos.email)) {
-      // TODO Alerte mauvais format de mail
+      handleOpenAlert(AlertTypeEnum.ERROR, `Mail format error`);
       setErrors({ ...errors, mailFormat: true });
       return;
     }
@@ -39,7 +42,7 @@ const UserInfosChange = ({
       });
       console.log(res);
       if (res.status === 200) {
-        // TODO Alerte infos mis à jour
+        handleOpenAlert(AlertTypeEnum.SUCCESS, `Data updated with success`);
         // res.data.message
       }
     } catch (e) {
@@ -105,7 +108,7 @@ const UserInfosChange = ({
           }}
         />
         {errors.mailFormat ? (
-          <div style={{ color: "red" }}>Email Format Error</div>
+          <div style={{ color: "red" }}>Mail Format Error</div>
         ) : (
           <></>
         )}

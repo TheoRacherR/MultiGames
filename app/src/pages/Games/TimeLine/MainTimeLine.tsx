@@ -1,10 +1,12 @@
 import {
+  AlertContextInterface,
+  AlertTypeEnum,
   buttonComponentColor,
   buttonComponentSize,
   buttonComponentType,
 } from "../../../@types/default";
 import ButtonComponent from "components/ButtonComponent";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "utils/Default/axiosConfig";
 import { FormatedScoreboard, gameType } from "../../../@types/games";
 import Surface from "components/Game/Presentation/Surface";
@@ -17,11 +19,13 @@ import imgPreview from "assets/preview_timeline.png";
 
 import { games } from "pages/Games";
 import { useNavigate } from "react-router-dom";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const gameInfos = games.filter((g) => g.type === gameType.TIMELINE)[0];
 
 const MainTimeLine = () => {
   const navigate = useNavigate();
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>(
     []
   );
@@ -36,11 +40,11 @@ const MainTimeLine = () => {
         setDataScoreboard(req.data);
         return;
       } else {
-        // TODO Alerte error
+        handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
       }
     } catch (e) {
       console.log(e);
-      // TODO Alerte error
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
     }
   };
 

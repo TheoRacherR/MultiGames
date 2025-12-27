@@ -1,5 +1,5 @@
 import { FormatedScoreboard } from "../../../../@types/games";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "utils/Default/axiosConfig";
 import Scoreboard from "components/Scoreboard";
@@ -10,9 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { AlertContextInterface, AlertTypeEnum } from "../../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const BattleshipPlayed = ({ id }: { id: string }) => {
   const navigate = useNavigate();
+    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [battleshipHistory, setBattleshipHistory] =
     useState<FormatedScoreboard[]>();
 
@@ -22,11 +25,11 @@ const BattleshipPlayed = ({ id }: { id: string }) => {
       if (battleshipReq.status === 200) {
         setBattleshipHistory(battleshipReq.data);
       } else {
-        // TODO Alerte battleship history not found
+        handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
         return navigate("/");
       }
     } catch (e) {
-      // TODO Alerte battleship history not found
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
       return navigate("/");
     }
   };

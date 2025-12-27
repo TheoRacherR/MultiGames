@@ -1,11 +1,14 @@
 import { Button, LinearProgress, TextField, Typography } from '@mui/material';
 import { getUserInfos, minLengthPassword, verifyRole } from 'utils/Default/Auth';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AlertContextInterface, AlertTypeEnum } from '../../../@types/default';
+import { AlertContext } from 'utils/Context/AlertContext';
 
 const PasswordChange = () => {
   const navigate = useNavigate();
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [userPassword, setUserPassword] = useState<{
     password: string;
     confirmPassword: string;
@@ -24,16 +27,21 @@ const PasswordChange = () => {
     let userID = '';
     try {
       const role = await verifyRole();
-      if (role === "not logged") return navigate("/auth");
-      // TODO Alerte d'erreur pas connecté
+      if (role === "not logged") {
+        handleOpenAlert(AlertTypeEnum.ERROR, `Not logged`);
+        return navigate("/auth")
+      }
       else {
         const userInfosResponse = await getUserInfos();
-        if (!userInfosResponse) return navigate("/auth");
+        if (!userInfosResponse) {
+          handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
+          return navigate("/auth")
+        };
         userID = userInfosResponse.id;
       }
     } catch (e) {
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
       return navigate("/auth");
-      // TODO Alerte d'erreur de récupération des infos du user
     }
     try {
     const res = await axios.patch(`/user/password/${userID}`, {
@@ -41,8 +49,7 @@ const PasswordChange = () => {
     });
     console.log(res)
     if(res.status === 200) {
-      // TODO Alerte infos mis à jour
-      // res.data.message
+      handleOpenAlert(AlertTypeEnum.SUCCESS, `Loading data`);
       setUserPassword({
         password: '',
         confirmPassword: ''

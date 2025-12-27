@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import axios from "utils/Default/axiosConfig";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FormatedScoreboard, gameType } from "../../../@types/games";
 import ButtonComponent from "components/ButtonComponent";
 import {
+  AlertContextInterface,
+  AlertTypeEnum,
   buttonComponentColor,
   buttonComponentSize,
   buttonComponentType,
@@ -16,11 +18,13 @@ import Ranking from "components/Game/Presentation/Ranking";
 
 import imgPreview from "assets/preview_atlas.png";
 import { games } from "pages/Games";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const gameInfos = games.filter((g) => g.type === gameType.CATEGCOUNTRY)[0];
 
 const MainAtlas = () => {
   const navigate = useNavigate();
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [dataScoreboard, setDataScoreboard] = useState<FormatedScoreboard[]>(
     []
   );
@@ -34,11 +38,11 @@ const MainAtlas = () => {
         setDataScoreboard(req.data);
         return;
       } else {
-        // TODO Alerte error
+        handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
       }
     } catch (e) {
       console.log(e);
-      // TODO Alerte error
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
     }
   };
 

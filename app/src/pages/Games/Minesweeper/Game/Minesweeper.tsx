@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   caseInterface,
   difficultyDetails,
@@ -19,8 +19,11 @@ import {
 import Informations from "./Board/Informations";
 import Board from "./Board/Board";
 import Menu from "./Board/Menu/Menu";
+import { AlertContextInterface, AlertTypeEnum } from "../../../../@types/default";
+import { AlertContext } from "utils/Context/AlertContext";
 
 const Minesweeper = () => {
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [difficulty, setDifficulty] = useState<minesweeperDifficulty>(
     minesweeperDifficulty.EASY
   );
@@ -114,7 +117,7 @@ const Minesweeper = () => {
 
   const endGame = async (won: boolean) => {
     setStart(false);
-    // TODO Alerte Game gagné
+    handleOpenAlert(AlertTypeEnum.SUCCESS, `Game won`);
     let uInfos;
     try {
       uInfos = await getUserInfos();
@@ -132,7 +135,7 @@ const Minesweeper = () => {
       }
       setFinalScore({ won: won, score: timer, end: true });
     } catch (e) {
-      // TODO Alerte d'erreur de récupération des infos du user
+      handleOpenAlert(AlertTypeEnum.ERROR, `Error when loading data`);
     }
   };
 
