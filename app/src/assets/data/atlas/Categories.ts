@@ -1,0 +1,135 @@
+import {
+  categoryEnum,
+  categoryObject,
+  categoryType,
+} from "../../../@types/atlas";
+import {
+  rankAIRPORTS,
+  rankALCOOL_CONSUMPTION,
+  rankAVOCADO_CONSUMPTION,
+  rankENERGY_CONSUMPTION,
+  rankFOOD,
+  rankFOOD_WASTE,
+  rankFOOD_WASTE_CAPITA,
+  rankFORREST_AREA,
+  rankGDP,
+  rankLARGER_POP,
+  rankLARGER_SIZE,
+  rankLOWER_POP,
+  rankMILITARY,
+  rankOLYMPIC_MEDALS,
+  rankPOLLUTION,
+  rankSINGLE_PARENT,
+  rankSMALLER_SIZE,
+} from "./CategoriesRank";
+
+export const categoriesObject: categoryObject = {
+  [categoryEnum.FOOD] :{
+    id: 1,
+    icon: "🍜",
+    type: categoryEnum.FOOD,
+    rankObject: rankFOOD,
+  },
+  [categoryEnum.GDP]: {
+    id: 2,
+    icon: "💰",
+    type: categoryEnum.GDP,
+    rankObject: rankGDP,
+  },
+  [categoryEnum.LOWER_POP]: {
+    id: 3,
+    icon: "📉",
+    type: categoryEnum.LOWER_POP,
+    rankObject: rankLOWER_POP,
+  },
+  [categoryEnum.LARGER_POP]: {
+    id: 4,
+    icon: "📈",
+    type: categoryEnum.LARGER_POP,
+    rankObject: rankLARGER_POP,
+  },
+  [categoryEnum.SMALLER_SIZE]: {
+    id: 5,
+    icon: "🏝️",
+    type: categoryEnum.SMALLER_SIZE,
+    rankObject: rankSMALLER_SIZE,
+  },
+  [categoryEnum.LARGER_SIZE]: {
+    id: 6,
+    icon: "↔️",
+    type: categoryEnum.LARGER_SIZE,
+    rankObject: rankLARGER_SIZE,
+  },
+  [categoryEnum.MILITARY]: {
+    id: 7,
+    icon: "🪖",
+    type: categoryEnum.MILITARY,
+    rankObject: rankMILITARY,
+  },
+  [categoryEnum.FORREST_AREA]: {
+    id: 8,
+    icon: "🌳",
+    type: categoryEnum.FORREST_AREA,
+    rankObject: rankFORREST_AREA,
+  },
+  [categoryEnum.ENERGY_CONSUMPTION]: {
+    id: 9,
+    icon: "⚡️",
+    type: categoryEnum.ENERGY_CONSUMPTION,
+    rankObject: rankENERGY_CONSUMPTION,
+  },
+  [categoryEnum.ALCOOL_CONSUMPTION]: {
+    id: 10,
+    icon: "🍺",
+    type: categoryEnum.ALCOOL_CONSUMPTION,
+    rankObject: rankALCOOL_CONSUMPTION,
+  },
+  [categoryEnum.FOOD_WASTE]: {
+    id: 11,
+    icon: "🗑️",
+    type: categoryEnum.FOOD_WASTE,
+    rankObject: rankFOOD_WASTE,
+  },
+  [categoryEnum.SINGLE_PARENT]: {
+    id: 12,
+    icon: "🤱",
+    type: categoryEnum.SINGLE_PARENT,
+    rankObject: rankSINGLE_PARENT,
+  },
+  [categoryEnum.OLYMPIC_MEDAL]: {
+    id: 13,
+    icon: "🥇",
+    type: categoryEnum.OLYMPIC_MEDAL,
+    rankObject: rankOLYMPIC_MEDALS,
+  },
+  [categoryEnum.AVOCADO_CONSUMPTION]: {
+    id: 14,
+    icon: "🥑",
+    type: categoryEnum.AVOCADO_CONSUMPTION,
+    rankObject: rankAVOCADO_CONSUMPTION,
+  },
+  [categoryEnum.POLLUTION]: {
+    id: 15,
+    icon: "🏭",
+    type: categoryEnum.POLLUTION,
+    rankObject: rankPOLLUTION,
+  },
+  [categoryEnum.TOURSIM]: {
+    id: 16,
+    icon: '',
+    type: categoryEnum.TOURSIM,
+    rankObject: []
+  },
+  [categoryEnum.FOOD_WASTE_CAPITA]: {
+    id: 17,
+    icon: "🗑️",
+    type: categoryEnum.FOOD_WASTE_CAPITA,
+    rankObject: rankFOOD_WASTE_CAPITA,
+  },
+  [categoryEnum.AIRPORTS]: {
+    id: 18,
+    icon: "🛬",
+    type: categoryEnum.AIRPORTS,
+    rankObject: rankAIRPORTS,
+  },
+};
