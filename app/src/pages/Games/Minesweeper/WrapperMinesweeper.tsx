@@ -4,6 +4,7 @@ import MainMinesweeper from './MainMinesweeper'
 import Minesweeper from './Game/Minesweeper'
 
 const WrapperMinesweeper = () => {
+  document.title = "MG - Minesweeper";
   return (
     <Routes>
       <Route path="" element={<MainMinesweeper />} />

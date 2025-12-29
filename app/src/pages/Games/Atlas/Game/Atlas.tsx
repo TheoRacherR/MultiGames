@@ -50,6 +50,8 @@ const Atlas = () => {
     country: country.FRANCE,
   });
   const categoryGroup: categoryGroupInterface = categoryGroups.Lifestyle;
+  document.title = `MG - Atlas ${categoryGroup.name}`;
+
 
   const [countryRandomed, setCountryRandomed] = useState<countryInterface | null>(null)
   const [categoriesToSelect, setCategoriesToSelect] = useState<categoryLine[]>([]);

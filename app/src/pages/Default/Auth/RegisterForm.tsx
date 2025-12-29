@@ -20,8 +20,9 @@ import { AlertContextInterface, AlertTypeEnum } from "../../../@types/default";
 import { AlertContext } from "utils/Context/AlertContext";
 
 const RegisterForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
+  document.title = "MG - Regirster";
   const navigate = useNavigate();
-    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [valuesRegister, setValuesRegister] = useState<{
     firstname: string;
     lastname: string;

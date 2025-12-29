@@ -251,12 +251,13 @@ const Flag = ({ mode }: { mode: modeQuiz }) => {
           {flagToGuess.map((item, index) => (
             <button
               key={index}
+              type="button"
               onClick={() => {
                 setSelected(index);
                 refInput.current?.focus();
               }}
               className={`flex flex-col bg-[${
-                selected === index ? "#EEE9FF" : "#F9F9FF"
+                selected === index ? "#EEE9FF ring-2 ring-[#6C4EF6] outline-none" : "#F9F9FF"
               }] ${
                 gamePaused ? "" : "hover:bg-[#EEE9FF]"
               } border border-[#D9D4F8] rounded-xl p-6 transition focus:ring-4 focus:ring-[#6C4EF6] focus:outline-none`}

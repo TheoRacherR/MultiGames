@@ -13,8 +13,9 @@ import { AlertContextInterface, AlertTypeEnum } from "../../../@types/default";
 import { AlertContext } from "utils/Context/AlertContext";
 
 const LoginForm = ({ handleSwitchForm }: { handleSwitchForm: Function }) => {
+  document.title = "MG - Login"
   const navigate = useNavigate();
-    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
 
   const [valuesLogin, setValuesLogin] = useState<{
     mail: string;

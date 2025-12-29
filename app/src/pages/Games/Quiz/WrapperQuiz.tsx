@@ -5,6 +5,8 @@ import WrapperCountry from './Game/Country/WrapperCountry'
 import MainQuiz from './MainQuiz'
 
 const WrapperQuiz = () => {
+  document.title = "MG - Quiz";
+
   return (
     <Routes>
       <Route path="" element={<MainQuiz />} />

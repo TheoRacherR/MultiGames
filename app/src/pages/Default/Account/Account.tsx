@@ -10,7 +10,8 @@ import { AlertContextInterface, AlertTypeEnum } from "../../../@types/default";
 import { AlertContext } from "utils/Context/AlertContext";
 
 const Account = () => {
-    const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
+  document.title = "MG - Account"
+  const { handleOpenAlert } = useContext(AlertContext) as AlertContextInterface;
   const [userInfos, setUserInfos] = useState<UserInfos>({
     id: "",
     email: "",

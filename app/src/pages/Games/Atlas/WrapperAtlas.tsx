@@ -3,6 +3,8 @@ import MainCategCountry from './MainAtlas'
 import Altas from './Game/Atlas'
 
 const WrapperAtlas = () => {
+  document.title = "MG - Atlas";
+
   return (
     <div>
       <Routes>

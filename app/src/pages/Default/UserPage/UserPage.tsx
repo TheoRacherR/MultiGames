@@ -7,6 +7,7 @@ import QuizPlayed from "./Games/QuizPlayed";
 import ContainerUserInfos from "components/ContainerUserInfos";
 
 const UserPage = () => {
+  document.title = "MG - User page"
   const { id } = useParams();
 
   return (

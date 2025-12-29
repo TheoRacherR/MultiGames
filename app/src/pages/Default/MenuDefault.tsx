@@ -69,9 +69,9 @@ const MenuDefault = () => {
         </div>
 
         <div className='flex gap-2'>
-          <div className='font-bold my-auto text-xl'>
+          {/* <div className='font-bold my-auto text-xl'>
             <Link to={'/contact'}>{'Contact'.toUpperCase()}</Link>
-          </div>
+          </div> */}
 
           {userInfos && userInfos.role === "admin" ? 'Admin' : <></>}
           <IconButton onClick={handleClick} sx={{color: 'white', textDecoration: 'none', textDecorationColor: 'white'}}>

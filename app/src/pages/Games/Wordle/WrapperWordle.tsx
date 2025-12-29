@@ -6,6 +6,8 @@ import Wordday404 from "./Game/Errors/WordOfTheDay404";
 import MainWordle from "./MainWordle";
 
 const WrapperWordle = () => {
+  document.title = "MG - Worlde";
+
   return (
     <div>
       <Routes>

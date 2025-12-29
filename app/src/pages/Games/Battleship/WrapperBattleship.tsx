@@ -3,6 +3,8 @@ import MainBattleships from './MainBattleship'
 import BattleshipWrapperContext from './Game/Battleship'
 
 const WrapperBattleship = () => {
+  document.title = "MG - Battleship";
+
   return (
     <Routes>
       <Route path="" element={<MainBattleships />} />

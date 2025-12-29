@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  document.title = "MG - Home";
+
   const navigate = useNavigate();
   return (
     <div className={`w-full bg-[--color-primary] h-screen`}>

@@ -1,51 +1,27 @@
 import { games } from "./Games"
 
 const GamesList = () => {
+  document.title = "MG - Game list"
   return (
-    // <div className='w-full'>
-    //   <div className='w-[600px] mx-auto my-5 '>
-    //     <h1
-    //       className="text-6xl text-left my-7 font-bold"
-    //       style={{ color: "var(--color-primary)" }}
-    //     >{'All Games'.toUpperCase()}</h1>
-    //     <div>
-    //       <table className='w-full'>
-    //         <tbody>
-    //           {games.map((item, index) => (
-    //             <tr className='text-xl border-b-2' key={`game_list_${index}`} style={{borderColor: 'var(--color-text-muted)'}}>
-    //               <td className='mr-4 p-[16px] pl-0'><h2>{item.title}</h2></td>
-    //               <td className='p-[16px]'><div className='italic'>{item.desc.substring(0, 40)}</div></td>
-    //               <Link to={`/${item.link}`}><td className='p-[16px]'><ArrowForwardRoundedIcon sx={{color: purple[700]}}/></td></Link>
-    //             </tr>
-    //           ))}
-    //         </tbody>
-    //       </table>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="min-h-full text-gray-900">
+      <main className="max-w-5xl mx-auto px-4 py-10">
+        <h2 className="text-3xl font-semibold mb-8 text-gray-800">{'All games'.toUpperCase()}</h2>
+        <div className="flex flex-col gap-8">
 
-
-  <main className="max-w-5xl mx-auto px-4 py-10">
-
-    <h2 className="text-3xl font-semibold mb-8 text-gray-800">{'All games'.toUpperCase()}</h2>
-    <div className="flex flex-col gap-8">
-
-    {games.map((item, index ) => (
-      <article className="bg-white shadow-lg rounded-xl p-6 border border-gray-200">
-        <h3 className="text-2xl font-bold text-purple-700 mb-2">{item.title}</h3>
-        <p className="text-gray-700 mb-4">
-          {item.description}
-        </p>
-        <a href={item.gameLink}
-          className="inline-block px-5 py-2 rounded-lg bg-purple-600 text-white font-medium hover:bg-purple-700 transition">
-          Jouer
-        </a>
-      </article>
-    ))}
-
-    </div>
-  </main>
+        {games.map((item, index ) => (
+          <article key={`gamelist_game_${index}`} className="bg-white shadow-lg rounded-xl p-6 border border-gray-200">
+            <h3 className="text-2xl font-bold text-purple-700 mb-2">{item.title}</h3>
+            <p className="text-gray-700 mb-4">
+              {item.description}
+            </p>
+            <a href={item.gameLink}
+              className="inline-block px-5 py-2 rounded-lg bg-purple-600 text-white font-medium hover:bg-purple-700 transition">
+              Jouer
+            </a>
+          </article>
+        ))}
+        </div>
+      </main>
     </div>
   )
 }

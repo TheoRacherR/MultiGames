@@ -4,6 +4,8 @@ import Quiz from '../Quiz'
 import { gameQuiz, modeQuiz } from '../../../../../@types/quiz'
 
 const WrapperFlag = () => {
+  document.title = "MG - Quiz Flag";
+
   return (
     <Routes>
       <Route path="/all" element={<Quiz game={gameQuiz.FLAG} mode={modeQuiz.ALL} />} />

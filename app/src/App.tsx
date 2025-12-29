@@ -16,6 +16,7 @@ import { Alert, Snackbar } from "@mui/material";
 import { AlertContext, AlertContextProvider } from "utils/Context/AlertContext";
 import { AlertContextInterface } from "./@types/default";
 import { useContext } from "react";
+import Page404 from "pages/Default/Errors/404";
 
 function App() {
 
@@ -43,6 +44,9 @@ function App() {
         <Route path="/quiz/*" element={<WrapperQuiz />} />
         <Route path="/timeline/*" element={<WrapperTimeLine />} />
         <Route path="/atlas/*" element={<WrapperAtlas />} />
+
+        {/* Error page */}
+        <Route path="/*" element={<Page404 />} />
       </Routes>
 
       <Snackbar open={openAlert} autoHideDuration={3000} onClose={handleCloseAlert}>
